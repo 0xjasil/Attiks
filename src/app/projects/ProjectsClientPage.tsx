@@ -404,7 +404,7 @@ export default function ProjectsClientPage({
         mode="download"
       />
 
-      <style jsx>{`
+      <style>{`
         @media (max-width: 1024px) and (min-width: 641px) {
           .projects-3col-grid {
             grid-template-columns: repeat(2, 1fr) !important;

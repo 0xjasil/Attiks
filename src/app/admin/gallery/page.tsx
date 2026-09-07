@@ -1198,7 +1198,7 @@ export default function GalleryAdminPage() {
       )}
 
       {/* Hover interaction CSS */}
-      <style jsx global>{`
+      <style>{`
         .gallery-admin-card:hover .card-hover-actions {
           opacity: 1 !important;
         }

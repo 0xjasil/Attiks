@@ -281,7 +281,7 @@ export default function Hero({
         </div>
       )}
 
-      <style jsx>{`
+      <style>{`
         @media (max-width: 768px) {
           .hero-pagination-pill {
             display: none !important;

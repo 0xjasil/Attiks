@@ -551,7 +551,7 @@ export default function Testimonials({ initialTestimonials }: TestimonialsProps)
         )}
       </AnimatePresence>
 
-      <style jsx>{`
+      <style>{`
         @media (max-width: 768px) {
           .testimonials-dots-container {
             display: none !important;
