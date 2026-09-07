@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Plus, Edit2, Trash2, Search, Download, Eye, EyeOff } from 'lucide-react';
+import { Plus, Edit2, Trash2, Search, Download, Eye, EyeOff, ExternalLink } from 'lucide-react';
 import ConfirmDialog from '@/components/admin/ConfirmDialog';
 import StatusBadge from '@/components/admin/StatusBadge';
 import { projects as initialProjects, Project } from '@/data/projects';
@@ -252,6 +252,15 @@ export default function ProjectsAdminPage() {
                     </td>
                     <td>
                       <div style={{ display: 'flex', gap: '0.25rem' }}>
+                        <a
+                          href={`/projects/${project.slug || project.id}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="admin-btn-icon"
+                          title="View Live Project Preview"
+                        >
+                          <ExternalLink size={14} />
+                        </a>
                         <Link
                           href={`/admin/projects/${project.id}`}
                           className="admin-btn-icon"
