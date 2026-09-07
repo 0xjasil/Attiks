@@ -1,0 +1,56 @@
+[
+  {
+    "id": "cat-residential",
+    "label": "Residential",
+    "value": "residential",
+    "portfolioPdf": "",
+    "description": "Private residences, luxury tropical villas, and bespoke homes.",
+    "order": 1,
+    "active": true
+  },
+  {
+    "id": "cat-commercial",
+    "label": "Commercial",
+    "value": "commercial",
+    "portfolioPdf": "",
+    "description": "Corporate headquarters, boutique offices, and commercial spaces.",
+    "order": 2,
+    "active": true
+  },
+  {
+    "id": "cat-hospitality",
+    "label": "Hospitality",
+    "value": "hospitality",
+    "portfolioPdf": "",
+    "description": "Luxury resorts, boutique hotels, and serene retreats.",
+    "order": 3,
+    "active": true
+  },
+  {
+    "id": "cat-institutional",
+    "label": "Institutional",
+    "value": "institutional",
+    "portfolioPdf": "",
+    "description": "Educational campuses, convention hubs, and civic landmarks.",
+    "order": 4,
+    "active": true
+  },
+  {
+    "id": "cat-landscape",
+    "label": "Landscape",
+    "value": "landscape",
+    "portfolioPdf": "",
+    "description": "Contextual outdoor spaces, tropical gardens, and environmental planning.",
+    "order": 5,
+    "active": true
+  },
+  {
+    "id": "cat-interior",
+    "label": "Interior",
+    "value": "interior",
+    "portfolioPdf": "",
+    "description": "Bespoke spatial joinery, lighting schemes, and tactile minimalism.",
+    "order": 6,
+    "active": true
+  }
+]

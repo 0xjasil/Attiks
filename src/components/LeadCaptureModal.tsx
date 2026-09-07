@@ -13,6 +13,8 @@ interface LeadCaptureModalProps {
   projectTitle?: string;
   projectId?: string;
   category?: string;
+  categoryLabel?: string;
+  customPdfUrl?: string;
   projects?: Project[];
   mode?: 'project' | 'download';
 }
@@ -24,6 +26,8 @@ export default function LeadCaptureModal({
   projectTitle,
   projectId,
   category,
+  categoryLabel,
+  customPdfUrl,
   projects = [],
   mode = 'download',
 }: LeadCaptureModalProps) {
@@ -33,16 +37,18 @@ export default function LeadCaptureModal({
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
 
-  const formattedCategory = category && category !== 'all'
+  const formattedCategory = categoryLabel
+    ? categoryLabel
+    : category && category !== 'all'
     ? category.charAt(0).toUpperCase() + category.slice(1)
-    : 'Complete';
+    : 'Complete Studio';
 
   const modalHeading = mode === 'download'
     ? `${formattedCategory} Portfolio Lookbook`
     : (projectTitle || 'Project Inquiry');
 
   const modalSubtitle = mode === 'download'
-    ? `Enter your details to generate and download the curated ${formattedCategory} architecture portfolio (.PDF).`
+    ? `Enter your details to download the curated ${formattedCategory} architecture portfolio (.PDF).`
     : 'Enter your details to view full architectural specifications and project lookbook.';
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -53,12 +59,23 @@ export default function LeadCaptureModal({
   const triggerPortfolioDownload = async () => {
     setGeneratingPdf(true);
     try {
-      await generatePortfolioPdf({
-        category: category || 'all',
-        projects: projects,
-      });
+      if (customPdfUrl && customPdfUrl.trim()) {
+        const link = document.createElement('a');
+        link.href = customPdfUrl;
+        const cleanCatName = formattedCategory.replace(/\s+/g, '-');
+        link.download = `Attiks-${cleanCatName}-Portfolio.pdf`;
+        link.target = '_blank';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        await generatePortfolioPdf({
+          category: category || 'all',
+          projects: projects,
+        });
+      }
     } catch (err) {
-      console.error('Failed to generate PDF:', err);
+      console.error('Failed to generate / download PDF:', err);
     } finally {
       setGeneratingPdf(false);
     }

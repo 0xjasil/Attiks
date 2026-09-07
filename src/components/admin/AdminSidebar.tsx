@@ -26,6 +26,7 @@ const mainNavItems: NavItem[] = [
   { title: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
   { title: 'Hero Section', path: '/admin/hero', icon: Sparkles },
   { title: 'Projects', path: '/admin/projects', icon: FolderOpen },
+  { title: 'Categories & Portfolios', path: '/admin/categories', icon: Layers },
   { title: 'Inquiries', path: '/admin/leads', icon: Inbox },
   { title: 'Media & Gallery', path: '/admin/gallery', icon: ImageIcon },
   { title: 'Testimonials', path: '/admin/testimonials', icon: Quote },

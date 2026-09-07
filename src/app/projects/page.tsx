@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { getAllProjects } from '@/lib/projects';
+import { getAllCategoriesAction } from '@/actions/category.actions';
 import ProjectsClientPage from './ProjectsClientPage';
 
 export const dynamic = 'force-dynamic';
@@ -28,7 +29,10 @@ export const metadata: Metadata = {
 };
 
 export default async function ProjectsPage() {
-  const projects = await getAllProjects();
+  const [projects, categories] = await Promise.all([
+    getAllProjects(),
+    getAllCategoriesAction(),
+  ]);
 
   const collectionSchema = {
     '@context': 'https://schema.org',
@@ -79,7 +83,7 @@ export default async function ProjectsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <ProjectsClientPage initialProjects={projects} />
+      <ProjectsClientPage initialProjects={projects} initialCategories={categories} />
     </>
   );
 }

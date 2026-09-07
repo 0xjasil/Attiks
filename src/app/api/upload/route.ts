@@ -21,36 +21,42 @@ export async function POST(request: NextRequest) {
     const uploadDir = path.join(process.cwd(), 'public', 'uploads');
     await mkdir(uploadDir, { recursive: true });
 
-    const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
+    const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10MB
+    const MAX_PDF_SIZE = 35 * 1024 * 1024; // 35MB
+    const MAX_VIDEO_SIZE = 50 * 1024 * 1024; // 50MB
     const uploadedUrls: string[] = [];
 
     for (const file of files) {
       if (typeof file === 'string' || !file.name) continue;
 
-      // 1. Strict Size Check (Below 2MB)
-      if (file.size > MAX_FILE_SIZE) {
+      const fileNameLower = file.name.toLowerCase();
+      const isPdf = fileNameLower.endsWith('.pdf') || file.type === 'application/pdf';
+      const isVideo =
+        /\.(mp4|webm|mov)$/i.test(fileNameLower) ||
+        file.type === 'video/mp4' ||
+        file.type === 'video/webm';
+      const isImage =
+        /\.(webp|jpg|jpeg|png|gif|svg)$/i.test(fileNameLower) ||
+        file.type.startsWith('image/');
+
+      if (!isPdf && !isVideo && !isImage) {
         return NextResponse.json(
           {
             success: false,
-            error: `File "${file.name}" exceeds the 2MB size limit. Please upload files below 2MB.`,
+            error: `File "${file.name}" is not supported. Only PDF documents (.pdf), images (.webp/.jpg/.png), or videos (.mp4/.webm) are permitted.`,
           },
           { status: 400 }
         );
       }
 
-      // 2. Strict Format Check (.webp for images, or mp4/webm for video)
-      const fileNameLower = file.name.toLowerCase();
-      const isWebp = fileNameLower.endsWith('.webp') || file.type === 'image/webp';
-      const isVideo =
-        /\.(mp4|webm)$/i.test(fileNameLower) ||
-        file.type === 'video/mp4' ||
-        file.type === 'video/webm';
-
-      if (!isWebp && !isVideo) {
+      // Check size limit based on file type
+      const allowedSize = isPdf ? MAX_PDF_SIZE : isVideo ? MAX_VIDEO_SIZE : MAX_IMAGE_SIZE;
+      if (file.size > allowedSize) {
+        const sizeMb = Math.round(allowedSize / (1024 * 1024));
         return NextResponse.json(
           {
             success: false,
-            error: `File "${file.name}" is not supported. Only .webp images below 2MB (or .mp4/.webm videos) are permitted.`,
+            error: `File "${file.name}" exceeds the ${sizeMb}MB size limit for this file type.`,
           },
           { status: 400 }
         );
@@ -65,8 +71,9 @@ export async function POST(request: NextRequest) {
         .replace(/[^a-z0-9.]+/g, '-')
         .replace(/^-+|-+$/g, '');
 
-      const prefix = isVideo ? 'video' : 'img';
-      const fileName = `${prefix}_${timestamp}_${cleanName || (isVideo ? 'upload.mp4' : 'upload.webp')}`;
+      const prefix = isPdf ? 'portfolio_pdf' : isVideo ? 'video' : 'img';
+      const defaultExt = isPdf ? 'upload.pdf' : isVideo ? 'upload.mp4' : 'upload.webp';
+      const fileName = `${prefix}_${timestamp}_${cleanName || defaultExt}`;
       const filePath = path.join(uploadDir, fileName);
 
       await writeFile(filePath, buffer);

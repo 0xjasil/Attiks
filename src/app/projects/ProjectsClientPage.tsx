@@ -8,15 +8,25 @@ import Image from 'next/image';
 import { Download, ArrowUpRight, Sparkles } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { categories, Category, Project } from '@/data/projects';
+import { Project } from '@/data/projects';
+import { CategoryItem, defaultCategories } from '@/data/categories';
 
 const LeadCaptureModal = dynamic(() => import('@/components/LeadCaptureModal'), {
   ssr: false,
 });
 
-export default function ProjectsClientPage({ initialProjects }: { initialProjects: Project[] }) {
-  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+interface ProjectsClientPageProps {
+  initialProjects: Project[];
+  initialCategories?: CategoryItem[];
+}
+
+export default function ProjectsClientPage({
+  initialProjects,
+  initialCategories = defaultCategories,
+}: ProjectsClientPageProps) {
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [allProjects, setAllProjects] = useState<Project[]>(initialProjects);
+  const [categoriesList, setCategoriesList] = useState<CategoryItem[]>(initialCategories);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -28,6 +38,12 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
   }, [initialProjects]);
 
   useEffect(() => {
+    if (initialCategories && initialCategories.length > 0) {
+      setCategoriesList(initialCategories);
+    }
+  }, [initialCategories]);
+
+  useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
@@ -37,21 +53,26 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
   }, []);
 
   const filteredProjects = selectedCategory
-    ? allProjects.filter((p) => p.category === selectedCategory)
+    ? allProjects.filter((p) => (p.category || '').toLowerCase() === selectedCategory.toLowerCase())
     : allProjects;
 
-  const displayTitle = selectedCategory
+  const currentCategoryObj = selectedCategory
+    ? categoriesList.find((c) => c.value.toLowerCase() === selectedCategory.toLowerCase())
+    : null;
+
+  const displayTitle = currentCategoryObj
+    ? currentCategoryObj.label
+    : selectedCategory
     ? selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)
     : 'All projects';
 
   const filterOptions = [
     { label: 'All', value: null },
-    ...categories.map((c) => ({ label: c.label, value: c.value })),
+    ...categoriesList.map((c) => ({ label: c.label, value: c.value })),
   ];
 
-  const currentCategoryName = selectedCategory
-    ? selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)
-    : 'Complete';
+  const currentCategoryName = currentCategoryObj ? currentCategoryObj.label : 'Complete Studio';
+  const currentCategoryPdf = currentCategoryObj?.portfolioPdf || '';
 
   return (
     <div style={{ background: '#ffffff', minHeight: '100vh', color: '#111111' }}>
@@ -377,6 +398,8 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
         isOpen={downloadModalOpen}
         onClose={() => setDownloadModalOpen(false)}
         category={selectedCategory || undefined}
+        categoryLabel={currentCategoryName}
+        customPdfUrl={currentCategoryPdf}
         projects={allProjects}
         mode="download"
       />
