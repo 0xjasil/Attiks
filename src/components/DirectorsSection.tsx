@@ -13,31 +13,37 @@ export interface Director {
 export const defaultDirectors: Director[] = [
   {
     id: 'd-1',
+    name: 'Ar. Mohamed Aslam P K',
     image: '/images/image1.webp',
     objectPosition: 'center 20%',
   },
   {
     id: 'd-2',
+    name: 'Ar. Mahir Aalam P',
     image: '/images/image2.webp',
     objectPosition: 'center 15%',
   },
   {
     id: 'd-3',
+    name: 'Ar. Mohamed Naseem P K',
     image: '/images/image3.webp',
     objectPosition: 'center 15%',
   },
   {
     id: 'd-4',
+    name: 'Ar. Nihad Mohamed Ali',
     image: '/value_people.webp',
     objectPosition: 'center 25%',
   },
   {
     id: 'd-5',
+    name: 'Ar. Razeen Jawad',
     image: '/founder.webp',
     objectPosition: 'center 20%',
   },
   {
     id: 'd-6',
+    name: 'Ar. Jamsheer',
     image: '/images/image4.webp',
     objectPosition: 'center 15%',
   },
@@ -223,7 +229,7 @@ export default function DirectorsSection({
                 {/* Full-bleed Portrait Photo */}
                 <Image
                   src={director.image}
-                  alt="Portrait display"
+                  alt={director.name ? `${director.name} - Leadership Director at Attiks Architecture` : 'Attiks Architecture Leadership Director portrait'}
                   fill
                   sizes="(max-width: 768px) 85vw, (max-width: 1200px) 30vw, 25vw"
                   style={{

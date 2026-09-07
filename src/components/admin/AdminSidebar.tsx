@@ -9,6 +9,7 @@ import {
   Inbox,
   Image as ImageIcon,
   Quote,
+  Sparkles,
   Settings,
   ExternalLink,
   LogOut,
@@ -23,6 +24,7 @@ interface NavItem {
 
 const mainNavItems: NavItem[] = [
   { title: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
+  { title: 'Hero Section', path: '/admin/hero', icon: Sparkles },
   { title: 'Projects', path: '/admin/projects', icon: FolderOpen },
   { title: 'Inquiries', path: '/admin/leads', icon: Inbox },
   { title: 'Media & Gallery', path: '/admin/gallery', icon: ImageIcon },

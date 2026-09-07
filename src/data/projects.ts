@@ -16,9 +16,11 @@ export interface Project {
   location: string;
   year: string;
   image: string;
+  imageAlt?: string;
   description: string;
   highlights?: string[];
   gallery?: string[];
+  galleryAlts?: string[];
   scope?: string;
   area?: string;
   status?: 'published' | 'draft';

@@ -45,6 +45,7 @@ export default function GalleryAdminPage() {
 
   // Form states (Single)
   const [caption, setCaption] = useState('');
+  const [altText, setAltText] = useState('');
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
   const [imageUrl, setImageUrl] = useState('');
@@ -52,7 +53,7 @@ export default function GalleryAdminPage() {
   const [saving, setSaving] = useState(false);
 
   // Batch states
-  const [batchQueue, setBatchQueue] = useState<Array<{ image: string; caption: string; location: string }>>([]);
+  const [batchQueue, setBatchQueue] = useState<Array<{ image: string; caption: string; altText?: string; location: string }>>([]);
   const [batchUploading, setBatchUploading] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -97,6 +98,7 @@ export default function GalleryAdminPage() {
   const openNewModal = () => {
     setEditingPost(null);
     setCaption('');
+    setAltText('');
     setDescription('');
     setLocation('');
     setImageUrl('');
@@ -106,6 +108,7 @@ export default function GalleryAdminPage() {
   const openEditModal = (post: GalleryPost) => {
     setEditingPost(post);
     setCaption(post.caption || '');
+    setAltText(post.altText || post.caption || '');
     setDescription(post.description || '');
     setLocation(post.location || '');
     setImageUrl(post.image || '');
@@ -116,6 +119,18 @@ export default function GalleryAdminPage() {
   const handleSingleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    if (!file.name.toLowerCase().endsWith('.webp') && file.type !== 'image/webp') {
+      alert('Only .webp image files below 2MB are supported. Please upload a .webp image.');
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      return;
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+      alert('File size exceeds the 2MB limit. Please upload an image under 2MB.');
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      return;
+    }
 
     setUploading(true);
     try {
@@ -130,12 +145,15 @@ export default function GalleryAdminPage() {
       const json = await res.json();
       if (json.success && json.data?.url) {
         setImageUrl(json.data.url);
+        const autoCaption = file.name
+          .replace(/\.[^/.]+$/, '')
+          .replace(/[-_]/g, ' ')
+          .replace(/\b\w/g, (l) => l.toUpperCase());
         if (!caption) {
-          const autoCaption = file.name
-            .replace(/\.[^/.]+$/, '')
-            .replace(/[-_]/g, ' ')
-            .replace(/\b\w/g, (l) => l.toUpperCase());
           setCaption(autoCaption);
+        }
+        if (!altText) {
+          setAltText(`${autoCaption} architecture showcase detail by Attiks`);
         }
       } else {
         alert('Upload failed: ' + (json.error || 'Unknown error'));
@@ -151,6 +169,20 @@ export default function GalleryAdminPage() {
   const handleBatchFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
+
+    for (let i = 0; i < files.length; i++) {
+      const f = files[i];
+      if (!f.name.toLowerCase().endsWith('.webp') && f.type !== 'image/webp') {
+        alert(`"${f.name}" is not a .webp file. Only .webp images below 2MB are permitted.`);
+        if (batchFileInputRef.current) batchFileInputRef.current.value = '';
+        return;
+      }
+      if (f.size > 2 * 1024 * 1024) {
+        alert(`"${f.name}" exceeds the 2MB limit. Maximum allowed size is 2MB.`);
+        if (batchFileInputRef.current) batchFileInputRef.current.value = '';
+        return;
+      }
+    }
 
     setBatchUploading(true);
     try {
@@ -172,6 +204,7 @@ export default function GalleryAdminPage() {
           return {
             image: url,
             caption: autoName,
+            altText: `${autoName} architectural showcase view by Attiks`,
             location: location || 'Kerala, India',
           };
         });
@@ -195,12 +228,18 @@ export default function GalleryAdminPage() {
       return;
     }
 
+    if (!altText.trim()) {
+      alert('Mandatory: Please provide descriptive Image Alt Text for SEO and accessibility before saving');
+      return;
+    }
+
     setSaving(true);
     try {
       if (editingPost) {
         const res = await updateGalleryPostAction(editingPost.id, {
           image: imageUrl,
           caption,
+          altText: altText.trim(),
           description,
           location,
         });
@@ -214,6 +253,7 @@ export default function GalleryAdminPage() {
         const res = await createGalleryPostAction({
           image: imageUrl,
           caption: caption || 'Architectural Highlight',
+          altText: altText.trim(),
           description,
           location,
           aspectRatio: 'square',
@@ -299,8 +339,8 @@ export default function GalleryAdminPage() {
   return (
     <div style={{ maxWidth: '1600px', margin: '0 auto', padding: '16px 20px', minHeight: '85vh' }}>
       {/* Hidden File Inputs */}
-      <input ref={fileInputRef} type="file" accept="image/*" onChange={handleSingleFileUpload} style={{ display: 'none' }} />
-      <input ref={batchFileInputRef} type="file" accept="image/*" multiple onChange={handleBatchFileUpload} style={{ display: 'none' }} />
+      <input ref={fileInputRef} type="file" accept="image/webp" onChange={handleSingleFileUpload} style={{ display: 'none' }} />
+      <input ref={batchFileInputRef} type="file" accept="image/webp" multiple onChange={handleBatchFileUpload} style={{ display: 'none' }} />
 
       {/* ============================================================
           TOP COMPACT HEADER BAR
@@ -871,6 +911,36 @@ export default function GalleryAdminPage() {
                 />
               </div>
 
+              {/* Image Alt Text (Required for SEO & Accessibility) */}
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                  <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 500, color: '#475569' }}>
+                    Image Alt Text <span style={{ color: '#ef4444' }}>* (Required for SEO)</span>
+                  </label>
+                  <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>
+                    {altText?.length || 0}/120
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  value={altText}
+                  onChange={(e) => setAltText(e.target.value)}
+                  placeholder="e.g. Contemporary timber pavilion with ambient natural daylight at Kochi Biennale"
+                  required
+                  style={{
+                    width: '100%',
+                    padding: '8px 10px',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '6px',
+                    fontSize: '0.84rem',
+                    boxSizing: 'border-box',
+                  }}
+                />
+                <p style={{ fontSize: '0.72rem', color: '#64748b', margin: '4px 0 0' }}>
+                  Describe what is visible in the architecture scene for screen readers & search crawlers.
+                </p>
+              </div>
+
               {/* Location */}
               <div>
                 <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 500, color: '#475569', marginBottom: '4px' }}>
@@ -888,28 +958,6 @@ export default function GalleryAdminPage() {
                     borderRadius: '6px',
                     fontSize: '0.84rem',
                     boxSizing: 'border-box',
-                  }}
-                />
-              </div>
-
-              {/* Description */}
-              <div>
-                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 500, color: '#475569', marginBottom: '4px' }}>
-                  Description / Story
-                </label>
-                <textarea
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Architectural craft notes..."
-                  rows={2}
-                  style={{
-                    width: '100%',
-                    padding: '8px 10px',
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '6px',
-                    fontSize: '0.84rem',
-                    boxSizing: 'border-box',
-                    fontFamily: 'inherit',
                   }}
                 />
               </div>

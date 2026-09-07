@@ -1,0 +1,85 @@
+{
+  "slides": [
+    {
+      "id": "hero-1",
+      "mediaType": "video",
+      "mediaUrl": "/3735-173719892_medium.mp4",
+      "title": "Monolithic Architectural Expression",
+      "subtitle": "Modern Tropical Living & Proportions",
+      "ctaText": "view projects",
+      "ctaLink": "/projects",
+      "order": 1,
+      "active": true,
+      "createdAt": "2026-01-01"
+    },
+    {
+      "id": "hero-2",
+      "mediaType": "video",
+      "mediaUrl": "/3967-175963622_medium.mp4",
+      "title": "Spatial Light & Concrete Harmony",
+      "subtitle": "Sustainable Residential Pavilions",
+      "ctaText": "view projects",
+      "ctaLink": "/projects",
+      "order": 2,
+      "active": true,
+      "createdAt": "2026-01-02"
+    },
+    {
+      "id": "hero-3",
+      "mediaType": "video",
+      "mediaUrl": "/85348-590746467_medium.mp4",
+      "title": "Vernacular Craft & Materiality",
+      "subtitle": "Enduring Spaces Across Kerala",
+      "ctaText": "view projects",
+      "ctaLink": "/projects",
+      "order": 3,
+      "active": true,
+      "createdAt": "2026-01-03"
+    },
+    {
+      "id": "hero-4",
+      "mediaType": "video",
+      "mediaUrl": "/16199324_3840_2160_30fps.mp4",
+      "title": "Biophilic Design Dialogue",
+      "subtitle": "Integrating Nature with Built Form",
+      "ctaText": "view projects",
+      "ctaLink": "/projects",
+      "order": 4,
+      "active": true,
+      "createdAt": "2026-01-04"
+    },
+    {
+      "id": "hero-1788619297044",
+      "mediaType": "video",
+      "mediaUrl": "/uploads/video_1788619288371_3967-175963622-medium.mp4",
+      "posterUrl": "",
+      "title": "3967 175963622 medium",
+      "subtitle": "",
+      "ctaText": "view projects",
+      "ctaLink": "/projects",
+      "order": 5,
+      "active": true,
+      "createdAt": "2026-09-05"
+    },
+    {
+      "id": "hero-1788619323519",
+      "mediaType": "video",
+      "mediaUrl": "/uploads/video_1788619319535_3735-173719892-medium.mp4",
+      "posterUrl": "",
+      "title": "3735 173719892 medium",
+      "subtitle": "",
+      "ctaText": "view projects",
+      "ctaLink": "/projects",
+      "order": 6,
+      "active": true,
+      "createdAt": "2026-09-05"
+    }
+  ],
+  "settings": {
+    "autoPlayInterval": 6500,
+    "showPagination": true,
+    "showCta": true,
+    "defaultCtaText": "view projects",
+    "defaultCtaLink": "/projects"
+  }
+}

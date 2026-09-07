@@ -67,15 +67,12 @@ export default function AboutClientPage() {
           style={{
             position: 'relative',
             width: '100%',
-            marginBottom: 'clamp(70px, 8.5vw, 120px)',
+            marginBottom: 'clamp(60px, 7vw, 100px)',
             overflow: 'hidden',
           }}
           aria-label="Studio Team Hero"
         >
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          <div
             style={{
               position: 'relative',
               width: '100%',
@@ -87,7 +84,7 @@ export default function AboutClientPage() {
           >
             <Image
               src="/images/about/small_SBCL2379265.webp"
-              alt="Attiks Architecture Team and Studio"
+              alt="Attiks Architecture studio team gathered at the practice atelier"
               fill
               sizes="100vw"
               style={{ objectFit: 'cover' }}
@@ -107,7 +104,7 @@ export default function AboutClientPage() {
                 zIndex: 2,
               }}
             />
-          </motion.div>
+          </div>
         </section>
 
         {/* 2. Philosophy & Evolution Section */}
@@ -116,7 +113,7 @@ export default function AboutClientPage() {
             width: '100%',
             padding: '0 clamp(20px, 5vw, 64px)',
             boxSizing: 'border-box',
-            marginBottom: 'clamp(80px, 10vw, 140px)',
+            marginBottom: 'clamp(70px, 9vw, 120px)',
           }}
           aria-label="Philosophy and History"
         >
@@ -131,15 +128,11 @@ export default function AboutClientPage() {
             }}
           >
             {/* Left Column: Descriptive Story Text */}
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            <div
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 'clamp(20px, 2.5vw, 30px)',
+                gap: 'clamp(20px, 2.5vw, 28px)',
               }}
             >
               <div>
@@ -175,7 +168,7 @@ export default function AboutClientPage() {
 
               <p
                 style={{
-                  fontSize: 'clamp(17px, 1.25vw, 20.5px)',
+                  fontSize: 'clamp(17px, 1.25vw, 20px)',
                   lineHeight: 1.55,
                   color: '#1a1a1a',
                   fontWeight: 400,
@@ -189,7 +182,7 @@ export default function AboutClientPage() {
 
               <p
                 style={{
-                  fontSize: 'clamp(15px, 1.05vw, 17.5px)',
+                  fontSize: 'clamp(15px, 1.05vw, 17px)',
                   lineHeight: 1.6,
                   color: '#555555',
                   fontWeight: 350,
@@ -200,14 +193,10 @@ export default function AboutClientPage() {
               >
                 This philosophy forms the foundation of Attiks Architecture, established in 2014 with a vision to advance innovative and sustainable architectural practices. The practice evolved from M/s P.K. Aslam Architects, founded by Ar. P.K. Aslam in 1997, which developed into a well-established and reputed architectural practice over the years. In response to an evolving architectural landscape, the firm came together with a new generation of young and dynamic architects, laying the foundation for Attiks Architecture.
               </p>
-            </motion.div>
+            </div>
 
             {/* Right Column: Partners Group Image */}
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            <div
               style={{
                 position: 'relative',
                 width: '100%',
@@ -219,7 +208,7 @@ export default function AboutClientPage() {
             >
               <Image
                 src="/images/about/partners_group.webp"
-                alt="Attiks Architecture Leadership Partners"
+                alt="Attiks Architecture leadership partners discussion in Calicut"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 quality={95}
@@ -234,7 +223,7 @@ export default function AboutClientPage() {
                   e.currentTarget.style.transform = 'scale(1)';
                 }}
               />
-            </motion.div>
+            </div>
           </div>
         </section>
 
@@ -244,18 +233,12 @@ export default function AboutClientPage() {
             width: '100%',
             padding: '0 clamp(20px, 5vw, 64px)',
             boxSizing: 'border-box',
-            marginBottom: 'clamp(80px, 10vw, 140px)',
+            marginBottom: 'clamp(70px, 9vw, 120px)',
           }}
           aria-label="People of Attiks - Partners"
         >
           <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              style={{ marginBottom: 'clamp(36px, 4.5vw, 56px)' }}
-            >
+            <div style={{ marginBottom: 'clamp(32px, 4vw, 48px)' }}>
               <h2
                 className="font-display"
                 style={{
@@ -282,7 +265,7 @@ export default function AboutClientPage() {
               >
                 Partners
               </p>
-            </motion.div>
+            </div>
 
             {/* 3-Column Grid (3 per row) */}
             <div
@@ -292,13 +275,9 @@ export default function AboutClientPage() {
                 gap: 'clamp(32px, 4vw, 56px) clamp(24px, 3.5vw, 48px)',
               }}
             >
-              {LEADERSHIP_MEMBERS.map((partner, index) => (
-                <motion.div
+              {LEADERSHIP_MEMBERS.map((partner) => (
+                <div
                   key={partner.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: (index % 3) * 0.1 }}
                   style={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -317,7 +296,7 @@ export default function AboutClientPage() {
                   >
                     <Image
                       src={partner.image}
-                      alt={partner.name}
+                      alt={`${partner.name} - ${partner.role} at Attiks Architecture`}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       quality={95}
@@ -366,7 +345,7 @@ export default function AboutClientPage() {
                       {partner.role}
                     </p>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
@@ -378,18 +357,12 @@ export default function AboutClientPage() {
             width: '100%',
             padding: '0 clamp(20px, 5vw, 64px)',
             boxSizing: 'border-box',
-            marginBottom: 'clamp(90px, 11vw, 150px)',
+            marginBottom: 'clamp(80px, 10vw, 130px)',
           }}
           aria-label="The Team"
         >
           <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              style={{ marginBottom: 'clamp(36px, 4.5vw, 56px)' }}
-            >
+            <div style={{ marginBottom: 'clamp(32px, 4vw, 48px)' }}>
               <h2
                 className="font-display"
                 style={{
@@ -404,7 +377,7 @@ export default function AboutClientPage() {
               >
                 The Team
               </h2>
-            </motion.div>
+            </div>
 
             {/* 4-Column Team Grid */}
             <div
@@ -415,12 +388,8 @@ export default function AboutClientPage() {
               }}
             >
               {TEAM_MEMBERS.map((member, index) => (
-                <motion.div
+                <div
                   key={member.id}
-                  initial={{ opacity: 0, y: 18 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: (index % 4) * 0.08 }}
                   style={{
                     position: 'relative',
                     width: '100%',
@@ -431,7 +400,7 @@ export default function AboutClientPage() {
                 >
                   <Image
                     src={member.image}
-                    alt="Attiks Team Member"
+                    alt={`Attiks Architecture design collective team architect 0${index + 1}`}
                     fill
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                     quality={95}
@@ -449,7 +418,7 @@ export default function AboutClientPage() {
                       e.currentTarget.style.filter = 'grayscale(100%)';
                     }}
                   />
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>

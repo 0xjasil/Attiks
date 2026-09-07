@@ -153,7 +153,7 @@ export default function ValuesSection() {
           >
             <Image
               src="/philosophy.webp"
-              alt="Attiks Architectural Vision"
+              alt="Attiks Architecture studio design philosophy and spatial vision"
               fill
               sizes="(max-width: 900px) 100vw, 50vw"
               style={{ objectFit: 'cover', borderRadius: '0px' }}
@@ -254,7 +254,7 @@ export default function ValuesSection() {
           >
             <Image
               src="/value_design.webp"
-              alt="Attiks Architectural Mission"
+              alt="Attiks architectural mission exploring biophilic tropical residential design"
               fill
               sizes="(max-width: 900px) 100vw, 50vw"
               style={{ objectFit: 'cover', borderRadius: '0px' }}

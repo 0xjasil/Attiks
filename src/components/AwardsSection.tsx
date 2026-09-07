@@ -68,7 +68,7 @@ function AwardCardItem({ award, isMobile }: { award: Award; isMobile: boolean })
     >
       <Image
         src={award.image}
-        alt={award.title}
+        alt={`${award.title} - ${award.organization} (${award.year}) architectural recognition`}
         fill
         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
         style={{

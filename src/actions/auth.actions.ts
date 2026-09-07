@@ -78,6 +78,7 @@ export async function getSessionAction() {
     });
 
     if (!res.ok) {
+      cookieStore.delete('attiks_admin_token');
       return { success: false, authenticated: false };
     }
 
@@ -87,3 +88,34 @@ export async function getSessionAction() {
     return { success: false, authenticated: false, error: error.message };
   }
 }
+
+export async function changePasswordAction(payload: { currentPassword?: string; newPassword: string }) {
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get('attiks_admin_token')?.value;
+
+    if (!token) {
+      return { success: false, error: 'Unauthorized. Please login again.' };
+    }
+
+    const res = await fetch(`${BACKEND_URL}/api/auth/change-password`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(5000),
+    });
+
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      return { success: false, error: data.error || data.message || 'Failed to update password' };
+    }
+
+    return { success: true, message: 'Password updated successfully' };
+  } catch (error: any) {
+    return { success: false, error: error.message || 'Failed to update password' };
+  }
+}
+

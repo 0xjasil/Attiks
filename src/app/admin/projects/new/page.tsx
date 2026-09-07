@@ -39,11 +39,13 @@ export default function NewProjectPage() {
     location: '',
     year: '2026',
     image: '',
+    imageAlt: '',
     scope: 'Architecture & Interior Design',
     area: '',
     description: '',
     highlights: [] as string[],
     gallery: [] as string[],
+    galleryAlts: [] as string[],
     status: 'published',
     featured: true,
   });
@@ -59,7 +61,14 @@ export default function NewProjectPage() {
   async function uploadFiles(files: FileList | File[]): Promise<string[]> {
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
-      formData.append('files', files[i]);
+      const file = files[i];
+      if (!file.name.toLowerCase().endsWith('.webp') && file.type !== 'image/webp') {
+        throw new Error(`"${file.name}" is not a WebP image. Only .webp files below 2MB are supported.`);
+      }
+      if (file.size > 2 * 1024 * 1024) {
+        throw new Error(`"${file.name}" exceeds the 2MB limit. Maximum allowed size is 2MB.`);
+      }
+      formData.append('files', file);
     }
 
     const res = await fetch('/api/upload', {
@@ -85,7 +94,11 @@ export default function NewProjectPage() {
     try {
       const urls = await uploadFiles([files[0]]);
       if (urls.length > 0) {
-        setFormValues((prev) => ({ ...prev, image: urls[0] }));
+        setFormValues((prev) => ({
+          ...prev,
+          image: urls[0],
+          imageAlt: prev.imageAlt || `${prev.title || 'Architectural project'} exterior architecture view by Attiks`,
+        }));
       }
     } catch (err: any) {
       console.error('Main image upload error:', err);
@@ -185,6 +198,11 @@ export default function NewProjectPage() {
       return;
     }
 
+    if (!formValues.imageAlt?.trim()) {
+      setErrorMsg('Mandatory: Please provide a descriptive Cover Image Alt Text for SEO and accessibility.');
+      return;
+    }
+
     setSubmitting(true);
 
     try {
@@ -205,9 +223,11 @@ export default function NewProjectPage() {
         location: formValues.location,
         year: formValues.year,
         image: formValues.image,
+        imageAlt: formValues.imageAlt.trim(),
         description: formValues.description,
         highlights: highlightsArray,
         gallery: formValues.gallery,
+        galleryAlts: formValues.galleryAlts || [],
         scope: formValues.scope,
         area: formValues.area,
         status: formValues.status.toUpperCase(),
@@ -326,6 +346,23 @@ export default function NewProjectPage() {
       )}
 
       <form onSubmit={handleSubmit}>
+        {/* Hidden File Inputs */}
+        <input
+          ref={mainFileInputRef}
+          type="file"
+          accept="image/webp"
+          style={{ display: 'none' }}
+          onChange={(e) => handleMainImageUpload(e.target.files)}
+        />
+        <input
+          ref={galleryFileInputRef}
+          type="file"
+          accept="image/webp"
+          multiple
+          style={{ display: 'none' }}
+          onChange={(e) => handleGalleryUpload(e.target.files)}
+        />
+
         {/* SECTION 1: MAIN DETAILS */}
         <div className="admin-table-wrap" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: '1.25rem' }}>
@@ -456,7 +493,7 @@ export default function NewProjectPage() {
                 >
                   <img
                     src={formValues.image}
-                    alt="Main Cover"
+                    alt={formValues.imageAlt || `${formValues.title || 'Project'} cover preview`}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
                   <div
@@ -564,6 +601,29 @@ export default function NewProjectPage() {
                 </span>
               </div>
             )}
+
+            {/* Cover Image Alt Text (Required for SEO & Screen Readers) */}
+            <div style={{ marginTop: '0.85rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <label className="admin-label" style={{ fontSize: '0.8rem', color: 'var(--admin-text)' }}>
+                  Cover Image Alt Text <span style={{ color: '#ef4444' }}>* (Required for SEO)</span>
+                </label>
+                <span style={{ fontSize: '0.72rem', color: 'var(--admin-text-muted)' }}>
+                  {formValues.imageAlt?.length || 0}/120 characters
+                </span>
+              </div>
+              <input
+                type="text"
+                className="admin-input"
+                placeholder="e.g. Modern tropical villa facade in Coimbatore with monolithic proportions"
+                value={formValues.imageAlt}
+                onChange={(e) => setFormValues({ ...formValues, imageAlt: e.target.value })}
+                required
+              />
+              <p style={{ fontSize: '0.72rem', color: 'var(--admin-text-muted)', margin: '4px 0 0' }}>
+                Accurately describe what is depicted in the cover image for search indexers and screen readers.
+              </p>
+            </div>
           </div>
 
           {/* 2. Multi-Image Gallery Dropzone */}

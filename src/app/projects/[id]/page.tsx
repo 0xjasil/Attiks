@@ -22,13 +22,40 @@ export async function generateMetadata({
     };
   }
 
+  const categoryName = project.category.charAt(0).toUpperCase() + project.category.slice(1);
+
   return {
-    title: `${project.title} — ${project.location}`,
-    description: project.description,
+    // title: `${project.title} — ${categoryName} Architecture in ${project.location}`,
+    // description: project.description.slice(0, 160).replace(/\n/g, ' '),
+    keywords: [
+      project.title,
+      `${categoryName} architecture`,
+      `${project.location} architecture`,
+      'Attiks Architecture project',
+      'tropical modern architecture',
+    ],
+    alternates: {
+      canonical: `/projects/${id}`,
+    },
     openGraph: {
       title: `${project.title} | ATTIKS Architecture`,
-      description: project.description,
-      images: [{ url: project.image }],
+      description: project.description.slice(0, 160).replace(/\n/g, ' '),
+      url: `https://attiks.in/projects/${id}`,
+      images: [
+        {
+          url: project.image,
+          width: 1200,
+          height: 675,
+          alt: project.imageAlt || `${project.title} architectural design in ${project.location}`,
+        },
+      ],
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${project.title} | ATTIKS Architecture`,
+      description: project.description.slice(0, 160).replace(/\n/g, ' '),
+      images: [project.image],
     },
   };
 }
@@ -67,8 +94,61 @@ export default async function ProjectDetail({
 
   const formattedCategory = project.category.charAt(0).toUpperCase() + project.category.slice(1);
 
+  const projectSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'VisualArtwork',
+    name: project.title,
+    description: project.description.slice(0, 160).replace(/\n/g, ' '),
+    image: project.image,
+    creator: {
+      '@type': 'ArchitectureStudio',
+      name: 'ATTIKS Architecture',
+      url: 'https://attiks.in',
+    },
+    locationCreated: {
+      '@type': 'Place',
+      name: project.location,
+    },
+    artMedium: 'Architecture & Spatial Design',
+    artform: formattedCategory,
+    dateCreated: project.year,
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://attiks.in',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Projects',
+        item: 'https://attiks.in/projects',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: project.title,
+        item: `https://attiks.in/projects/${id}`,
+      },
+    ],
+  };
+
   return (
     <div style={{ background: '#ffffff', color: '#111111', minHeight: '100vh' }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(projectSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <Navbar />
 
       <main>
@@ -76,7 +156,7 @@ export default async function ProjectDetail({
         <section style={{ position: 'relative', width: '100%', height: '70vh', minHeight: '520px' }}>
           <Image 
             src={project.image}
-            alt={`${project.title} - ${project.category} in ${project.location}`}
+            alt={project.imageAlt || `${project.title} - ${formattedCategory} architecture in ${project.location} by Attiks Architecture`}
             fill
             sizes="100vw"
             style={{ objectFit: 'cover' }}
@@ -187,7 +267,7 @@ export default async function ProjectDetail({
               >
                 <Image
                   src={imgUrl}
-                  alt={`${project.title} gallery view ${index + 1}`}
+                  alt={project.galleryAlts?.[index] || `${project.title} architectural detail view 0${index + 1} in ${project.location}`}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   style={{ objectFit: 'cover', transition: 'transform 0.5s ease' }}

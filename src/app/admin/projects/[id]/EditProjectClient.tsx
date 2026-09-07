@@ -42,11 +42,13 @@ export default function EditProjectClient({ id }: { id: string }) {
     location: '',
     year: '2026',
     image: '',
+    imageAlt: '',
     scope: 'Architecture & Interior Design',
     area: '',
     description: '',
     highlights: [] as string[],
     gallery: [] as string[],
+    galleryAlts: [] as string[],
     status: 'published',
     featured: true,
   });
@@ -69,6 +71,7 @@ export default function EditProjectClient({ id }: { id: string }) {
               location: p.location || '',
               year: p.year || '2026',
               image: p.image || '',
+              imageAlt: p.imageAlt || `${p.title || 'Architectural project'} exterior architecture view by Attiks`,
               scope: p.scope || '',
               area: p.area || '',
               description: p.description || '',
@@ -78,6 +81,7 @@ export default function EditProjectClient({ id }: { id: string }) {
                 ? String(p.highlights).split('\n').map((h: string) => h.trim()).filter(Boolean)
                 : [],
               gallery: Array.isArray(p.gallery) ? p.gallery : [],
+              galleryAlts: Array.isArray(p.galleryAlts) ? p.galleryAlts : [],
               status: String(p.status).toLowerCase() === 'draft' ? 'draft' : 'published',
               featured: Boolean(p.featured),
             });
@@ -101,21 +105,23 @@ export default function EditProjectClient({ id }: { id: string }) {
             location: found.location || '',
             year: found.year || '2026',
             image: found.image || '',
+            imageAlt: found.imageAlt || `${found.title || 'Architectural project'} exterior architecture view by Attiks`,
             scope: found.scope || '',
             area: found.area || '',
             description: found.description || '',
             highlights: Array.isArray(found.highlights)
               ? found.highlights
-              : found.highlights
-              ? String(found.highlights).split('\n').map((h: string) => h.trim()).filter(Boolean)
+              : typeof found.highlights === 'string'
+              ? (found.highlights as string).split('\n').map((h: string) => h.trim()).filter(Boolean)
               : [],
             gallery: Array.isArray(found.gallery) ? found.gallery : [],
-            status: found.status?.toLowerCase() === 'draft' ? 'draft' : 'published',
+            galleryAlts: Array.isArray(found.galleryAlts) ? found.galleryAlts : [],
+            status: String(found.status).toLowerCase() === 'draft' ? 'draft' : 'published',
             featured: Boolean(found.featured),
           });
         }
-      } catch (e) {
-        console.error('Failed to load project:', e);
+      } catch (err) {
+        console.error('Failed to load initial project:', err);
       }
     }
 
@@ -128,7 +134,14 @@ export default function EditProjectClient({ id }: { id: string }) {
   async function uploadFiles(files: FileList | File[]): Promise<string[]> {
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
-      formData.append('files', files[i]);
+      const file = files[i];
+      if (!file.name.toLowerCase().endsWith('.webp') && file.type !== 'image/webp') {
+        throw new Error(`"${file.name}" is not a WebP image. Only .webp files below 2MB are supported.`);
+      }
+      if (file.size > 2 * 1024 * 1024) {
+        throw new Error(`"${file.name}" exceeds the 2MB limit. Maximum allowed size is 2MB.`);
+      }
+      formData.append('files', file);
     }
 
     const res = await fetch('/api/upload', {
@@ -252,6 +265,11 @@ export default function EditProjectClient({ id }: { id: string }) {
       return;
     }
 
+    if (!formValues.imageAlt?.trim()) {
+      setErrorMsg('Mandatory: Please provide Cover Image Alt Text for SEO and accessibility.');
+      return;
+    }
+
     setSubmitting(true);
 
     try {
@@ -352,6 +370,23 @@ export default function EditProjectClient({ id }: { id: string }) {
       )}
 
       <form onSubmit={handleSubmit}>
+        {/* Hidden File Inputs */}
+        <input
+          ref={mainFileInputRef}
+          type="file"
+          accept="image/webp"
+          style={{ display: 'none' }}
+          onChange={(e) => handleMainImageUpload(e.target.files)}
+        />
+        <input
+          ref={galleryFileInputRef}
+          type="file"
+          accept="image/webp"
+          multiple
+          style={{ display: 'none' }}
+          onChange={(e) => handleGalleryUpload(e.target.files)}
+        />
+
         {/* SECTION 1: MAIN DETAILS */}
         <div className="admin-table-wrap" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: '1.25rem' }}>
@@ -482,7 +517,7 @@ export default function EditProjectClient({ id }: { id: string }) {
                 >
                   <img
                     src={formValues.image}
-                    alt="Main Cover"
+                    alt={formValues.imageAlt || `${formValues.title || 'Project'} cover preview`}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
                   <div
@@ -590,6 +625,29 @@ export default function EditProjectClient({ id }: { id: string }) {
                 </span>
               </div>
             )}
+
+            {/* Cover Image Alt Text (Required for SEO & Accessibility) */}
+            <div style={{ marginTop: '0.85rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <label className="admin-label" style={{ fontSize: '0.8rem', color: 'var(--admin-text)' }}>
+                  Cover Image Alt Text <span style={{ color: '#ef4444' }}>* (Required for SEO)</span>
+                </label>
+                <span style={{ fontSize: '0.72rem', color: 'var(--admin-text-muted)' }}>
+                  {formValues.imageAlt?.length || 0}/120 characters
+                </span>
+              </div>
+              <input
+                type="text"
+                className="admin-input"
+                placeholder="e.g. Modern tropical villa facade in Coimbatore with monolithic proportions"
+                value={formValues.imageAlt}
+                onChange={(e) => setFormValues({ ...formValues, imageAlt: e.target.value })}
+                required
+              />
+              <p style={{ fontSize: '0.72rem', color: 'var(--admin-text-muted)', margin: '4px 0 0' }}>
+                Accurately describe what is depicted in the cover image for search indexers and screen readers.
+              </p>
+            </div>
           </div>
 
           {/* 2. Gallery Dropzone */}

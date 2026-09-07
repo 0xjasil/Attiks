@@ -21,10 +21,40 @@ export async function POST(request: NextRequest) {
     const uploadDir = path.join(process.cwd(), 'public', 'uploads');
     await mkdir(uploadDir, { recursive: true });
 
+    const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
     const uploadedUrls: string[] = [];
 
     for (const file of files) {
       if (typeof file === 'string' || !file.name) continue;
+
+      // 1. Strict Size Check (Below 2MB)
+      if (file.size > MAX_FILE_SIZE) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: `File "${file.name}" exceeds the 2MB size limit. Please upload files below 2MB.`,
+          },
+          { status: 400 }
+        );
+      }
+
+      // 2. Strict Format Check (.webp for images, or mp4/webm for video)
+      const fileNameLower = file.name.toLowerCase();
+      const isWebp = fileNameLower.endsWith('.webp') || file.type === 'image/webp';
+      const isVideo =
+        /\.(mp4|webm)$/i.test(fileNameLower) ||
+        file.type === 'video/mp4' ||
+        file.type === 'video/webm';
+
+      if (!isWebp && !isVideo) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: `File "${file.name}" is not supported. Only .webp images below 2MB (or .mp4/.webm videos) are permitted.`,
+          },
+          { status: 400 }
+        );
+      }
 
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
@@ -35,7 +65,8 @@ export async function POST(request: NextRequest) {
         .replace(/[^a-z0-9.]+/g, '-')
         .replace(/^-+|-+$/g, '');
 
-      const fileName = `img_${timestamp}_${cleanName || 'upload.jpg'}`;
+      const prefix = isVideo ? 'video' : 'img';
+      const fileName = `${prefix}_${timestamp}_${cleanName || (isVideo ? 'upload.mp4' : 'upload.webp')}`;
       const filePath = path.join(uploadDir, fileName);
 
       await writeFile(filePath, buffer);

@@ -92,27 +92,109 @@ export const metadata: Metadata = {
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  name: "ATTIKS Architecture",
-  description:
-    "A Kerala-based architecture practice shaping contextual, enduring spaces informed by climate, material, and spatial experience.",
-  url: "https://attiks.in",
-  logo: "https://attiks.in/images/logo-light.png",
-  image: "https://attiks.in/villa_showcase.webp",
-  address: [
+  "@graph": [
     {
-      "@type": "PostalAddress",
-      streetAddress: "#1/523, Krishna Building, NH 66, Azhinhilam PO",
-      addressLocality: "Calicut",
-      postalCode: "673632",
-      addressRegion: "Kerala",
-      addressCountry: "IN",
+      "@type": ["ProfessionalService", "ArchitecturalStudio", "Organization"],
+      "@id": "https://attiks.in/#organization",
+      name: "ATTIKS Architecture",
+      legalName: "Attiks Architecture Studio",
+      description:
+        "A Kerala-based architectural practice creating contextual, enduring architecture informed by climate, material, and spatial experience across residential, commercial, and cultural domains.",
+      url: "https://attiks.in",
+      logo: "https://attiks.in/images/logo-light.png",
+      image: "https://attiks.in/villa_showcase.webp",
+      telephone: "+91-0483-2941308",
+      email: "info@attiks.in",
+      priceRange: "$$$$",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "#1/523, Krishna Building, NH 66, Azhinhilam PO",
+        addressLocality: "Calicut",
+        addressRegion: "Kerala",
+        postalCode: "673632",
+        addressCountry: "IN",
+      },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: 11.2023,
+        longitude: 75.8778,
+      },
+      areaServed: [
+        { "@type": "AdministrativeArea", name: "Kerala" },
+        { "@type": "AdministrativeArea", name: "Karnataka" },
+        { "@type": "AdministrativeArea", name: "Tamil Nadu" },
+        { "@type": "Country", name: "United Arab Emirates" },
+        { "@type": "Country", name: "India" },
+      ],
+      openingHoursSpecification: [
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+          ],
+          opens: "09:00",
+          closes: "18:00",
+        },
+      ],
+      sameAs: [
+        "https://www.instagram.com/attiksarchitecture",
+        "https://www.linkedin.com/company/attiks-architecture",
+        "https://www.facebook.com/attiksarchitecture",
+      ],
+      knowsAbout: [
+        "Tropical Modern Architecture",
+        "Passive Climate Design",
+        "Contextual Materiality",
+        "Bespoke Residential Architecture",
+        "Commercial & Hospitality Architecture",
+        "Masterplanning & Landscape Integration",
+      ],
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Architectural Services",
+        itemListElement: [
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Luxury Residential Architecture",
+              description: "Custom tropical modern homes and private estates crafted for context and climate.",
+            },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Commercial & Cultural Architecture",
+              description: "Civic spaces, convention centers, boutique offices, and hospitality developments.",
+            },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Masterplanning & Landscape Architecture",
+              description: "Harmonious site planning integrating topography, flora, and architectural volumes.",
+            },
+          },
+        ],
+      },
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://attiks.in/#website",
+      url: "https://attiks.in",
+      name: "ATTIKS Architecture",
+      publisher: {
+        "@id": "https://attiks.in/#organization",
+      },
     },
   ],
-  telephone: "+91-0483-2941308",
-  email: "info@attiks.in",
-  areaServed: ["Kerala", "Bangalore", "Dubai", "India"],
-  priceRange: "$$$$",
 };
 
 import SmoothScroll from "@/components/SmoothScroll";

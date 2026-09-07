@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Plus, Edit2, Trash2, Search, Download, CheckCircle, Eye, EyeOff } from 'lucide-react';
+import { Plus, Edit2, Trash2, Search, Download, Eye, EyeOff } from 'lucide-react';
 import ConfirmDialog from '@/components/admin/ConfirmDialog';
 import StatusBadge from '@/components/admin/StatusBadge';
 import { projects as initialProjects, Project } from '@/data/projects';
@@ -214,7 +214,7 @@ export default function ProjectsAdminPage() {
                     <td>
                       <img
                         src={project.image || '/architecture.webp'}
-                        alt=""
+                        alt={project.imageAlt || project.title || 'Project thumbnail'}
                         className="admin-table-img"
                       />
                     </td>

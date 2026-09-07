@@ -41,12 +41,8 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // If already logged in and navigating to login page -> redirect to dashboard
+  // If on login page, always allow viewing login form to prevent redirect loops
   if (isLoginPage) {
-    if (isAuthenticated && isAdmin) {
-      const redirectTarget = request.nextUrl.searchParams.get('redirect') || '/admin/dashboard';
-      return NextResponse.redirect(new URL(redirectTarget, request.url));
-    }
     return NextResponse.next();
   }
 

@@ -8,15 +8,68 @@ import { getGalleryPostsAction } from '@/actions/gallery.actions';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Media & Showcase | Attiks Architecture',
-  description: 'Visual media showcases, architectural highlights, and project documentation by Attiks Architecture.',
+  title: 'Media & Architectural Showcase',
+  description:
+    'Visual media showcases, architectural highlights, design documentaries, and project documentation by Attiks Architecture.',
+  alternates: {
+    canonical: '/media',
+  },
+  openGraph: {
+    title: 'Media & Architectural Showcase | ATTIKS Architecture',
+    description:
+      'Visual media showcases, architectural highlights, design documentaries, and project documentation by Attiks Architecture.',
+    url: 'https://attiks.in/media',
+    siteName: 'ATTIKS Architecture',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Media & Architectural Showcase | ATTIKS Architecture',
+    description: 'Visual media showcases and architectural documentaries by Attiks Architecture.',
+  },
 };
 
 export default async function MediaPage() {
   const galleryPosts = await getGalleryPostsAction();
 
+  const mediaSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Media & Architectural Showcase — ATTIKS Architecture',
+    description:
+      'Visual media showcases, architectural highlights, design documentaries, and project documentation by Attiks Architecture.',
+    url: 'https://attiks.in/media',
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://attiks.in',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Media',
+        item: 'https://attiks.in/media',
+      },
+    ],
+  };
+
   return (
     <div style={{ background: '#ffffff', minHeight: '100vh', color: '#111111', display: 'flex', flexDirection: 'column' }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(mediaSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <Navbar />
 
       <main style={{ flex: 1 }}>

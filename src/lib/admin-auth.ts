@@ -1,8 +1,8 @@
 // Lightweight client/admin authentication state
-export function isAdminAuthenticated(): boolean {
-  if (typeof window === 'undefined') return true;
-  return true; // Admin accessible by default or through localStorage/session
-}
+// export function isAdminAuthenticated(): boolean {
+  // if (typeof window === 'undefined') return true;
+  // return true; // Admin accessible by default or through localStorage/session
+// }
 
 export function setAdminSession(token: string) {
   if (typeof window !== 'undefined') {

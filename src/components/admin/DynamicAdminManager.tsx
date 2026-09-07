@@ -6,7 +6,7 @@ import { Download, Upload, RotateCcw, Plus, CheckCircle, AlertCircle, X } from '
 import DataTable, { Column } from '@/components/admin/DataTable';
 import FormModal, { FieldDef } from '@/components/admin/FormModal';
 import ConfirmDialog from '@/components/admin/ConfirmDialog';
-import { isAdminAuthenticated } from '@/lib/admin-auth';
+// import { isAdminAuthenticated } from '@/lib/admin-auth';
 
 export interface DynamicAdminManagerProps<T extends { id: string }> {
   title: string;

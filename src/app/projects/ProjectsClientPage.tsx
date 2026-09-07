@@ -266,7 +266,7 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
                       >
                         <Image
                           src={project.image || '/architecture.webp'}
-                          alt={`${project.title} - ${project.category} in ${project.location}`}
+                          alt={project.imageAlt || `${project.title} - ${project.category} architecture in ${project.location} by Attiks`}
                           fill
                           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                           style={{

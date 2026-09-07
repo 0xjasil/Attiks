@@ -5,6 +5,7 @@ import { GalleryPost, defaultGalleryPosts } from '@/data/gallery';
 
 const DATA_DIR = path.join(process.cwd(), 'src', 'data');
 const DATA_FILE = path.join(DATA_DIR, 'gallery-posts.json');
+const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:5000';
 
 async function readPosts(): Promise<GalleryPost[]> {
   try {
@@ -20,11 +21,30 @@ async function readPosts(): Promise<GalleryPost[]> {
 }
 
 async function writePosts(posts: GalleryPost[]): Promise<void> {
-  await mkdir(DATA_DIR, { recursive: true });
-  await writeFile(DATA_FILE, JSON.stringify(posts, null, 2), 'utf-8');
+  try {
+    await mkdir(DATA_DIR, { recursive: true });
+    await writeFile(DATA_FILE, JSON.stringify(posts, null, 2), 'utf-8');
+  } catch (err) {
+    console.warn('Backup file write failed:', err);
+  }
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const backendRes = await fetch(`${BACKEND_URL}/api/gallery?${searchParams.toString()}`, {
+      cache: 'no-store',
+      signal: AbortSignal.timeout(4000),
+    });
+
+    if (backendRes.ok) {
+      const data = await backendRes.json();
+      return NextResponse.json(data, { status: 200 });
+    }
+  } catch {
+    // Fallback
+  }
+
   try {
     const posts = await readPosts();
     return NextResponse.json({ success: true, data: posts });
@@ -36,8 +56,28 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { image, caption, description, location, aspectRatio } = body;
+    const authHeader = request.headers.get('authorization');
 
+    try {
+      const backendRes = await fetch(`${BACKEND_URL}/api/gallery`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(authHeader ? { Authorization: authHeader } : {}),
+        },
+        body: JSON.stringify(body),
+        signal: AbortSignal.timeout(6000),
+      });
+
+      if (backendRes.ok) {
+        const data = await backendRes.json();
+        return NextResponse.json(data, { status: backendRes.status });
+      }
+    } catch {
+      // Fallback
+    }
+
+    const { image, caption, description, location, aspectRatio } = body;
     if (!image) {
       return NextResponse.json({ success: false, error: 'Image is required' }, { status: 400 });
     }
@@ -55,7 +95,6 @@ export async function POST(request: NextRequest) {
       order: posts.length + 1,
     };
 
-    // Prepend so newest post appears first
     const updated = [newPost, ...posts];
     await writePosts(updated);
 
@@ -64,3 +103,4 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
+

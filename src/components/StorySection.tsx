@@ -203,7 +203,7 @@ export default function StorySection() {
                 >
                   <Image
                     src={story.image}
-                    alt={story.headline}
+                    alt={`${story.headline} - Attiks Architecture design philosophy`}
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     style={{ objectFit: 'cover', borderRadius: '0px' }}
@@ -275,7 +275,7 @@ export default function StorySection() {
               >
                 <Image
                   src={story.image}
-                  alt={story.headline}
+                  alt={`${story.headline} - Attiks Architecture design philosophy`}
                   fill
                   sizes="100vw"
                   style={{ objectFit: 'cover', borderRadius: '0px' }}

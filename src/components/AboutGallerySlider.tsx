@@ -36,7 +36,7 @@ function ProjectCardItem({ project, isMobile }: { project: Project; isMobile: bo
       >
         <Image
           src={project.image || '/architecture.webp'}
-          alt={`${project.title} - ${project.location}`}
+          alt={project.imageAlt || `${project.title} architectural project in ${project.location} by Attiks Architecture`}
           fill
           sizes="(max-width: 768px) 100vw, 50vw"
           style={{
@@ -59,7 +59,7 @@ function ProjectCardItem({ project, isMobile }: { project: Project; isMobile: bo
           }}
         />
 
-        {/* Bottom-Left Clean Editorial Typography: Name on top, Place below */}
+        {/* Bottom-Left Clean Editorial Typography: Project Title on top, Category below */}
         <div
           style={{
             position: 'absolute',
@@ -92,19 +92,19 @@ function ProjectCardItem({ project, isMobile }: { project: Project; isMobile: bo
           >
             {project.title}
           </h3>
-          {project.location && (
+          {project.category && (
             <p
               style={{
                 color: 'rgba(255, 255, 255, 0.85)',
                 fontSize: 'clamp(14px, 0.95vw, 16px)',
                 fontWeight: 400,
                 letterSpacing: '0.06em',
-                textTransform: 'uppercase',
+                textTransform: 'capitalize',
                 margin: 0,
                 textShadow: '0 2px 6px rgba(0,0,0,0.6)',
               }}
             >
-              {project.location}
+              {project.category}
             </p>
           )}
         </div>

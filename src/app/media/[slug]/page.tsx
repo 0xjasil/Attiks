@@ -22,13 +22,36 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
+  const desc = article.summary || article.content?.slice(0, 160).replace(/\n/g, ' ') || '';
+  const imgUrl = article.image || '/architecture.webp';
+
   return {
     title: `${article.title} | Attiks Architecture Media`,
-    description: article.summary || article.content?.slice(0, 160),
+    description: desc,
+    alternates: {
+      canonical: `/media/${slug}`,
+    },
     openGraph: {
-      title: article.title,
-      description: article.summary,
-      images: [article.image || '/architecture.webp'],
+      title: `${article.title} | Attiks Architecture`,
+      description: desc,
+      url: `https://attiks.in/media/${slug}`,
+      siteName: 'ATTIKS Architecture',
+      images: [
+        {
+          url: imgUrl,
+          width: 1200,
+          height: 630,
+          alt: article.title,
+        },
+      ],
+      type: 'article',
+      publishedTime: article.publishedAt,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${article.title} | Attiks Architecture`,
+      description: desc,
+      images: [imgUrl],
     },
   };
 }
@@ -48,8 +71,67 @@ export default async function MediaArticlePage({ params }: PageProps) {
     .filter((a) => a.slug !== article.slug && a.id !== article.id)
     .slice(0, 3);
 
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: article.title,
+    description: article.summary || article.content?.slice(0, 160),
+    image: article.image || 'https://attiks.in/architecture.webp',
+    datePublished: article.publishedAt,
+    author: {
+      '@type': 'Organization',
+      name: 'ATTIKS Architecture',
+      url: 'https://attiks.in',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'ATTIKS Architecture',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://attiks.in/images/logo-light.png',
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://attiks.in/media/${slug}`,
+    },
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://attiks.in',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Media',
+        item: 'https://attiks.in/media',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: article.title,
+        item: `https://attiks.in/media/${slug}`,
+      },
+    ],
+  };
+
   return (
     <div style={{ background: '#ffffff', minHeight: '100vh', color: '#111111', display: 'flex', flexDirection: 'column' }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <Navbar />
 
       <main style={{ flex: 1, padding: 'clamp(120px, 11vw, 160px) clamp(20px, 5vw, 64px) 100px', boxSizing: 'border-box' }}>
@@ -147,7 +229,7 @@ export default async function MediaArticlePage({ params }: PageProps) {
           >
             <Image
               src={article.image || '/architecture.webp'}
-              alt={article.title}
+              alt={`${article.title} - Architectural Insights by Attiks Architecture`}
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 960px"
@@ -211,7 +293,7 @@ export default async function MediaArticlePage({ params }: PageProps) {
                     >
                       <Image
                         src={rel.image || '/architecture.webp'}
-                        alt={rel.title}
+                        alt={`${rel.title} - Related Architecture Article by Attiks`}
                         fill
                         sizes="300px"
                         style={{ objectFit: 'cover' }}
