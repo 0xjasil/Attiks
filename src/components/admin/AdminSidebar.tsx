@@ -11,6 +11,7 @@ import {
   Quote,
   Sparkles,
   Settings,
+  Layers,
   ExternalLink,
   LogOut,
 } from 'lucide-react';

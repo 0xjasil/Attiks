@@ -136,7 +136,7 @@ export default function ProjectsClientPage({
                   <button
                     key={item.label}
                     type="button"
-                    onClick={() => setSelectedCategory(item.value as Category | null)}
+                    onClick={() => setSelectedCategory(item.value)}
                     aria-pressed={isSelected}
                     style={{
                       background: 'transparent',
