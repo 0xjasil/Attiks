@@ -262,7 +262,7 @@ export default function LeadsAdminPage() {
         </div>
       </div>
 
-      {/* KPI Stats Cards */}
+      {/* KPI Stats Cards (Temporarily Hidden)
       <div
         style={{
           display: 'grid',
@@ -311,12 +311,14 @@ export default function LeadsAdminPage() {
           <div style={{ fontSize: '1.8rem', fontWeight: 600, color: '#c084fc' }}>{qualifiedCount}</div>
         </div>
       </div>
+      */}
 
       {/* Main Table Card */}
       <div className="admin-table-wrap">
         <div className="admin-table-toolbar">
           <span className="admin-table-title">{filteredLeads.length} Inquiries</span>
           <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
+            {/* Status Filter (Temporarily Hidden)
             <select
               className="admin-select"
               style={{ width: 'auto', padding: '0.45rem 0.75rem' }}
@@ -330,6 +332,7 @@ export default function LeadsAdminPage() {
               <option value="CONVERTED">Converted</option>
               <option value="ARCHIVED">Archived</option>
             </select>
+            */}
 
             <label className="admin-search">
               <Search size={14} style={{ color: 'var(--admin-text-muted)' }} />
@@ -350,7 +353,7 @@ export default function LeadsAdminPage() {
                 <th>Client Name</th>
                 <th>Contact Details</th>
                 <th>Project of Interest</th>
-                <th>Status</th>
+                {/* <th>Status</th> */}
                 <th>Received</th>
                 <th style={{ width: 100 }}>Actions</th>
               </tr>
@@ -359,22 +362,21 @@ export default function LeadsAdminPage() {
               {loading ? (
                 Array.from({ length: 4 }).map((_, i) => (
                   <tr key={i}>
-                    <td colSpan={6}>
+                    <td colSpan={5}>
                       <div className="admin-skeleton" style={{ height: 36, width: '100%' }} />
                     </td>
                   </tr>
                 ))
               ) : filteredLeads.length === 0 ? (
                 <tr>
-                  <td colSpan={6}>
+                  <td colSpan={5}>
                     <div className="admin-empty">
-                      <span>No client inquiries found matching your filters.</span>
+                      <span>No client inquiries found matching your search.</span>
                     </div>
                   </td>
                 </tr>
               ) : (
                 filteredLeads.map((lead) => {
-                  const badgeStyle = getStatusColor(lead.status);
                   return (
                     <tr key={lead.id}>
                       <td>
@@ -433,30 +435,7 @@ export default function LeadsAdminPage() {
                           </span>
                         )}
                       </td>
-                      <td>
-                        <select
-                          value={(lead.status || 'NEW').toUpperCase()}
-                          onChange={(e) => handleStatusChange(lead.id, e.target.value)}
-                          style={{
-                            background: badgeStyle.bg,
-                            color: badgeStyle.text,
-                            border: `1px solid ${badgeStyle.border}`,
-                            borderRadius: 4,
-                            padding: '3px 8px',
-                            fontSize: '0.72rem',
-                            fontWeight: 600,
-                            letterSpacing: '0.04em',
-                            cursor: 'pointer',
-                            outline: 'none',
-                          }}
-                        >
-                          <option value="NEW">NEW</option>
-                          <option value="CONTACTED">CONTACTED</option>
-                          <option value="QUALIFIED">QUALIFIED</option>
-                          <option value="CONVERTED">CONVERTED</option>
-                          <option value="ARCHIVED">ARCHIVED</option>
-                        </select>
-                      </td>
+                      {/* Status Cell (Temporarily Hidden) */}
                       <td style={{ fontSize: '0.78rem', color: 'var(--admin-text-muted)' }}>
                         {new Date(lead.createdAt).toLocaleDateString(undefined, {
                           month: 'short',
@@ -679,7 +658,8 @@ export default function LeadsAdminPage() {
             </div>
 
             {/* Footer Controls */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '0.75rem', borderTop: '1px solid #e4e4e7' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', paddingTop: '0.75rem', borderTop: '1px solid #e4e4e7' }}>
+              {/* Status Selector (Temporarily Hidden)
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span style={{ fontSize: '0.75rem', color: '#71717a', fontWeight: 500 }}>Status:</span>
                 <select
@@ -695,6 +675,7 @@ export default function LeadsAdminPage() {
                   <option value="ARCHIVED">ARCHIVED</option>
                 </select>
               </div>
+              */}
 
               <div style={{ display: 'flex', gap: '0.5rem' }}>
                 <button
