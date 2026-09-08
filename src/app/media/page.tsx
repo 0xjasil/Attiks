@@ -5,7 +5,7 @@ import PageHeader from '@/components/PageHeader';
 import ProjectShowcaseGrid from '@/components/ProjectShowcaseGrid';
 import { getGalleryPostsAction } from '@/actions/gallery.actions';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Media & Architectural Showcase',

@@ -62,48 +62,42 @@ export default function AboutClientPage() {
       <Navbar />
 
       <main>
-        {/* 1. Hero Section: Full Width Photo reaching top with Header overlay */}
+        {/* 1. Hero Section: Studio Team Hero Image with Content-Aligned Container */}
         <section
           style={{
-            position: 'relative',
             width: '100%',
+            padding: 'clamp(115px, 9vw, 145px) clamp(20px, 5vw, 64px) 0',
+            boxSizing: 'border-box',
             marginBottom: 'clamp(60px, 7vw, 100px)',
-            overflow: 'hidden',
           }}
           aria-label="Studio Team Hero"
         >
           <div
             style={{
-              position: 'relative',
-              width: '100%',
-              aspectRatio: '900 / 473',
-              minHeight: '320px',
-              backgroundColor: '#151515',
-              overflow: 'hidden',
+              maxWidth: '1440px',
+              margin: '0 auto',
             }}
           >
-            <Image
-              src="/images/about/small_SBCL2379265.webp"
-              alt="Attiks Architecture studio team gathered at the practice atelier"
-              fill
-              sizes="100vw"
-              style={{ objectFit: 'cover' }}
-              quality={95}
-              priority
-            />
-            {/* Top gradient overlay for header visibility */}
             <div
               style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                height: '140px',
-                background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 100%)',
-                pointerEvents: 'none',
-                zIndex: 2,
+                position: 'relative',
+                width: '100%',
+                aspectRatio: '900 / 473',
+                minHeight: '320px',
+                backgroundColor: '#151515',
+                overflow: 'hidden',
               }}
-            />
+            >
+              <Image
+                src="/images/about/small_SBCL2379265.webp"
+                alt="Attiks Architecture studio team gathered at the practice atelier"
+                fill
+                sizes="(max-width: 1440px) 100vw, 1440px"
+                style={{ objectFit: 'cover' }}
+                quality={95}
+                priority
+              />
+            </div>
           </div>
         </section>
 

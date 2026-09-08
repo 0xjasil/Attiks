@@ -9,7 +9,7 @@ import { getAllProjects } from '@/lib/projects';
 import { getGalleryPostsAction } from '@/actions/gallery.actions';
 import { getHeroDataAction } from '@/actions/hero.actions';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export default async function Home() {
   const [projects, galleryPosts, heroData] = await Promise.all([

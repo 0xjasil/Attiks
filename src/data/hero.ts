@@ -74,18 +74,5 @@ export const defaultHeroSlides: HeroSlide[] = [
     active: true,
     createdAt: '2026-01-03',
   },
-  {
-    id: 'hero-4',
-    mediaType: 'video',
-    mediaUrl: '/16199324_3840_2160_30fps.mp4',
-    altText: 'Biophilic tropical garden integration with modern architecture by Attiks',
-    title: 'Biophilic Design Dialogue',
-    subtitle: 'Integrating Nature with Built Form',
-    ctaText: 'view projects',
-    ctaLink: '/projects',
-    order: 4,
-    active: true,
-    createdAt: '2026-01-04',
-  },
 ];
 

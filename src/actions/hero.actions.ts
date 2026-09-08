@@ -11,10 +11,10 @@ import {
   defaultHeroSlides,
   defaultHeroSettings,
 } from '@/data/hero';
+import { safeBackendFetch, BACKEND_URL } from '@/lib/apiHelper';
 
 const DATA_DIR = path.join(process.cwd(), 'src', 'data');
 const DATA_FILE = path.join(DATA_DIR, 'hero-slides.json');
-const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:5000';
 
 async function getAuthHeader(): Promise<Record<string, string>> {
   try {
@@ -58,11 +58,8 @@ async function writeHeroDataInternal(data: HeroData): Promise<void> {
  */
 export async function getHeroDataAction(): Promise<HeroData> {
   try {
-    const backendRes = await fetch(`${BACKEND_URL}/api/hero`, {
-      cache: 'no-store',
-      signal: AbortSignal.timeout(3000),
-    });
-    if (backendRes.ok) {
+    const backendRes = await safeBackendFetch('/api/hero', { cache: 'no-store' }, 150);
+    if (backendRes && backendRes.ok) {
       const json = await backendRes.json();
       const payload = json.data || json;
       if (payload && Array.isArray(payload.slides)) {

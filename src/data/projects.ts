@@ -119,14 +119,14 @@ export const projects: Project[] = [
     "category": "residential",
     "location": "Coimbatore, Tamil Nadu",
     "year": "2026",
-    "image": "/uploads/img_1788003575720_attiks-136.jpg",
+    "image": "/uploads/img_1788003575720_attiks-136.webp",
     "description": "A home shaped by its context, its climate, and the everyday life of its occupants.\n\nDesigned as a composition of volumes, courtyards, transitions and carefully considered spaces, Soori Residence explores a quiet dialogue between architecture and nature.\n\nThe experience unfolds gradually from the approach and arrival to the more intimate spaces within with light, landscape, material and scale working together to create a sense of continuity throughout the home.\n\nEvery element was considered not only as an object, but as part of the experience of living.",
     "highlights": [
       "Soori Residence | Coimbatore"
     ],
     "gallery": [
-      "/uploads/img_1788003644615_attiks-46.jpg",
-     "/uploads/img_1788003669444_attiks-115.jpg"
+      "/uploads/img_1788003644615_attiks-46.webp",
+     "/uploads/img_1788003669444_attiks-115.webp"
     ],
     "scope": "Masterplanning & Architecture",
     "area": "7800 Sqf",
@@ -139,7 +139,7 @@ export const projects: Project[] = [
     "category": "residential",
     "location": "Varkala, Kerala",
     "year": "2024",
-    "image": "/uploads/img_1788004263217_x-20.jpg",
+    "image": "/uploads/img_1788004263217_x-20.webp",
     "description": "Jannath Ayisha Residence is conceived as a tropical modern home that celebrates scale, light, and landscape. The design embraces generous volumes that create a sense of openness, while expansive openings allow natural light to define and transform the interiors throughout the day. Framed by lush landscaping, the residence establishes a seamless dialogue between indoor and outdoor spaces, merging the warmth of tropical living with the clarity and precision of contemporary design.",
     "highlights": [
       "Panoramic Ocean Vistas",
@@ -151,10 +151,10 @@ export const projects: Project[] = [
     "status": "published",
     "featured": true,
     "gallery": [
-      "/uploads/img_1788004496155_UC_TH--12.jpg",
-      "/uploads/img_1788004496285_x-17.jpg",
-   "/uploads/img_1788004498026_x-42.jpg",
-      "/uploads/img_1788004498185_x-43.jpg"
+      "/uploads/img_1788004496155_UC_TH--12.webp",
+      "/uploads/img_1788004496285_x-17.webp",
+   "/uploads/img_1788004498026_x-42.webp",
+      "/uploads/img_1788004498185_x-43.webp"
     ]
   },
   {
@@ -163,7 +163,7 @@ export const projects: Project[] = [
     "category": "residential",
     "location": " Malappuram, Kerala,",
     "year": "2024",
-    "image": "/uploads/img_1788004592408_Set01__34_.jpg",
+    "image": "/uploads/img_1788004592408_Set01__34_.webp",
     "description": "The Edge by Attiks Architecture\n\nThis convention center, at a glance gives a modern and contemporary outlook with which, building itself creates uniqueness and brings harmony to its surrounding spaces. The main intention was to maximize the land utilization with minimum footprint. Hence the design envisioned on split level, establishing maximum view and space utilization.\n\nThe project consist of a banquet hall that can seat up to 800 people and 1200 to dine, the custom made lights and the seating arrangements makes the hall more attractive. Adjacent to the main hall, there is a Lobby and a VIP lounge with separate dining space.\n\nCheckout The Full Project Here: Link in the bio\n\nProject Details:\nProject Name: The Edge ( Convention Center)\nLocation: Panthavoor, Malappuram, Kerala, India\nBuilt-up Area: 33000 sq.ft.\nCost: Undisclosed\nCompletion Year: 2022",
     "highlights": [
       "Acoustic Auditorium",
@@ -175,7 +175,7 @@ export const projects: Project[] = [
     "status": "published",
     "featured": true,
     "gallery": [
-      "/uploads/img_1788004679585_Set01__34_.jpg",
+      "/uploads/img_1788004679585_Set01__34_.webp",
     ]
   },
   {
@@ -184,7 +184,7 @@ export const projects: Project[] = [
     "category": "interior",
     "location": "Ponnani, Kerala",
     "year": "2023",
-    "image": "/uploads/img_1788005063615_DSC08120-Edit-1.jpg.jpeg",
+    "image": "/uploads/img_1788005063615_DSC08120-Edit-1.jpg.webp",
     "description": "The main idea was to merge the built with in the landscape. As the building ages and trees grow, the built and unbuilt will become more and more seamless. The design response primarily to the context and brings its essence with in. The central court is kept as the focus by the allure of red bricks representing the traditional nadumuttom. Area have been woven together to create seamless floor spaces with a few landscaped elements. The split-level renders better connectivity within the house, allowing private spaces to overlook the central court. The Material palette is kept minimal, Kota stone flooring captures reflection and while exposed concrete ceiling add a rustic charm. Wooden flooring and the details bring in richness, with white walls tying it all together. Courtyards have been designed to serve multiple functions, making the space flexible and multifunctional. Deck could occasionally turn into a gathering space / even a stage during festive gathering which the client had expressed a need for early on, in their requirements. Skylights were added to create interest within the space. A well-lit home, the house sufficiently lit in the daytime with the light that comes in through skylight and slit windows eliminating the need for artificial.",
     "highlights": [
       "Vernacular Sloping Roofs",
@@ -196,8 +196,8 @@ export const projects: Project[] = [
     "status": "published",
     "featured": true,
     "gallery": [
-     "/uploads/img_1788005109147_DSC08115-Edit-2.jpg.jpeg",
-      "/uploads/img_1788005112574_DSC08076-Edit-14.jpg.jpeg"
+     "/uploads/img_1788005109147_DSC08115-Edit-2.jpg.webp",
+      "/uploads/img_1788005112574_DSC08076-Edit-14.jpg.webp"
     ]
   },
   {
@@ -206,7 +206,7 @@ export const projects: Project[] = [
     "category": "institutional",
     "location": "Malappuram, Kerala",
     "year": "2023",
-    "image": "/uploads/img_1788005287699_42.png",
+    "image": "/uploads/img_1788005287699_42.webp",
     "description": "An educational campus that reinterprets traditional Kerala architectural motifs within a contemporary institutional framework.",
     "highlights": [
       "Shaded Verandah Corridors",
@@ -218,8 +218,8 @@ export const projects: Project[] = [
     "status": "published",
     "featured": false,
     "gallery": [
-      "/uploads/img_1788005339901_bridge_003.png",
-     "/uploads/img_1788005360242_45.png"
+      "/uploads/img_1788005339901_bridge_003.webp",
+     "/uploads/img_1788005360242_45.webp"
     ]
   },
   {
@@ -228,7 +228,7 @@ export const projects: Project[] = [
     "category": "institutional",
     "location": "Malappuram, Kerala",
     "year": "2025",
-    "image": "/uploads/img_1788005358786_53.png",
+    "image": "/uploads/img_1788005358786_53.webp",
     "description": "Al Jamia Knowledge World is a sprawling educational campus designed by Attiks Architecture for the Al Jamia educational institutions in Malappuram, Kerala.\n\nThe campus encompasses the Al Jamia Arts & Science School and supporting institutional facilities, conceived as a cohesive architectural landscape that responds to the tropical climate and pedagogical vision of the institution.\n\nThe design integrates skylights, bridged circulation, and open courtyards to create learning environments that are naturally lit, well-ventilated, and deeply connected to their surroundings. Every space — from classrooms to transitional corridors — is crafted to foster curiosity, collaboration, and a sense of belonging.\n\nRecognised by the grand jury's shortlisted entries for notable architectural achievements, the project represents Attiks Architecture's commitment to meaningful institutional design.",
     "highlights": [
       "Al Jamia Arts & Science School Campus",
@@ -236,8 +236,8 @@ export const projects: Project[] = [
       "Climate-Responsive Institutional Architecture"
     ],
     "gallery": [
-      "/uploads/img_1788005339901_bridge_003.png",
-   "/uploads/img_1788005359569_039.png"
+      "/uploads/img_1788005339901_bridge_003.webp",
+   "/uploads/img_1788005359569_039.webp"
     ],
     "scope": "Institutional Campus Masterplan & Architecture",
     "area": "95,000 sq.ft",

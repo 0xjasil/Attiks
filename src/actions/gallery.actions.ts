@@ -5,10 +5,10 @@ import { cookies } from 'next/headers';
 import { readFile, writeFile, mkdir } from 'fs/promises';
 import path from 'path';
 import { GalleryPost, defaultGalleryPosts } from '@/data/gallery';
+import { safeBackendFetch, BACKEND_URL } from '@/lib/apiHelper';
 
 const DATA_DIR = path.join(process.cwd(), 'src', 'data');
 const DATA_FILE = path.join(DATA_DIR, 'gallery-posts.json');
-const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:5000';
 
 async function getAuthHeader(): Promise<Record<string, string>> {
   try {
@@ -47,11 +47,8 @@ async function writePostsInternal(posts: GalleryPost[]): Promise<void> {
  */
 export async function getGalleryPostsAction(): Promise<GalleryPost[]> {
   try {
-    const backendRes = await fetch(`${BACKEND_URL}/api/gallery`, {
-      cache: 'no-store',
-      signal: AbortSignal.timeout(3000),
-    });
-    if (backendRes.ok) {
+    const backendRes = await safeBackendFetch('/api/gallery', { cache: 'no-store' }, 150);
+    if (backendRes && backendRes.ok) {
       const json = await backendRes.json();
       const list = Array.isArray(json.data) ? json.data : json.data?.items || [];
       if (list.length > 0) {

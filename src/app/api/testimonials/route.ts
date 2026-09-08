@@ -1,16 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { testimonials as fallbackTestimonials } from '@/data/projects';
-
-const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:5000';
+import { safeBackendFetch } from '@/lib/apiHelper';
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const backendRes = await fetch(`${BACKEND_URL}/api/testimonials?${searchParams.toString()}`, {
+    const backendRes = await safeBackendFetch(`/api/testimonials?${searchParams.toString()}`, {
       cache: 'no-store',
-      signal: AbortSignal.timeout(3000),
-    });
-    if (backendRes.ok) {
+    }, 150);
+    if (backendRes && backendRes.ok) {
       const data = await backendRes.json();
       return NextResponse.json(data, { status: backendRes.status });
     }

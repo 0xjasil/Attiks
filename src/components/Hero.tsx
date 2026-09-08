@@ -37,7 +37,7 @@ export default function Hero({
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const videoRefs = useRef<{ [key: number]: HTMLVideoElement | null }>({});
 
   useEffect(() => {
     const handleResize = () => {
@@ -53,6 +53,12 @@ export default function Hero({
   const activeSlide = slideList[safeIndex] || slideList[0];
   const autoPlayInterval = settings.autoPlayInterval || 6500;
 
+  const handleVideoEnded = () => {
+    if (slideList.length > 1) {
+      setCurrentIndex((prev) => (prev + 1) % slideList.length);
+    }
+  };
+
   // Automatically advance to next slide
   useEffect(() => {
     if (slideList.length <= 1) return;
@@ -64,15 +70,45 @@ export default function Hero({
     return () => clearInterval(timer);
   }, [currentIndex, slideList.length, autoPlayInterval]);
 
-  const handleVideoEnded = () => {
-    if (slideList.length > 1) {
-      setCurrentIndex((prev) => (prev + 1) % slideList.length);
+  // Active slide transition & proactive preloading orchestration
+  useEffect(() => {
+    // 1. Play active video
+    const currentVideo = videoRefs.current[safeIndex];
+    if (currentVideo) {
+      currentVideo.currentTime = 0;
+      const playPromise = currentVideo.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Autoplay policy fallback: muted autoplay is supported
+        });
+      }
     }
-  };
 
-  const isVideo =
-    activeSlide.mediaType === 'video' ||
-    /\.(mp4|webm|mov|mkv)$/i.test(activeSlide.mediaUrl);
+    // 2. Proactively preload the next upcoming slide so it is 100% buffered
+    const nextIndex = (safeIndex + 1) % slideList.length;
+    const nextVideo = videoRefs.current[nextIndex];
+    if (nextVideo) {
+      nextVideo.preload = 'auto';
+      if (nextVideo.readyState < 2) {
+        nextVideo.load();
+      }
+    }
+
+    // 3. Pause other idle videos after crossfade transition finishes
+    const pauseTimer = setTimeout(() => {
+      slideList.forEach((_, idx) => {
+        if (idx !== safeIndex && idx !== nextIndex) {
+          const v = videoRefs.current[idx];
+          if (v && !v.paused) {
+            v.pause();
+            v.currentTime = 0;
+          }
+        }
+      });
+    }, 1200);
+
+    return () => clearTimeout(pauseTimer);
+  }, [safeIndex, slideList]);
 
   const ctaText = activeSlide.ctaText || settings.defaultCtaText || 'view projects';
   const ctaLink = activeSlide.ctaLink || settings.defaultCtaLink || '/projects';
@@ -96,77 +132,95 @@ export default function Hero({
       }}
       aria-label="Hero Architectural Media Showcase"
     >
-      {/* Background Fullscreen Video / Image Motion Switcher */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeSlide.id + safeIndex}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-          style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            overflow: 'hidden',
-            zIndex: 1,
-          }}
-        >
-          {isVideo ? (
-            <video
-              ref={videoRef}
-              autoPlay
-              muted
-              playsInline
-              preload="auto"
-              poster={activeSlide.posterUrl}
-              onEnded={handleVideoEnded}
+      {/* Stacked Fullscreen Video/Image Layers for Seamless Zero-Black-Screen Crossfade */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          overflow: 'hidden',
+          zIndex: 1,
+        }}
+      >
+        {slideList.map((slide, idx) => {
+          const isCurrent = idx === safeIndex;
+          const isNext = idx === (safeIndex + 1) % slideList.length;
+          const isSlideVideo =
+            slide.mediaType === 'video' || /\.(mp4|webm|mov|mkv)$/i.test(slide.mediaUrl);
+
+          return (
+            <div
+              key={slide.id + idx}
               style={{
+                position: 'absolute',
+                inset: 0,
                 width: '100%',
                 height: '100%',
-                objectFit: 'cover',
-                filter: 'brightness(0.92) contrast(1.05)',
+                opacity: isCurrent ? 1 : 0,
+                pointerEvents: isCurrent ? 'auto' : 'none',
+                zIndex: isCurrent ? 2 : 1,
+                transition: 'opacity 1.1s cubic-bezier(0.25, 1, 0.5, 1)',
+                willChange: 'opacity',
               }}
             >
-              <source src={activeSlide.mediaUrl} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          ) : (
-            <Image
-              src={activeSlide.mediaUrl}
-              alt={activeSlide.altText || activeSlide.title || 'Architectural project scene by Attiks Architecture'}
-              fill
-              priority
-              sizes="100vw"
-              style={{
-                objectFit: 'cover',
-                filter: 'brightness(0.92) contrast(1.05)',
-              }}
-            />
-          )}
+              {isSlideVideo ? (
+                <video
+                  ref={(el) => {
+                    videoRefs.current[idx] = el;
+                  }}
+                  autoPlay={isCurrent}
+                  muted
+                  playsInline
+                  preload={isCurrent || isNext ? 'auto' : 'metadata'}
+                  poster={slide.posterUrl || '/hero.webp'}
+                  onEnded={handleVideoEnded}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    filter: 'brightness(0.92) contrast(1.05)',
+                  }}
+                >
+                  <source src={slide.mediaUrl} type="video/mp4" />
+                </video>
+              ) : (
+                <Image
+                  src={slide.mediaUrl}
+                  alt={slide.altText || slide.title || 'Architectural project scene by Attiks Architecture'}
+                  fill
+                  priority={idx === 0 || isCurrent}
+                  sizes="100vw"
+                  style={{
+                    objectFit: 'cover',
+                    filter: 'brightness(0.92) contrast(1.05)',
+                  }}
+                />
+              )}
 
-          {/* Cinematic Vignette & Gradient Overlays */}
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background:
-                'linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.05) 40%, rgba(0,0,0,0.2) 70%, rgba(0,0,0,0.8) 100%)',
-              pointerEvents: 'none',
-            }}
-          />
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background:
-                'radial-gradient(circle at 20% 80%, rgba(0,0,0,0.5) 0%, transparent 60%)',
-              pointerEvents: 'none',
-            }}
-          />
-        </motion.div>
-      </AnimatePresence>
+              {/* Cinematic Vignette & Gradient Overlays */}
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background:
+                    'linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.05) 40%, rgba(0,0,0,0.2) 70%, rgba(0,0,0,0.8) 100%)',
+                  pointerEvents: 'none',
+                }}
+              />
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background:
+                    'radial-gradient(circle at 20% 80%, rgba(0,0,0,0.5) 0%, transparent 60%)',
+                  pointerEvents: 'none',
+                }}
+              />
+            </div>
+          );
+        })}
+      </div>
 
       {/* ============================================================
           BOTTOM-LEFT: MINIMAL CTA & OPTIONAL TITLE

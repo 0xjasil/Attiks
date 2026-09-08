@@ -1,17 +1,16 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-
-const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:5000';
+import { safeBackendFetch, BACKEND_URL } from '@/lib/apiHelper';
 
 export async function getProjectsAction(params?: Record<string, string>) {
   try {
     const query = params ? `?${new URLSearchParams(params).toString()}` : '';
-    const res = await fetch(`${BACKEND_URL}/api/projects${query}`, {
+    const res = await safeBackendFetch(`/api/projects${query}`, {
       cache: 'no-store',
-    });
+    }, 150);
 
-    if (!res.ok) {
+    if (!res || !res.ok) {
       return { success: false, data: [] };
     }
 
@@ -29,11 +28,11 @@ export async function getProjectsAction(params?: Record<string, string>) {
 
 export async function getProjectAction(idOrSlug: string) {
   try {
-    const res = await fetch(`${BACKEND_URL}/api/projects/${idOrSlug}`, {
+    const res = await safeBackendFetch(`/api/projects/${idOrSlug}`, {
       cache: 'no-store',
-    });
+    }, 150);
 
-    if (!res.ok) {
+    if (!res || !res.ok) {
       return { success: false, error: 'Project not found' };
     }
 

@@ -35,44 +35,6 @@
       "order": 3,
       "active": true,
       "createdAt": "2026-01-03"
-    },
-    {
-      "id": "hero-4",
-      "mediaType": "video",
-      "mediaUrl": "/16199324_3840_2160_30fps.mp4",
-      "title": "Biophilic Design Dialogue",
-      "subtitle": "Integrating Nature with Built Form",
-      "ctaText": "view projects",
-      "ctaLink": "/projects",
-      "order": 4,
-      "active": true,
-      "createdAt": "2026-01-04"
-    },
-    {
-      "id": "hero-1788619297044",
-      "mediaType": "video",
-      "mediaUrl": "/uploads/video_1788619288371_3967-175963622-medium.mp4",
-      "posterUrl": "",
-      "title": "3967 175963622 medium",
-      "subtitle": "",
-      "ctaText": "view projects",
-      "ctaLink": "/projects",
-      "order": 5,
-      "active": true,
-      "createdAt": "2026-09-05"
-    },
-    {
-      "id": "hero-1788619323519",
-      "mediaType": "video",
-      "mediaUrl": "/uploads/video_1788619319535_3735-173719892-medium.mp4",
-      "posterUrl": "",
-      "title": "3735 173719892 medium",
-      "subtitle": "",
-      "ctaText": "view projects",
-      "ctaLink": "/projects",
-      "order": 6,
-      "active": true,
-      "createdAt": "2026-09-05"
     }
   ],
   "settings": {
