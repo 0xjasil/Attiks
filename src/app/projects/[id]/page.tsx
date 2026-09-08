@@ -4,9 +4,21 @@ import type { Metadata } from 'next';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Project } from '@/data/projects';
-import { getProjectByIdOrSlug } from '@/lib/projects';
+import { getAllProjects, getProjectByIdOrSlug } from '@/lib/projects';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  const projects = await getAllProjects();
+  const params: { id: string }[] = [];
+  for (const p of projects) {
+    if (p.id) params.push({ id: String(p.id) });
+    if ((p as any).slug && (p as any).slug !== p.id) {
+      params.push({ id: String((p as any).slug) });
+    }
+  }
+  return params;
+}
 
 export async function generateMetadata({
   params,

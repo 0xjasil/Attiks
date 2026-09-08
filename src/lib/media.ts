@@ -1,5 +1,4 @@
-import { readFile } from 'fs/promises';
-import path from 'path';
+import mediaPostsFallback from '@/data/media-posts.json';
 
 export interface MediaArticle {
   id: string;
@@ -17,19 +16,9 @@ export interface MediaArticle {
 }
 
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:5000';
-const DATA_FILE = path.join(process.cwd(), 'src', 'data', 'media-posts.json');
 
-async function getFallbackMedia(): Promise<MediaArticle[]> {
-  try {
-    const raw = await readFile(DATA_FILE, 'utf-8');
-    const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed) && parsed.length > 0) {
-      return parsed;
-    }
-  } catch {
-    // Fallback if file read fails
-  }
-  return [];
+function getFallbackMedia(): MediaArticle[] {
+  return (mediaPostsFallback as MediaArticle[]) || [];
 }
 
 export async function getAllMedia(): Promise<MediaArticle[]> {

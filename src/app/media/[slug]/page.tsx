@@ -7,6 +7,17 @@ import Footer from '@/components/Footer';
 import { getAllMedia, getMediaBySlug } from '@/lib/media';
 
 export const revalidate = 60;
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  const media = await getAllMedia();
+  const params: { slug: string }[] = [];
+  for (const item of media) {
+    if (item.slug) params.push({ slug: item.slug });
+    if (item.id && item.id !== item.slug) params.push({ slug: item.id });
+  }
+  return params;
+}
 
 interface PageProps {
   params: Promise<{ slug: string }>;

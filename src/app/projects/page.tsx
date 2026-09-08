@@ -3,7 +3,7 @@ import { getAllProjects } from '@/lib/projects';
 import { getAllCategoriesAction } from '@/actions/category.actions';
 import ProjectsClientPage from './ProjectsClientPage';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Architecture Portfolio & Projects',
