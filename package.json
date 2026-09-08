@@ -8,6 +8,11 @@
     "start": "next start",
     "lint": "eslint"
   },
+  "allowScripts": {
+    "core-js": true,
+    "sharp": true,
+    "unrs-resolver": true
+  },
   "dependencies": {
     "framer-motion": "^12.38.0",
     "jspdf": "^4.2.1",
