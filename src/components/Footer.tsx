@@ -129,16 +129,22 @@ export default function Footer() {
             <div style={{ minWidth: '120px' }}>
               <h3 style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 400, marginBottom: '1.5rem', color: '#ffffff', textTransform: 'none' }}>Socials</h3>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                {['Instagram', 'LinkedIn', 'Twitter', 'Facebook'].map((item) => (
-                  <li key={item}>
+                {[
+                  { name: 'Instagram', url: 'https://www.instagram.com/attiksarchitecture/' },
+                  { name: 'LinkedIn', url: 'https://www.linkedin.com/company/attiks-architecture/' },
+                  { name: 'YouTube', url: 'https://www.youtube.com/channel/UCMUd9NCYkx5af5xbCwIr-sg' },
+                  { name: 'Facebook', url: 'https://www.facebook.com/attiks.in/' }
+                ].map((item) => (
+                  <li key={item.name}>
                     <a
-                      href="#"
+                      href={item.url}
+                      target="_blank"
                       rel="noopener noreferrer"
                       style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, textDecoration: 'none', transition: 'color 0.3s ease', textTransform: 'none' }}
                       onMouseEnter={(e) => (e.currentTarget.style.color = '#ffffff')}
                       onMouseLeave={(e) => (e.currentTarget.style.color = '#cccccc')}
                     >
-                      {item}
+                      {item.name}
                     </a>
                   </li>
                 ))}
@@ -146,21 +152,57 @@ export default function Footer() {
             </div>
 
             {/* Contact */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', minWidth: '220px', maxWidth: '320px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', minWidth: '240px', maxWidth: '340px' }}>
               <div>
                 <h3 style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 400, marginBottom: '0.5rem', color: '#ffffff', textTransform: 'none' }}>Phone</h3>
-                <p style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, margin: '2px 0' }}>+91 0483 2941308</p>
-                <p style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, margin: '2px 0' }}>+91 8589 022307</p>
+                <p style={{ margin: '3px 0' }}>
+                  <a
+                    href="tel:+918589022307"
+                    style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, textDecoration: 'none', transition: 'color 0.3s ease' }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = '#ffffff')}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = '#cccccc')}
+                  >
+                    +91 85890 22307
+                  </a>
+                </p>
+                <p style={{ margin: '3px 0' }}>
+                  <a
+                    href="tel:+9104832941308"
+                    style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, textDecoration: 'none', transition: 'color 0.3s ease' }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = '#ffffff')}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = '#cccccc')}
+                  >
+                    +91 0483 2941308
+                  </a>
+                </p>
               </div>
               <div>
                 <h3 style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 400, marginBottom: '0.5rem', color: '#ffffff', textTransform: 'none' }}>Email</h3>
-                <p style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, margin: '2px 0' }}>info@attiks.in</p>
-                <p style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, margin: '2px 0' }}>hello@attiks.ae</p>
+                <p style={{ margin: '3px 0' }}>
+                  <a
+                    href="mailto:info@attiks.in"
+                    style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, textDecoration: 'none', transition: 'color 0.3s ease' }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = '#ffffff')}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = '#cccccc')}
+                  >
+                    info@attiks.in
+                  </a>
+                </p>
+                <p style={{ margin: '3px 0' }}>
+                  <a
+                    href="mailto:hello@attiks.ae"
+                    style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, textDecoration: 'none', transition: 'color 0.3s ease' }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = '#ffffff')}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = '#cccccc')}
+                  >
+                    hello@attiks.ae
+                  </a>
+                </p>
               </div>
               <div>
                 <h3 style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 400, marginBottom: '0.5rem', color: '#ffffff', textTransform: 'none' }}>Locations</h3>
-                <p style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, lineHeight: '1.6', margin: '2px 0' }}>
-                  Calicut | Bangalore | Dubai
+                <p style={{ color: '#cccccc', fontSize: 'clamp(16px, 1.0vw, 17px)', fontWeight: 400, lineHeight: '1.6', margin: '2px 0' }}>
+                  Krishna Tower, NH 66, Near Raviz Kadavu Resort, Calicut &bull; Bangalore &bull; Dubai
                 </p>
               </div>
             </div>

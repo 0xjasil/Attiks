@@ -398,10 +398,10 @@ export default function ContactClientPage() {
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <h3 style={{ fontSize: 'clamp(18px, 1.2vw, 21px)', fontWeight: 400, marginBottom: '1.5rem', color: '#000000', textTransform: 'none', letterSpacing: '-0.01em' }}>Calicut</h3>
                 <address style={{ color: '#555555', fontSize: 'clamp(18px, 1.1vw, 19.5px)', fontWeight: 400, lineHeight: '1.8', fontStyle: 'normal' }}>
-                  #1/523, Krishna Building<br />
-                  NH 66, Azhinhilam PO<br />
-                  Calicut - 673632<br />
-                  <span style={{ color: '#000000', fontWeight: 400, display: 'block', marginTop: '10px' }}>+91 0483 2941308</span>
+                  Krishna Tower, NH 66<br />
+                  Near Raviz Kadavu Resort<br />
+                  Calicut, Kerala &ndash; 673632<br />
+                  <a href="tel:+918589022307" style={{ color: '#000000', fontWeight: 400, display: 'block', marginTop: '10px', textDecoration: 'none' }}>+91 85890 22307</a>
                 </address>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

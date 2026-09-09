@@ -134,9 +134,10 @@ const jsonLd = {
         },
       ],
       sameAs: [
-        "https://www.instagram.com/attiksarchitecture",
-        "https://www.linkedin.com/company/attiks-architecture",
-        "https://www.facebook.com/attiksarchitecture",
+        "https://www.instagram.com/attiksarchitecture/",
+        "https://www.linkedin.com/company/attiks-architecture/",
+        "https://www.youtube.com/channel/UCMUd9NCYkx5af5xbCwIr-sg",
+        "https://www.facebook.com/attiks.in/",
       ],
       knowsAbout: [
         "Tropical Modern Architecture",
