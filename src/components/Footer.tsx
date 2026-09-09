@@ -30,28 +30,38 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative-content" style={{ background: '#000000', borderTop: '1px solid rgba(255,255,255,0.12)', color: '#ffffff', scrollSnapAlign: 'end' }}>
-      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '5rem var(--section-padding)' }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3.5rem', justifyContent: 'space-between' }}>
+    <footer
+      className="relative-content"
+      style={{
+        background: '#000000',
+        borderTop: '1px solid rgba(255,255,255,0.12)',
+        color: '#ffffff',
+        scrollSnapAlign: 'end',
+      }}
+    >
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: 'clamp(3.5rem, 6vw, 5rem) var(--section-padding)' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'clamp(2.5rem, 4vw, 4rem)', justifyContent: 'space-between' }}>
 
-          {/* Left Column - Subscription */}
-          <div style={{ flex: '1 1 320px', maxWidth: '450px', width: '100%' }}>
-            <Image
-              src="/images/logo-light.png"
-              alt="Attiks Architecture Logo"
-              width={160}
-              height={40}
-              style={{ objectFit: 'contain', height: '42px', width: 'auto', marginBottom: '1.5rem' }}
-            />
-            <p style={{ fontSize: 'clamp(18px, 1.1vw, 19px)', color: '#cccccc', marginBottom: '2rem', lineHeight: '1.6', fontWeight: 350 }}>
+          {/* Left Column - Subscription & Brand */}
+          <div style={{ flex: '1 1 320px', maxWidth: '440px', width: '100%' }}>
+            <Link href="/" style={{ display: 'inline-block', marginBottom: '1.5rem', textDecoration: 'none' }}>
+              <Image
+                src="/images/logo-light.png"
+                alt="Attiks Architecture Logo"
+                width={160}
+                height={40}
+                style={{ objectFit: 'contain', height: '40px', width: 'auto' }}
+              />
+            </Link>
+            <p style={{ fontSize: 'clamp(16px, 1.05vw, 18px)', color: '#b3b3b3', marginBottom: '1.75rem', lineHeight: '1.65', fontWeight: 350 }}>
               Subscribe for priority access to our finest architectural milestones and timeless design insights.
             </p>
             {subscribed ? (
-              <div style={{ color: '#ffffff', background: '#1c1c1c', padding: '14px 20px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.2)', fontSize: '16px' }}>
+              <div style={{ color: '#ffffff', background: '#171717', padding: '14px 20px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.2)', fontSize: '15px' }}>
                 Thank you for subscribing to ATTIKS updates.
               </div>
             ) : (
-              <form style={{ display: 'flex', flexWrap: 'wrap', width: '100%', maxWidth: '100%', gap: '8px' }} onSubmit={handleSubscribe}>
+              <form style={{ display: 'flex', flexWrap: 'wrap', width: '100%', gap: '10px' }} onSubmit={handleSubscribe}>
                 <label htmlFor="footer-email-input" className="sr-only">
                   Email Address
                 </label>
@@ -67,15 +77,18 @@ export default function Footer() {
                   style={{
                     flex: '1 1 200px',
                     minWidth: '180px',
-                    background: '#1a1a1a',
-                    border: '1px solid rgba(255,255,255,0.15)',
-                    padding: '14px 18px',
+                    background: '#141414',
+                    border: '1px solid rgba(255,255,255,0.18)',
+                    padding: '13px 16px',
                     color: '#ffffff',
-                    fontSize: 'clamp(16px, 1.1vw, 18px)',
+                    fontSize: 'clamp(15px, 1.0vw, 17px)',
                     outline: 'none',
                     borderRadius: '4px',
                     boxSizing: 'border-box',
+                    transition: 'border-color 0.25s ease',
                   }}
+                  onFocus={(e) => (e.target.style.borderColor = 'rgba(255,255,255,0.5)')}
+                  onBlur={(e) => (e.target.style.borderColor = 'rgba(255,255,255,0.18)')}
                 />
                 <button
                   type="submit"
@@ -83,16 +96,16 @@ export default function Footer() {
                     background: '#ffffff',
                     color: '#000000',
                     border: 'none',
-                    padding: '14px 24px',
-                    fontSize: 'clamp(16px, 1.1vw, 18px)',
-                    fontWeight: 400,
+                    padding: '13px 22px',
+                    fontSize: 'clamp(15px, 1.0vw, 17px)',
+                    fontWeight: 500,
                     cursor: 'pointer',
-                    transition: 'background 0.3s ease',
+                    transition: 'background 0.25s ease, transform 0.25s ease',
                     borderRadius: '4px',
                     whiteSpace: 'nowrap',
                     flex: '0 0 auto',
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.background = '#e0e0e0')}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = '#e2e2e2')}
                   onMouseLeave={(e) => (e.currentTarget.style.background = '#ffffff')}
                 >
                   Get Notified
@@ -101,11 +114,12 @@ export default function Footer() {
             )}
           </div>
 
+          {/* Right Column - Navigation & Contact */}
           <div className="footer-links-container">
             {/* Pages */}
-            <div style={{ minWidth: '120px' }}>
-              <h3 style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 400, marginBottom: '1.5rem', color: '#ffffff', textTransform: 'none' }}>Pages</h3>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <div style={{ minWidth: '110px' }}>
+              <h3 className="footer-column-heading">Pages</h3>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
                 {[
                   { name: 'Home', path: '/' },
                   { name: 'About', path: '/about' },
@@ -114,10 +128,7 @@ export default function Footer() {
                   { name: 'Contact', path: '/contact' }
                 ].map((item) => (
                   <li key={item.name}>
-                    <Link href={item.path} style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, textDecoration: 'none', transition: 'color 0.3s ease', textTransform: 'none' }}
-                      onMouseEnter={(e) => (e.currentTarget.style.color = '#ffffff')}
-                      onMouseLeave={(e) => (e.currentTarget.style.color = '#cccccc')}
-                    >
+                    <Link href={item.path} className="footer-link-item">
                       {item.name}
                     </Link>
                   </li>
@@ -126,9 +137,9 @@ export default function Footer() {
             </div>
 
             {/* Socials */}
-            <div style={{ minWidth: '120px' }}>
-              <h3 style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 400, marginBottom: '1.5rem', color: '#ffffff', textTransform: 'none' }}>Socials</h3>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <div style={{ minWidth: '110px' }}>
+              <h3 className="footer-column-heading">Socials</h3>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
                 {[
                   { name: 'Instagram', url: 'https://www.instagram.com/attiksarchitecture/' },
                   { name: 'LinkedIn', url: 'https://www.linkedin.com/company/attiks-architecture/' },
@@ -140,9 +151,7 @@ export default function Footer() {
                       href={item.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, textDecoration: 'none', transition: 'color 0.3s ease', textTransform: 'none' }}
-                      onMouseEnter={(e) => (e.currentTarget.style.color = '#ffffff')}
-                      onMouseLeave={(e) => (e.currentTarget.style.color = '#cccccc')}
+                      className="footer-link-item"
                     >
                       {item.name}
                     </a>
@@ -152,56 +161,36 @@ export default function Footer() {
             </div>
 
             {/* Contact */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', minWidth: '240px', maxWidth: '340px' }}>
+            <div className="footer-contact-column" style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', minWidth: '220px', maxWidth: '320px' }}>
               <div>
-                <h3 style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 400, marginBottom: '0.5rem', color: '#ffffff', textTransform: 'none' }}>Phone</h3>
-                <p style={{ margin: '3px 0' }}>
-                  <a
-                    href="tel:+918589022307"
-                    style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, textDecoration: 'none', transition: 'color 0.3s ease' }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = '#ffffff')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = '#cccccc')}
-                  >
+                <h3 className="footer-column-heading" style={{ marginBottom: '0.5rem' }}>Phone</h3>
+                <p style={{ margin: '2px 0' }}>
+                  <a href="tel:+918589022307" className="footer-link-item">
                     +91 85890 22307
                   </a>
                 </p>
-                <p style={{ margin: '3px 0' }}>
-                  <a
-                    href="tel:+9104832941308"
-                    style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, textDecoration: 'none', transition: 'color 0.3s ease' }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = '#ffffff')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = '#cccccc')}
-                  >
+                <p style={{ margin: '2px 0' }}>
+                  <a href="tel:+9104832941308" className="footer-link-item">
                     +91 0483 2941308
                   </a>
                 </p>
               </div>
               <div>
-                <h3 style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 400, marginBottom: '0.5rem', color: '#ffffff', textTransform: 'none' }}>Email</h3>
-                <p style={{ margin: '3px 0' }}>
-                  <a
-                    href="mailto:info@attiks.in"
-                    style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, textDecoration: 'none', transition: 'color 0.3s ease' }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = '#ffffff')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = '#cccccc')}
-                  >
+                <h3 className="footer-column-heading" style={{ marginBottom: '0.5rem' }}>Email</h3>
+                <p style={{ margin: '2px 0' }}>
+                  <a href="mailto:info@attiks.in" className="footer-link-item">
                     info@attiks.in
                   </a>
                 </p>
-                <p style={{ margin: '3px 0' }}>
-                  <a
-                    href="mailto:hello@attiks.ae"
-                    style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, textDecoration: 'none', transition: 'color 0.3s ease' }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = '#ffffff')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = '#cccccc')}
-                  >
+                <p style={{ margin: '2px 0' }}>
+                  <a href="mailto:hello@attiks.ae" className="footer-link-item">
                     hello@attiks.ae
                   </a>
                 </p>
               </div>
               <div>
-                <h3 style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 400, marginBottom: '0.5rem', color: '#ffffff', textTransform: 'none' }}>Locations</h3>
-                <p style={{ color: '#cccccc', fontSize: 'clamp(16px, 1.0vw, 17px)', fontWeight: 400, lineHeight: '1.6', margin: '2px 0' }}>
+                <h3 className="footer-column-heading" style={{ marginBottom: '0.5rem' }}>Locations</h3>
+                <p style={{ color: '#a3a3a3', fontSize: 'clamp(14px, 0.95vw, 16px)', fontWeight: 400, lineHeight: '1.6', margin: '2px 0' }}>
                   Krishna Tower, NH 66, Near Raviz Kadavu Resort, Calicut &bull; Bangalore &bull; Dubai
                 </p>
               </div>
@@ -212,13 +201,14 @@ export default function Footer() {
       </div>
 
       {/* Bottom Section */}
-      <div style={{ borderTop: '1px solid rgba(255,255,255,0.12)' }}>
+      <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="footer-bottom">
-          <p style={{ fontSize: 'clamp(18px, 1.1vw, 19px)', margin: 0 }}>Attiks Architecture Practice</p>
-          <p style={{ color: '#ffffff', fontSize: 'clamp(18px, 1.1vw, 19px)', margin: 0 }}>Visioned and Crafted by Willowy</p>
-          <p style={{ fontSize: 'clamp(18px, 1.1vw, 19px)', margin: 0 }}>&copy; {currentYear} All rights reserved</p>
+          <p style={{ color: 'rgba(255,255,255,0.7)', margin: 0 }}>Attiks Architecture Practice</p>
+          <p style={{ color: '#ffffff', fontWeight: 400, margin: 0 }}>Visioned and Crafted by Willowy</p>
+          <p style={{ color: 'rgba(255,255,255,0.7)', margin: 0 }}>&copy; {currentYear} All rights reserved</p>
         </div>
       </div>
     </footer>
   );
 }
+
