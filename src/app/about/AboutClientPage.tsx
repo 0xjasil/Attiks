@@ -100,9 +100,8 @@ export default function AboutClientPage() {
               style={{
                 position: 'relative',
                 width: '100%',
-                aspectRatio: '16 / 8.5',
-                minHeight: '300px',
-                maxHeight: '580px',
+                aspectRatio: '16 / 9',
+                minHeight: '400px',
                 backgroundColor: '#151515',
                 overflow: 'hidden',
               }}
