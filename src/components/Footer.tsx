@@ -160,7 +160,7 @@ export default function Footer() {
               <div>
                 <h3 style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 400, marginBottom: '0.5rem', color: '#ffffff', textTransform: 'none' }}>Locations</h3>
                 <p style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, lineHeight: '1.6', margin: '2px 0' }}>
-                  Calicut | Bangalore | Dubai
+                  Calicut | Dubai
                 </p>
               </div>
             </div>
