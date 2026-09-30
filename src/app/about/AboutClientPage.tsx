@@ -31,22 +31,46 @@ const LEADERSHIP_MEMBERS: Partner[] = [
     role: 'Co - founder, Senior partner - Dubai',
     image: '/images/about/partner_nihad.webp',
   },
+];
+
+const TEAM_MEMBERS = [
   {
+    id: 'team-member-1',
     name: 'Ar. Razeen Jawad',
     role: 'Senior partner',
     image: '/images/about/partner_razeen.webp',
   },
   {
+    id: 'team-member-2',
     name: 'Ar. Jamsheer',
     role: 'Senior partner',
     image: '/images/about/partner_jamsheer.webp',
   },
+  {
+    id: 'team-member-3',
+    name: 'Architect',
+    role: 'Design Associate',
+    image: '/images/about/team_placeholder.webp',
+  },
+  {
+    id: 'team-member-4',
+    name: 'Architect',
+    role: 'Design Associate',
+    image: '/images/about/team_placeholder.webp',
+  },
+  {
+    id: 'team-member-5',
+    name: 'Architect',
+    role: 'Design Associate',
+    image: '/images/about/team_placeholder.webp',
+  },
+  {
+    id: 'team-member-6',
+    name: 'Architect',
+    role: 'Design Associate',
+    image: '/images/about/team_placeholder.webp',
+  },
 ];
-
-const TEAM_MEMBERS = Array.from({ length: 4 }, (_, i) => ({
-  id: `team-member-${i + 1}`,
-  image: '/images/about/team_placeholder.webp',
-}));
 
 export default function AboutClientPage() {
   return (
@@ -61,11 +85,11 @@ export default function AboutClientPage() {
       <Navbar />
 
       <main>
-        {/* 1. Hero Section: Tightened top clearance below navbar without unwanted gap */}
+        {/* 1. Hero Section: Balanced top clearance and optimal hero banner height */}
         <section
           style={{
             width: '100%',
-            padding: 'clamp(84px, 6.2vw, 104px) clamp(20px, 5vw, 64px) 0',
+            padding: 'clamp(84px, 6vw, 100px) clamp(20px, 5vw, 64px) 0',
             boxSizing: 'border-box',
             marginBottom: 'clamp(40px, 5vw, 64px)',
           }}
@@ -76,8 +100,9 @@ export default function AboutClientPage() {
               style={{
                 position: 'relative',
                 width: '100%',
-                aspectRatio: '900 / 473',
-                minHeight: '260px',
+                aspectRatio: '16 / 8.5',
+                minHeight: '300px',
+                maxHeight: '580px',
                 backgroundColor: '#151515',
                 overflow: 'hidden',
               }}
@@ -201,7 +226,7 @@ export default function AboutClientPage() {
           </div>
         </section>
 
-        {/* 3. People of Attiks (4-Column Grid) */}
+        {/* 3. People of Attiks (4 Directors - 4-Column Grid) */}
         <section
           style={{
             width: '100%',
@@ -229,7 +254,7 @@ export default function AboutClientPage() {
               </h2>
             </div>
 
-            {/* 4-Column Grid */}
+            {/* 4-Column Grid for 4 Directors */}
             <div
               className="leadership-grid"
               style={{
@@ -313,7 +338,7 @@ export default function AboutClientPage() {
           </div>
         </section>
 
-        {/* 4. The Team Section (4-Column Grid) */}
+        {/* 4. The Team Section (6 Team Members) */}
         <section
           style={{
             width: '100%',
@@ -341,7 +366,7 @@ export default function AboutClientPage() {
               </h2>
             </div>
 
-            {/* 4-Column Team Grid */}
+            {/* 6 Team Members Grid */}
             <div
               className="team-grid"
               style={{
@@ -362,7 +387,7 @@ export default function AboutClientPage() {
                 >
                   <Image
                     src={member.image}
-                    alt={`Attiks Architecture design collective team architect 0${index + 1}`}
+                    alt={`Attiks Architecture design team member 0${index + 1}`}
                     fill
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
                     quality={95}
@@ -413,6 +438,7 @@ export default function AboutClientPage() {
           }
           .team-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px 12px !important;
           }
         }
       `}</style>
