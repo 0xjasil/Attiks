@@ -57,16 +57,16 @@ export default function Navbar() {
   }, [menuOpen]);
 
   // Header background states:
-  // - Reach top on hero pages (home, about, project detail): completely transparent / hidden background
-  // - Scrolled / active: modern luxury glassmorphic frosted overlay
-  const hasHeroHeader = isHomePage || pathname === '/about' || pathname.startsWith('/projects/');
+  // - Reach top on full-bleed dark hero pages (home, project detail): transparent
+  // - White background pages / scrolled / active: luxury glassmorphic dark frosted overlay
+  const hasHeroHeader = isHomePage || pathname.startsWith('/projects/');
   const isTransparent = hasHeroHeader && !scrolled && !menuOpen;
 
   const headerBg = menuOpen
     ? 'rgba(5, 5, 5, 0.98)'
     : isTransparent
     ? 'transparent'
-    : 'rgba(5, 5, 5, 0.65)';
+    : 'rgba(5, 5, 5, 0.75)';
 
   const headerFilter = isTransparent ? 'none' : 'blur(20px)';
   const headerBorder = isTransparent ? '1px solid transparent' : '1px solid rgba(255, 255, 255, 0.08)';
