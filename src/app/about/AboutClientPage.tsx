@@ -2,7 +2,6 @@
 
 import Navbar from '@/components/Navbar';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
 import Footer from '@/components/Footer';
 
 interface Partner {
@@ -62,58 +61,47 @@ export default function AboutClientPage() {
       <Navbar />
 
       <main>
-        {/* 1. Hero Section: Full Width Photo reaching top with Header overlay */}
+        {/* 1. Hero Section: Tightened top clearance below navbar without unwanted gap */}
         <section
           style={{
-            position: 'relative',
             width: '100%',
-            marginBottom: 'clamp(60px, 7vw, 100px)',
-            overflow: 'hidden',
+            padding: 'clamp(84px, 6.2vw, 104px) clamp(20px, 5vw, 64px) 0',
+            boxSizing: 'border-box',
+            marginBottom: 'clamp(40px, 5vw, 64px)',
           }}
           aria-label="Studio Team Hero"
         >
-          <div
-            style={{
-              position: 'relative',
-              width: '100%',
-              aspectRatio: '900 / 473',
-              minHeight: '320px',
-              backgroundColor: '#151515',
-              overflow: 'hidden',
-            }}
-          >
-            <Image
-              src="/images/about/small_SBCL2379265.webp"
-              alt="Attiks Architecture studio team gathered at the practice atelier"
-              fill
-              sizes="100vw"
-              style={{ objectFit: 'cover' }}
-              quality={95}
-              priority
-            />
-            {/* Top gradient overlay for header visibility */}
+          <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
             <div
               style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                height: '140px',
-                background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 100%)',
-                pointerEvents: 'none',
-                zIndex: 2,
+                position: 'relative',
+                width: '100%',
+                aspectRatio: '900 / 473',
+                minHeight: '260px',
+                backgroundColor: '#151515',
+                overflow: 'hidden',
               }}
-            />
+            >
+              <Image
+                src="/images/about/small_SBCL2379265.webp"
+                alt="Attiks Architecture studio team gathered at the practice atelier"
+                fill
+                sizes="(max-width: 1440px) 100vw, 1440px"
+                style={{ objectFit: 'cover' }}
+                quality={95}
+                priority
+              />
+            </div>
           </div>
         </section>
 
-        {/* 2. Philosophy & Evolution Section */}
+        {/* 2. Philosophy & History Section */}
         <section
           style={{
             width: '100%',
             padding: '0 clamp(20px, 5vw, 64px)',
             boxSizing: 'border-box',
-            marginBottom: 'clamp(70px, 9vw, 120px)',
+            marginBottom: 'clamp(48px, 6vw, 80px)',
           }}
           aria-label="Philosophy and History"
         >
@@ -123,7 +111,7 @@ export default function AboutClientPage() {
               margin: '0 auto',
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 480px), 1fr))',
-              gap: 'clamp(40px, 6vw, 80px)',
+              gap: 'clamp(36px, 5vw, 72px)',
               alignItems: 'center',
             }}
           >
@@ -132,24 +120,10 @@ export default function AboutClientPage() {
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 'clamp(20px, 2.5vw, 28px)',
+                gap: 'clamp(18px, 2.2vw, 24px)',
               }}
             >
               <div>
-                <span
-                  style={{
-                    fontSize: 'clamp(11.5px, 0.8vw, 13px)',
-                    letterSpacing: '0.12em',
-                    textTransform: 'uppercase',
-                    color: '#767676',
-                    fontWeight: 500,
-                    display: 'block',
-                    marginBottom: '10px',
-                    fontFamily: 'var(--font-primary)',
-                  }}
-                >
-                  Studio Philosophy
-                </span>
                 <h2
                   className="font-display"
                   style={{
@@ -168,7 +142,7 @@ export default function AboutClientPage() {
 
               <p
                 style={{
-                  fontSize: 'clamp(17px, 1.25vw, 20px)',
+                  fontSize: 'clamp(16px, 1.15vw, 19px)',
                   lineHeight: 1.55,
                   color: '#1a1a1a',
                   fontWeight: 400,
@@ -182,7 +156,7 @@ export default function AboutClientPage() {
 
               <p
                 style={{
-                  fontSize: 'clamp(15px, 1.05vw, 17px)',
+                  fontSize: 'clamp(14.5px, 1vw, 16.5px)',
                   lineHeight: 1.6,
                   color: '#555555',
                   fontWeight: 350,
@@ -201,7 +175,7 @@ export default function AboutClientPage() {
                 position: 'relative',
                 width: '100%',
                 aspectRatio: '4 / 3',
-                minHeight: '280px',
+                minHeight: '260px',
                 backgroundColor: '#151515',
                 overflow: 'hidden',
               }}
@@ -227,52 +201,40 @@ export default function AboutClientPage() {
           </div>
         </section>
 
-        {/* 3. People of Attiks - Partners (3-Column Grid) */}
+        {/* 3. People of Attiks (4-Column Grid) */}
         <section
           style={{
             width: '100%',
             padding: '0 clamp(20px, 5vw, 64px)',
             boxSizing: 'border-box',
-            marginBottom: 'clamp(70px, 9vw, 120px)',
+            marginBottom: 'clamp(48px, 6vw, 80px)',
           }}
-          aria-label="People of Attiks - Partners"
+          aria-label="People of Attiks"
         >
           <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
-            <div style={{ marginBottom: 'clamp(32px, 4vw, 48px)' }}>
+            <div style={{ marginBottom: 'clamp(24px, 3.2vw, 40px)' }}>
               <h2
                 className="font-display"
                 style={{
                   fontFamily: 'var(--font-canela), Georgia, serif',
-                  fontSize: 'clamp(2.4rem, 4vw, 3.6rem)',
+                  fontSize: 'clamp(2.2rem, 3.6vw, 3.2rem)',
                   fontWeight: 300,
                   color: '#000000',
                   margin: 0,
-                  lineHeight: 1.15,
+                  lineHeight: 1.18,
                   letterSpacing: '-0.02em',
                 }}
               >
                 People of Attiks
               </h2>
-              <p
-                style={{
-                  fontFamily: 'var(--font-primary), "Neue Haas Grotesk", sans-serif',
-                  fontSize: 'clamp(1.1rem, 1.5vw, 1.35rem)',
-                  color: '#222222',
-                  margin: '8px 0 0 0',
-                  fontWeight: 400,
-                  letterSpacing: '-0.01em',
-                }}
-              >
-                Partners
-              </p>
             </div>
 
-            {/* 3-Column Grid (3 per row) */}
+            {/* 4-Column Grid */}
             <div
               className="leadership-grid"
               style={{
                 display: 'grid',
-                gap: 'clamp(32px, 4vw, 56px) clamp(24px, 3.5vw, 48px)',
+                gap: 'clamp(24px, 3vw, 44px) clamp(16px, 2.2vw, 32px)',
               }}
             >
               {LEADERSHIP_MEMBERS.map((partner) => (
@@ -281,10 +243,10 @@ export default function AboutClientPage() {
                   style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '16px',
+                    gap: '14px',
                   }}
                 >
-                  {/* Portrait Container */}
+                  {/* Portrait Container with 0px border-radius */}
                   <div
                     style={{
                       position: 'relative',
@@ -298,7 +260,7 @@ export default function AboutClientPage() {
                       src={partner.image}
                       alt={`${partner.name} - ${partner.role} at Attiks Architecture`}
                       fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
                       quality={95}
                       style={{
                         objectFit: 'cover',
@@ -320,8 +282,8 @@ export default function AboutClientPage() {
                   <div>
                     <h3
                       style={{
-                        fontSize: 'clamp(18px, 1.25vw, 21px)',
-                        fontWeight: 700,
+                        fontSize: 'clamp(16px, 1.1vw, 18px)',
+                        fontWeight: 600,
                         color: '#000000',
                         margin: 0,
                         letterSpacing: '-0.01em',
@@ -333,12 +295,12 @@ export default function AboutClientPage() {
                     </h3>
                     <p
                       style={{
-                        fontSize: 'clamp(14px, 0.95vw, 16px)',
-                        color: '#4b5563',
+                        fontSize: 'clamp(13px, 0.85vw, 14.5px)',
+                        color: '#555555',
                         margin: '4px 0 0 0',
                         fontWeight: 400,
                         letterSpacing: '-0.005em',
-                        lineHeight: 1.4,
+                        lineHeight: 1.35,
                         fontFamily: 'var(--font-primary)',
                       }}
                     >
@@ -357,21 +319,21 @@ export default function AboutClientPage() {
             width: '100%',
             padding: '0 clamp(20px, 5vw, 64px)',
             boxSizing: 'border-box',
-            marginBottom: 'clamp(80px, 10vw, 130px)',
+            marginBottom: 'clamp(60px, 8vw, 100px)',
           }}
           aria-label="The Team"
         >
           <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
-            <div style={{ marginBottom: 'clamp(32px, 4vw, 48px)' }}>
+            <div style={{ marginBottom: 'clamp(24px, 3.2vw, 40px)' }}>
               <h2
                 className="font-display"
                 style={{
                   fontFamily: 'var(--font-canela), Georgia, serif',
-                  fontSize: 'clamp(2.2rem, 3.8vw, 3.4rem)',
+                  fontSize: 'clamp(2.2rem, 3.6vw, 3.2rem)',
                   fontWeight: 300,
                   color: '#000000',
                   margin: 0,
-                  lineHeight: 1.15,
+                  lineHeight: 1.18,
                   letterSpacing: '-0.02em',
                 }}
               >
@@ -402,7 +364,7 @@ export default function AboutClientPage() {
                     src={member.image}
                     alt={`Attiks Architecture design collective team architect 0${index + 1}`}
                     fill
-                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
                     quality={95}
                     style={{
                       objectFit: 'cover',
@@ -429,13 +391,13 @@ export default function AboutClientPage() {
 
       <style>{`
         .leadership-grid {
-          grid-template-columns: repeat(3, minmax(0, 1fr));
+          grid-template-columns: repeat(4, minmax(0, 1fr));
         }
         .team-grid {
           grid-template-columns: repeat(4, minmax(0, 1fr));
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 1024px) {
           .leadership-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
           }
@@ -446,7 +408,8 @@ export default function AboutClientPage() {
 
         @media (max-width: 600px) {
           .leadership-grid {
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px 14px !important;
           }
           .team-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
