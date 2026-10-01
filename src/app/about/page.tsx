@@ -16,6 +16,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/about',
   },
+  
   openGraph: {
     title: 'About Attiks Architecture — Enduring Spatial Design',
     description:
