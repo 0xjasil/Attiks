@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { HeroSlide, HeroSettings, defaultHeroSlides, defaultHeroSettings } from '@/data/hero';
@@ -37,7 +37,7 @@ export default function Hero({
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -53,6 +53,26 @@ export default function Hero({
   const activeSlide = slideList[safeIndex] || slideList[0];
   const autoPlayInterval = settings.autoPlayInterval || 6500;
 
+  // Manage optimized playback: play active video and pause inactive videos smoothly
+  useEffect(() => {
+    slideList.forEach((slide, idx) => {
+      const vid = videoRefs.current[idx];
+      if (!vid) return;
+
+      if (idx === safeIndex) {
+        vid.play().catch(() => {});
+      } else {
+        // Pause inactive videos slightly after transition to ensure seamless cross-dissolve
+        const timeout = setTimeout(() => {
+          if (idx !== safeIndex) {
+            vid.pause();
+          }
+        }, 1200);
+        return () => clearTimeout(timeout);
+      }
+    });
+  }, [safeIndex, slideList]);
+
   // Automatically advance to next slide
   useEffect(() => {
     if (slideList.length <= 1) return;
@@ -64,15 +84,11 @@ export default function Hero({
     return () => clearInterval(timer);
   }, [currentIndex, slideList.length, autoPlayInterval]);
 
-  const handleVideoEnded = () => {
+  const handleVideoEnded = useCallback(() => {
     if (slideList.length > 1) {
       setCurrentIndex((prev) => (prev + 1) % slideList.length);
     }
-  };
-
-  const isVideo =
-    activeSlide.mediaType === 'video' ||
-    /\.(mp4|webm|mov|mkv)$/i.test(activeSlide.mediaUrl);
+  }, [slideList.length]);
 
   const ctaText = activeSlide.ctaText || settings.defaultCtaText || 'view projects';
   const ctaLink = activeSlide.ctaLink || settings.defaultCtaLink || '/projects';
@@ -96,77 +112,103 @@ export default function Hero({
       }}
       aria-label="Hero Architectural Media Showcase"
     >
-      {/* Background Fullscreen Video / Image Motion Switcher */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeSlide.id + safeIndex}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+      {/* Background Fullscreen Stacked Media Switcher with 60FPS GPU Hardware Accelerated Crossfade */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          overflow: 'hidden',
+          zIndex: 1,
+          backgroundColor: '#050505',
+        }}
+      >
+        {slideList.map((slide, idx) => {
+          const isActive = idx === safeIndex;
+          const isVideo =
+            slide.mediaType === 'video' ||
+            /\.(mp4|webm|mov|mkv)$/i.test(slide.mediaUrl);
+
+          return (
+            <div
+              key={slide.id || idx}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                opacity: isActive ? 1 : 0,
+                transform: isActive ? 'scale(1) translate3d(0, 0, 0)' : 'scale(1.04) translate3d(0, 0, 0)',
+                transformOrigin: 'center center',
+                transition: 'opacity 1.1s cubic-bezier(0.25, 1, 0.5, 1), transform 6.5s cubic-bezier(0.16, 1, 0.3, 1)',
+                willChange: 'opacity, transform',
+                pointerEvents: isActive ? 'auto' : 'none',
+                zIndex: isActive ? 2 : 1,
+                backfaceVisibility: 'hidden',
+                WebkitBackfaceVisibility: 'hidden',
+              }}
+            >
+              {isVideo ? (
+                <video
+                  ref={(el) => {
+                    videoRefs.current[idx] = el;
+                  }}
+                  autoPlay={idx === 0}
+                  muted
+                  playsInline
+                  loop
+                  preload={idx === 0 ? 'auto' : 'metadata'}
+                  poster={slide.posterUrl}
+                  onEnded={handleVideoEnded}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    filter: 'brightness(0.92) contrast(1.05)',
+                  }}
+                >
+                  <source src={slide.mediaUrl} type="video/mp4" />
+                </video>
+              ) : (
+                <Image
+                  src={slide.mediaUrl}
+                  alt={slide.altText || slide.title || 'Architectural project scene by Attiks Architecture'}
+                  fill
+                  priority={idx === 0}
+                  sizes="100vw"
+                  style={{
+                    objectFit: 'cover',
+                    filter: 'brightness(0.92) contrast(1.05)',
+                  }}
+                />
+              )}
+            </div>
+          );
+        })}
+
+        {/* Cinematic Vignette & Gradient Overlays */}
+        <div
           style={{
             position: 'absolute',
             inset: 0,
-            width: '100%',
-            height: '100%',
-            overflow: 'hidden',
-            zIndex: 1,
+            background:
+              'linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.05) 40%, rgba(0,0,0,0.2) 70%, rgba(0,0,0,0.8) 100%)',
+            pointerEvents: 'none',
+            zIndex: 3,
           }}
-        >
-          {isVideo ? (
-            <video
-              ref={videoRef}
-              autoPlay
-              muted
-              playsInline
-              preload="auto"
-              poster={activeSlide.posterUrl}
-              onEnded={handleVideoEnded}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                filter: 'brightness(0.92) contrast(1.05)',
-              }}
-            >
-              <source src={activeSlide.mediaUrl} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          ) : (
-            <Image
-              src={activeSlide.mediaUrl}
-              alt={activeSlide.altText || activeSlide.title || 'Architectural project scene by Attiks Architecture'}
-              fill
-              priority
-              sizes="100vw"
-              style={{
-                objectFit: 'cover',
-                filter: 'brightness(0.92) contrast(1.05)',
-              }}
-            />
-          )}
-
-          {/* Cinematic Vignette & Gradient Overlays */}
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background:
-                'linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.05) 40%, rgba(0,0,0,0.2) 70%, rgba(0,0,0,0.8) 100%)',
-              pointerEvents: 'none',
-            }}
-          />
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background:
-                'radial-gradient(circle at 20% 80%, rgba(0,0,0,0.5) 0%, transparent 60%)',
-              pointerEvents: 'none',
-            }}
-          />
-        </motion.div>
-      </AnimatePresence>
+        />
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background:
+              'radial-gradient(circle at 20% 80%, rgba(0,0,0,0.5) 0%, transparent 60%)',
+            pointerEvents: 'none',
+            zIndex: 3,
+          }}
+        />
+      </div>
 
       {/* ============================================================
           BOTTOM-LEFT: MINIMAL CTA & OPTIONAL TITLE
