@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Plus, X, Check, ArrowRight } from 'lucide-react';
-import { testimonials as fallbackTestimonials, Testimonial } from '@/data/projects';
+import { defaultTestimonials as fallbackTestimonials, Testimonial } from '@/data/testimonials';
 
 interface TestimonialItem {
   id: string;

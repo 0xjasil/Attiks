@@ -8,14 +8,16 @@ import Footer from '@/components/Footer';
 import { getAllProjects } from '@/lib/projects';
 import { getGalleryPostsAction } from '@/actions/gallery.actions';
 import { getHeroDataAction } from '@/actions/hero.actions';
+import { getTestimonialsAction } from '@/actions/testimonial.actions';
 
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-  const [projects, galleryPosts, heroData] = await Promise.all([
+  const [projects, galleryPosts, heroData, testimonials] = await Promise.all([
     getAllProjects(),
     getGalleryPostsAction(),
     getHeroDataAction(),
+    getTestimonialsAction(),
   ]);
 
   return (
@@ -29,9 +31,8 @@ export default async function Home() {
       <AboutSection />
       <AboutGallerySlider projects={projects} />
       <ProjectShowcaseGrid initialPosts={galleryPosts} limit={18} />
-      <Testimonials />
+      <Testimonials initialTestimonials={testimonials} />
       <Footer />
     </main>
   );
 }
-      
