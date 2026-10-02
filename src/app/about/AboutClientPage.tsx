@@ -370,7 +370,7 @@ export default function AboutClientPage() {
               className="team-grid"
               style={{
                 display: 'grid',
-                gap: 'clamp(20px, 2.5vw, 32px) clamp(16px, 2vw, 24px)',
+                gap: 'clamp(14px, 1.8vw, 24px) clamp(12px, 1.5vw, 18px)',
               }}
             >
               {TEAM_MEMBERS.map((member, index) => (
@@ -379,7 +379,7 @@ export default function AboutClientPage() {
                   style={{
                     position: 'relative',
                     width: '100%',
-                    aspectRatio: '4 / 4.6',
+                    aspectRatio: '1 / 1',
                     backgroundColor: '#e6e6e6',
                     overflow: 'hidden',
                   }}
@@ -388,7 +388,7 @@ export default function AboutClientPage() {
                     src={member.image}
                     alt={`Attiks Architecture design team member 0${index + 1}`}
                     fill
-                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
+                    sizes="(max-width: 640px) 33vw, (max-width: 1024px) 33vw, 16vw"
                     quality={95}
                     style={{
                       objectFit: 'cover',
@@ -418,7 +418,7 @@ export default function AboutClientPage() {
           grid-template-columns: repeat(4, minmax(0, 1fr));
         }
         .team-grid {
-          grid-template-columns: repeat(4, minmax(0, 1fr));
+          grid-template-columns: repeat(6, minmax(0, 1fr));
         }
 
         @media (max-width: 1024px) {
@@ -426,7 +426,7 @@ export default function AboutClientPage() {
             grid-template-columns: repeat(2, minmax(0, 1fr));
           }
           .team-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+            grid-template-columns: repeat(3, minmax(0, 1fr));
           }
         }
 
@@ -436,8 +436,8 @@ export default function AboutClientPage() {
             gap: 24px 14px !important;
           }
           .team-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 16px 12px !important;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px 10px !important;
           }
         }
       `}</style>
