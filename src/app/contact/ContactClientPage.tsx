@@ -386,11 +386,12 @@ export default function ContactClientPage() {
             </div>
 
             {/* Addresses Section */}
-            <div className="grid-responsive-3" style={{ 
+            <div className="grid-responsive-2" style={{ 
               display: 'grid', 
-              gridTemplateColumns: 'repeat(3, 1fr)', 
+              gridTemplateColumns: 'repeat(2, 1fr)', 
               gap: '60px', 
-              marginTop: '120px', 
+              maxWidth: '900px',
+              margin: '100px auto 0',
               borderTop: '1px solid #e5e5e5', 
               paddingTop: '80px',
               textAlign: 'center'
@@ -402,15 +403,6 @@ export default function ContactClientPage() {
                   NH 66, Azhinhilam PO<br />
                   Calicut - 673632<br />
                   <span style={{ color: '#000000', fontWeight: 400, display: 'block', marginTop: '10px' }}>+91 0483 2941308</span>
-                </address>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <h3 style={{ fontSize: 'clamp(18px, 1.2vw, 21px)', fontWeight: 400, marginBottom: '1.5rem', color: '#000000', textTransform: 'none', letterSpacing: '-0.01em' }}>Bangalore</h3>
-                <address style={{ color: '#555555', fontSize: 'clamp(18px, 1.1vw, 19.5px)', fontWeight: 400, lineHeight: '1.8', fontStyle: 'normal' }}>
-                  No.1DC-121, 1st D Cross<br />
-                  2nd Main, Kasturinagar<br />
-                  Bangalore &ndash; 560 043<br />
-                  <span style={{ color: '#000000', fontWeight: 400, display: 'block', marginTop: '10px' }}>+91 8589 011307</span>
                 </address>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

@@ -59,7 +59,7 @@ function ProjectCardItem({ project, isMobile }: { project: Project; isMobile: bo
           }}
         />
 
-        {/* Bottom-Left Clean Editorial Typography: Project Title on top, Category below */}
+        {/* Bottom-Left Clean Editorial Typography: Project Title on top, Location/Address below */}
         <div
           style={{
             position: 'absolute',
@@ -92,19 +92,18 @@ function ProjectCardItem({ project, isMobile }: { project: Project; isMobile: bo
           >
             {project.title}
           </h3>
-          {project.category && (
+          {(project.location || (project as any).address) && (
             <p
               style={{
                 color: 'rgba(255, 255, 255, 0.85)',
                 fontSize: 'clamp(14px, 0.95vw, 16px)',
                 fontWeight: 400,
-                letterSpacing: '0.06em',
-                textTransform: 'capitalize',
+                letterSpacing: '0.04em',
                 margin: 0,
                 textShadow: '0 2px 6px rgba(0,0,0,0.6)',
               }}
             >
-              {project.category}
+              {project.location || (project as any).address}
             </p>
           )}
         </div>

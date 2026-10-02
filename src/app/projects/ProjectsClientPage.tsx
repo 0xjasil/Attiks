@@ -334,7 +334,7 @@ export default function ProjectsClientPage({
                           <ArrowUpRight size={18} />
                         </div>
 
-                        {/* Bottom Editorial Typography */}
+                        {/* Bottom-Left Clean Editorial Typography: Project Title on top, Location/Address below */}
                         <div
                           style={{
                             position: 'absolute',
@@ -352,19 +352,6 @@ export default function ProjectsClientPage({
                             transition: 'opacity 0.35s ease, transform 0.35s ease',
                           }}
                         >
-                          <p
-                            style={{
-                              color: 'rgba(255, 255, 255, 0.85)',
-                              fontSize: 'clamp(12px, 0.85vw, 13.5px)',
-                              fontWeight: 400,
-                              letterSpacing: '0.08em',
-                              textTransform: 'uppercase',
-                              margin: 0,
-                              textShadow: '0 2px 6px rgba(0,0,0,0.6)',
-                            }}
-                          >
-                            {project.location} &bull; {project.category.charAt(0).toUpperCase() + project.category.slice(1)}
-                          </p>
                           <h2
                             className="font-display"
                             style={{
@@ -380,6 +367,20 @@ export default function ProjectsClientPage({
                           >
                             {project.title}
                           </h2>
+                          {(project.location || (project as any).address) && (
+                            <p
+                              style={{
+                                color: 'rgba(255, 255, 255, 0.85)',
+                                fontSize: 'clamp(13px, 0.9vw, 14.5px)',
+                                fontWeight: 400,
+                                letterSpacing: '0.04em',
+                                margin: 0,
+                                textShadow: '0 2px 6px rgba(0,0,0,0.6)',
+                              }}
+                            >
+                              {project.location || (project as any).address}
+                            </p>
+                          )}
                         </div>
                       </Link>
                     </motion.div>
