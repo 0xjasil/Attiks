@@ -83,7 +83,7 @@ export default function ProjectsClientPage({
         <section
           style={{
             background: '#ffffff',
-            padding: isMobile ? '140px 20px 32px' : '180px clamp(24px, 4vw, 56px) 50px',
+            padding: isMobile ? '96px 20px 20px' : '160px clamp(24px, 4vw, 56px) 44px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',

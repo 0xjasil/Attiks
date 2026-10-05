@@ -10,10 +10,11 @@ export default function AboutSection() {
   return (
     <section
       id="about-us"
+      className="about-section-container"
       style={{
         position: 'relative',
         background: '#ffffff',
-        padding: 'clamp(110px, 11vh, 160px) clamp(20px, 5vw, 64px) clamp(60px, 6vh, 90px)',
+        padding: 'clamp(44px, 6vh, 100px) clamp(20px, 5vw, 64px) clamp(28px, 4vh, 50px)',
         width: '100%',
         overflow: 'hidden',
         boxSizing: 'border-box',

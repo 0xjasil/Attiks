@@ -31,7 +31,7 @@ export default function Footer() {
 
   return (
     <footer className="relative-content" style={{ background: '#000000', borderTop: '1px solid rgba(255,255,255,0.12)', color: '#ffffff', scrollSnapAlign: 'end' }}>
-      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '5rem var(--section-padding)' }}>
+      <div className="footer-inner-wrap" style={{ maxWidth: '1400px', margin: '0 auto', padding: 'clamp(3rem, 5vw, 4.5rem) var(--section-padding)' }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3.5rem', justifyContent: 'space-between' }}>
 
           {/* Left Column - Subscription */}

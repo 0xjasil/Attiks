@@ -1728,7 +1728,50 @@ img, video, iframe {
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  .about-section-container {
+    padding: 28px 16px 16px !important;
+  }
+
+  .about-gallery-section {
+    padding: 8px 16px 20px !important;
+  }
+
+  .project-showcase-section {
+    padding: 4px 16px 16px !important;
+  }
+
+  .testimonials-section-container {
+    padding: 20px 16px 24px !important;
+  }
+
+  .footer-inner-wrap {
+    padding: 32px 16px 20px !important;
+  }
 }
+
+@media (max-width: 768px) {
+  .about-section-container {
+    padding: 36px 20px 20px !important;
+  }
+
+  .about-gallery-section {
+    padding: 8px 20px 24px !important;
+  }
+
+  .project-showcase-section {
+    padding: 6px 20px 20px !important;
+  }
+
+  .testimonials-section-container {
+    padding: 24px 20px 28px !important;
+  }
+
+  .footer-inner-wrap {
+    padding: 40px 20px 24px !important;
+  }
+}
+
 
 /* ========================================================
    MEDIA & SHOWCASE GRID (4-COLUMN RESPONSIVE)

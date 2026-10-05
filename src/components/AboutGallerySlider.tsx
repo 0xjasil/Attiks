@@ -140,10 +140,11 @@ export default function AboutGallerySlider({ projects = [] }: { projects?: Proje
 
   return (
     <section
+      className="about-gallery-section"
       style={{
         position: 'relative',
         background: '#ffffff',
-        padding: isMobile ? '16px clamp(20px, 5vw, 64px) 36px' : '24px clamp(20px, 5vw, 64px) 50px',
+        padding: isMobile ? '8px clamp(20px, 5vw, 64px) 24px' : '16px clamp(20px, 5vw, 64px) 36px',
         width: '100%',
         display: 'flex',
         flexDirection: 'column',

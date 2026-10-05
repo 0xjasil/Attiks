@@ -188,12 +188,13 @@ export default function Testimonials({ initialTestimonials }: TestimonialsProps)
 
   return (
     <section
+      className="testimonials-section-container"
       style={{
         position: 'relative',
         backgroundColor: '#F5F5F5',
         width: '100%',
         maxWidth: '100%',
-        padding: 'clamp(32px, 4vw, 48px) clamp(20px, 5vw, 64px) clamp(44px, 5.5vw, 64px)',
+        padding: 'clamp(24px, 3.5vw, 40px) clamp(20px, 5vw, 64px) clamp(28px, 4vw, 48px)',
         boxSizing: 'border-box',
         overflow: 'hidden',
       }}

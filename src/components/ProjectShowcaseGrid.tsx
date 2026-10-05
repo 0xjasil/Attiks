@@ -26,10 +26,11 @@ export default function ProjectShowcaseGrid({
 
   return (
     <section
+      className="project-showcase-section"
       style={{
         position: 'relative',
         background: '#ffffff',
-        padding: disableOuterPadding ? '0' : '10px clamp(20px, 5vw, 64px) clamp(32px, 4vw, 48px)',
+        padding: disableOuterPadding ? '0' : '6px clamp(20px, 5vw, 64px) clamp(20px, 3vw, 36px)',
         width: '100%',
         display: 'flex',
         flexDirection: 'column',

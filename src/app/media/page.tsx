@@ -74,7 +74,7 @@ export default async function MediaPage() {
       <main style={{ flex: 1 }}>
         <section
           style={{
-            padding: 'clamp(120px, 11vw, 160px) clamp(20px, 5vw, 64px) 80px',
+            padding: 'clamp(84px, 8vw, 130px) clamp(20px, 5vw, 64px) clamp(36px, 5vw, 64px)',
             boxSizing: 'border-box',
             width: '100%',
           }}
