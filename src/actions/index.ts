@@ -6,3 +6,4 @@ export * from './testimonial.actions';
 export * from './hero.actions';
 export * from './gallery.actions';
 export * from './category.actions';
+export * from './career.actions';

@@ -59,7 +59,7 @@ export default function Navbar() {
   // Header background states:
   // - Reach top on full-bleed dark hero pages (home, project detail): transparent
   // - White background pages / scrolled / active: luxury glassmorphic dark frosted overlay
-  const hasHeroHeader = isHomePage || pathname.startsWith('/projects/');
+  const hasHeroHeader = isHomePage || (pathname.startsWith('/projects/') && pathname !== '/projects');
   const isTransparent = hasHeroHeader && !scrolled && !menuOpen;
 
   const headerBg = menuOpen
@@ -192,6 +192,24 @@ export default function Navbar() {
             Media
           </Link>
           <Link
+            href="/careers"
+            className="nav-link"
+            style={{
+              fontSize: 'clamp(18px, 1.25vw, 20px)',
+              letterSpacing: '0.01em',
+              color: '#ffffff',
+              textDecoration: 'none',
+              textTransform: 'none',
+              fontWeight: 400,
+              fontFamily: 'var(--font-primary)',
+              transition: 'opacity 0.25s ease, transform 0.25s ease',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.55')}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+          >
+            Careers
+          </Link>
+          <Link
             href="/contact"
             className="nav-link"
             style={{
@@ -307,6 +325,22 @@ export default function Navbar() {
             }}
           >
             Media
+          </Link>
+          <Link
+            href="/careers"
+            className="mobile-menu-link"
+            onClick={() => setMenuOpen(false)}
+            style={{
+              textTransform: 'none',
+              fontSize: 'clamp(2.0rem, 6vw, 2.8rem)',
+              fontWeight: 400,
+              color: '#ffffff',
+              textDecoration: 'none',
+              fontFamily: 'var(--font-primary)',
+              letterSpacing: '0.01em',
+            }}
+          >
+            Careers
           </Link>
           <Link
             href="/contact"

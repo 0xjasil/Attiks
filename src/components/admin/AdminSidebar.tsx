@@ -14,6 +14,8 @@ import {
   Layers,
   ExternalLink,
   LogOut,
+  Briefcase,
+  UserCheck,
 } from 'lucide-react';
 
 interface NavItem {
@@ -29,6 +31,8 @@ const mainNavItems: NavItem[] = [
   { title: 'Projects', path: '/admin/projects', icon: FolderOpen },
   { title: 'Categories & Portfolios', path: '/admin/categories', icon: Layers },
   { title: 'Inquiries', path: '/admin/leads', icon: Inbox },
+  { title: 'Careers', path: '/admin/careers', icon: Briefcase },
+  { title: 'Applications', path: '/admin/applications', icon: UserCheck },
   { title: 'Media & Gallery', path: '/admin/gallery', icon: ImageIcon },
   { title: 'Testimonials', path: '/admin/testimonials', icon: Quote },
 ];
