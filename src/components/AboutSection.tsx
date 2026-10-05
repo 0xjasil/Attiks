@@ -118,14 +118,14 @@ export default function AboutSection() {
         </motion.div>
       </div>
 
-      {/* Right: Watermark Triangle Motif (Positioned more into center) */}
+      {/* Right: Watermark Triangle Motif (Shifted to the right as in reference image) */}
       <div
         className="about-watermark-bg"
         style={{
           position: 'absolute',
-          right: 'clamp(-40px, 5vw, 60px)',
+          right: 0,
           top: '50%',
-          transform: 'translate(10%, -50%)',
+          transform: 'translate(35%, -50%)',
           width: 'clamp(520px, 58vw, 980px)',
           height: 'clamp(520px, 58vw, 980px)',
           opacity: 0.08,
