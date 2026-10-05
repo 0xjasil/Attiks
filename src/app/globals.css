@@ -1667,6 +1667,9 @@ img, video, iframe {
   }
 
   .hero-container-section {
+    height: 84vh !important;
+    height: 84dvh !important;
+    min-height: 480px !important;
     padding: 0 20px 32px !important;
   }
 
@@ -1684,6 +1687,13 @@ img, video, iframe {
 }
 
 @media (max-width: 480px) {
+  .hero-container-section {
+    height: 78vh !important;
+    height: 78dvh !important;
+    min-height: 420px !important;
+    padding: 0 16px 26px !important;
+  }
+
   .hero-pagination-pill {
     right: 8px !important;
     padding: 5px 3px !important;
