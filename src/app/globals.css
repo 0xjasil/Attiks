@@ -1188,25 +1188,41 @@ p {
   background: #dc2626;
 }
 .admin-btn-icon {
-  padding: 0.45rem;
-  background: transparent;
-  border: 1px solid transparent;
-  color: var(--admin-text-muted);
-  border-radius: var(--admin-radius);
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  padding: 0;
+  background: var(--admin-surface-2);
+  border: 1px solid var(--admin-border);
+  color: #27272a;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease-in-out;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-family: inherit;
+  flex-shrink: 0;
 }
 .admin-btn-icon:hover {
-  color: var(--admin-text);
-  background: var(--admin-surface-2);
-  border-color: var(--admin-border);
+  color: #000000;
+  background: #ffffff;
+  border-color: #a1a1aa;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+.admin-btn-icon.danger {
+  color: #dc2626;
+  background: #fef2f2;
+  border-color: #fecaca;
 }
 .admin-btn-icon.danger:hover {
-  color: var(--admin-danger);
+  color: #ffffff;
+  background: #dc2626;
+  border-color: #dc2626;
+  box-shadow: 0 2px 5px rgba(220, 38, 38, 0.25);
+  transform: translateY(-1px);
 }
 
 .admin-overlay {
