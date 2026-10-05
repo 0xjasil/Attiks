@@ -128,7 +128,7 @@ export default function ProjectShowcaseGrid({
                     <h3
                       style={{
                         color: '#ffffff',
-                        fontSize: 'clamp(11px, 1.2vw, 1.3rem)',
+                        fontSize: 'clamp(13px, 1.1vw, 15px)',
                         fontWeight: 500,
                         margin: 0,
                         letterSpacing: '-0.01em',

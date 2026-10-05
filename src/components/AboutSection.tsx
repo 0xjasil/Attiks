@@ -101,7 +101,7 @@ export default function AboutSection() {
               padding: 0,
               color: '#000000',
               cursor: 'pointer',
-              fontSize: 'clamp(18px, 1.2vw, 20px)',
+              fontSize: 'clamp(15px, 1.1vw, 17px)',
               fontWeight: 600,
               letterSpacing: '-0.01em',
               textTransform: 'lowercase',

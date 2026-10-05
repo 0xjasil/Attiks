@@ -41,13 +41,13 @@ export default function Footer() {
               alt="Attiks Architecture Logo"
               width={160}
               height={40}
-              style={{ objectFit: 'contain', height: '42px', width: 'auto', marginBottom: '1.5rem' }}
+              style={{ objectFit: 'contain', height: '36px', width: 'auto', marginBottom: '1.25rem' }}
             />
-            <p style={{ fontSize: 'clamp(18px, 1.1vw, 19px)', color: '#cccccc', marginBottom: '2rem', lineHeight: '1.6', fontWeight: 350 }}>
+            <p style={{ fontSize: 'clamp(14px, 1.05vw, 16px)', color: '#cccccc', marginBottom: '1.5rem', lineHeight: '1.6', fontWeight: 350 }}>
               Subscribe for priority access to our finest architectural milestones and timeless design insights.
             </p>
             {subscribed ? (
-              <div style={{ color: '#ffffff', background: '#1c1c1c', padding: '14px 20px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.2)', fontSize: '16px' }}>
+              <div style={{ color: '#ffffff', background: '#1c1c1c', padding: '12px 18px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.2)', fontSize: '14px' }}>
                 Thank you for subscribing to ATTIKS updates.
               </div>
             ) : (
@@ -69,9 +69,9 @@ export default function Footer() {
                     minWidth: '180px',
                     background: '#1a1a1a',
                     border: '1px solid rgba(255,255,255,0.15)',
-                    padding: '14px 18px',
+                    padding: '12px 16px',
                     color: '#ffffff',
-                    fontSize: 'clamp(16px, 1.1vw, 18px)',
+                    fontSize: 'clamp(14px, 1vw, 15px)',
                     outline: 'none',
                     borderRadius: '4px',
                     boxSizing: 'border-box',
@@ -83,9 +83,9 @@ export default function Footer() {
                     background: '#ffffff',
                     color: '#000000',
                     border: 'none',
-                    padding: '14px 24px',
-                    fontSize: 'clamp(16px, 1.1vw, 18px)',
-                    fontWeight: 400,
+                    padding: '12px 20px',
+                    fontSize: 'clamp(14px, 1vw, 15px)',
+                    fontWeight: 500,
                     cursor: 'pointer',
                     transition: 'background 0.3s ease',
                     borderRadius: '4px',
@@ -104,8 +104,8 @@ export default function Footer() {
           <div className="footer-links-container">
             {/* Pages */}
             <div style={{ minWidth: '120px' }}>
-              <h3 style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 400, marginBottom: '1.5rem', color: '#ffffff', textTransform: 'none' }}>Pages</h3>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <h3 style={{ fontSize: 'clamp(14.5px, 1.1vw, 16px)', fontWeight: 500, marginBottom: '1.25rem', color: '#ffffff', textTransform: 'none' }}>Pages</h3>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
                 {[
                   { name: 'Home', path: '/' },
                   { name: 'About', path: '/about' },
@@ -114,7 +114,7 @@ export default function Footer() {
                   { name: 'Contact', path: '/contact' }
                 ].map((item) => (
                   <li key={item.name}>
-                    <Link href={item.path} style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, textDecoration: 'none', transition: 'color 0.3s ease', textTransform: 'none' }}
+                    <Link href={item.path} style={{ color: '#cccccc', fontSize: 'clamp(13.5px, 0.95vw, 15px)', fontWeight: 400, textDecoration: 'none', transition: 'color 0.3s ease', textTransform: 'none' }}
                       onMouseEnter={(e) => (e.currentTarget.style.color = '#ffffff')}
                       onMouseLeave={(e) => (e.currentTarget.style.color = '#cccccc')}
                     >
@@ -127,14 +127,14 @@ export default function Footer() {
 
             {/* Socials */}
             <div style={{ minWidth: '120px' }}>
-              <h3 style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 400, marginBottom: '1.5rem', color: '#ffffff', textTransform: 'none' }}>Socials</h3>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <h3 style={{ fontSize: 'clamp(14.5px, 1.1vw, 16px)', fontWeight: 500, marginBottom: '1.25rem', color: '#ffffff', textTransform: 'none' }}>Socials</h3>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
                 {['Instagram', 'LinkedIn', 'Twitter', 'Facebook'].map((item) => (
                   <li key={item}>
                     <a
                       href="#"
                       rel="noopener noreferrer"
-                      style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, textDecoration: 'none', transition: 'color 0.3s ease', textTransform: 'none' }}
+                      style={{ color: '#cccccc', fontSize: 'clamp(13.5px, 0.95vw, 15px)', fontWeight: 400, textDecoration: 'none', transition: 'color 0.3s ease', textTransform: 'none' }}
                       onMouseEnter={(e) => (e.currentTarget.style.color = '#ffffff')}
                       onMouseLeave={(e) => (e.currentTarget.style.color = '#cccccc')}
                     >
@@ -146,20 +146,20 @@ export default function Footer() {
             </div>
 
             {/* Contact */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', minWidth: '220px', maxWidth: '320px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', minWidth: '200px', maxWidth: '300px' }}>
               <div>
-                <h3 style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 400, marginBottom: '0.5rem', color: '#ffffff', textTransform: 'none' }}>Phone</h3>
-                <p style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, margin: '2px 0' }}>+91 0483 2941308</p>
-                <p style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, margin: '2px 0' }}>+91 8589 022307</p>
+                <h3 style={{ fontSize: 'clamp(14.5px, 1.1vw, 16px)', fontWeight: 500, marginBottom: '0.5rem', color: '#ffffff', textTransform: 'none' }}>Phone</h3>
+                <p style={{ color: '#cccccc', fontSize: 'clamp(13.5px, 0.95vw, 15px)', fontWeight: 400, margin: '2px 0' }}>+91 0483 2941308</p>
+                <p style={{ color: '#cccccc', fontSize: 'clamp(13.5px, 0.95vw, 15px)', fontWeight: 400, margin: '2px 0' }}>+91 8589 022307</p>
               </div>
               <div>
-                <h3 style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 400, marginBottom: '0.5rem', color: '#ffffff', textTransform: 'none' }}>Email</h3>
-                <p style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, margin: '2px 0' }}>info@attiks.in</p>
-                <p style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, margin: '2px 0' }}>hello@attiks.ae</p>
+                <h3 style={{ fontSize: 'clamp(14.5px, 1.1vw, 16px)', fontWeight: 500, marginBottom: '0.5rem', color: '#ffffff', textTransform: 'none' }}>Email</h3>
+                <p style={{ color: '#cccccc', fontSize: 'clamp(13.5px, 0.95vw, 15px)', fontWeight: 400, margin: '2px 0' }}>info@attiks.in</p>
+                <p style={{ color: '#cccccc', fontSize: 'clamp(13.5px, 0.95vw, 15px)', fontWeight: 400, margin: '2px 0' }}>hello@attiks.ae</p>
               </div>
               <div>
-                <h3 style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 400, marginBottom: '0.5rem', color: '#ffffff', textTransform: 'none' }}>Locations</h3>
-                <p style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, lineHeight: '1.6', margin: '2px 0' }}>
+                <h3 style={{ fontSize: 'clamp(14.5px, 1.1vw, 16px)', fontWeight: 500, marginBottom: '0.5rem', color: '#ffffff', textTransform: 'none' }}>Locations</h3>
+                <p style={{ color: '#cccccc', fontSize: 'clamp(13.5px, 0.95vw, 15px)', fontWeight: 400, lineHeight: '1.5', margin: '2px 0' }}>
                   Calicut | Dubai
                 </p>
               </div>
@@ -170,11 +170,11 @@ export default function Footer() {
       </div>
 
       {/* Bottom Section */}
-      <div style={{ borderTop: '1px solid rgba(255,255,255,0.12)' }}>
+      <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
         <div className="footer-bottom">
-          <p style={{ fontSize: 'clamp(18px, 1.1vw, 19px)', margin: 0 }}>Attiks Architecture Practice</p>
-          <p style={{ color: '#ffffff', fontSize: 'clamp(18px, 1.1vw, 19px)', margin: 0 }}>Visioned and Crafted by Willowy</p>
-          <p style={{ fontSize: 'clamp(18px, 1.1vw, 19px)', margin: 0 }}>&copy; {currentYear} All rights reserved</p>
+          <p style={{ fontSize: 'clamp(12px, 0.9vw, 13.5px)', margin: 0 }}>Attiks Architecture Practice</p>
+          <p style={{ color: '#ffffff', fontSize: 'clamp(12px, 0.9vw, 13.5px)', margin: 0 }}>Visioned and Crafted by Willowy</p>
+          <p style={{ fontSize: 'clamp(12px, 0.9vw, 13.5px)', margin: 0 }}>&copy; {currentYear} All rights reserved</p>
         </div>
       </div>
     </footer>
