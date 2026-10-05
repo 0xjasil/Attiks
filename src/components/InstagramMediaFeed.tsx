@@ -23,7 +23,7 @@ export default function InstagramMediaFeed({
   };
 
   return (
-    <div style={{ width: '100%', background: '#000000', color: '#ffffff', minHeight: '60vh' }}>
+    <div style={{ width: '100%', background: '#ffffff', color: '#111111', minHeight: '60vh' }}>
       {/* ============================================================
           EXACT INSTAGRAM GRID FEED (4-COLUMN ON DESKTOP, TIGHT GAPS)
           ============================================================ */}
@@ -59,7 +59,7 @@ export default function InstagramMediaFeed({
                   width: '100%',
                   aspectRatio: '1 / 1',
                   overflow: 'hidden',
-                  background: '#141414',
+                  background: '#f5f5f5',
                 }}
               >
                 {/* Media Item */}

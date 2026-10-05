@@ -60,7 +60,7 @@ export default async function MediaPage() {
   };
 
   return (
-    <div style={{ background: '#000000', minHeight: '100vh', color: '#ffffff', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ background: '#ffffff', minHeight: '100vh', color: '#111111', display: 'flex', flexDirection: 'column' }}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(mediaSchema) }}
