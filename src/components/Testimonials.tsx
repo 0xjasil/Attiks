@@ -297,46 +297,6 @@ export default function Testimonials({ initialTestimonials }: TestimonialsProps)
           </div>
         </div>
 
-        {/* Minimal Bottom Action: Consistent with "know more" and "view all projects" */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            marginTop: 'clamp(16px, 1.8vw, 24px)',
-            width: '100%',
-          }}
-        >
-          <button
-            type="button"
-            onClick={() => setModalOpen(true)}
-            style={{
-              background: 'none',
-              border: 'none',
-              padding: 0,
-              color: '#000000',
-              cursor: 'pointer',
-              fontSize: 'clamp(15px, 1.05vw, 17px)',
-              fontWeight: 400,
-              letterSpacing: '-0.01em',
-              textTransform: 'lowercase',
-              fontFamily: 'var(--font-primary), sans-serif',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              transition: 'opacity 0.2s ease',
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.opacity = '0.6';
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.opacity = '1';
-            }}
-          >
-            <Plus size={13} />
-            <span>share your experience</span>
-          </button>
-        </div>
       </div>
 
       {/* Add Testimonial Modal */}

@@ -147,22 +147,6 @@ export default function AboutClientPage() {
                 gap: 'clamp(18px, 2.2vw, 24px)',
               }}
             >
-              <div>
-                <h2
-                  className="font-display"
-                  style={{
-                    fontFamily: 'var(--font-canela), Georgia, serif',
-                    fontSize: 'clamp(2rem, 3.2vw, 2.9rem)',
-                    fontWeight: 300,
-                    color: '#000000',
-                    margin: 0,
-                    lineHeight: 1.18,
-                    letterSpacing: '-0.02em',
-                  }}
-                >
-                  Contextual &amp; Enduring Architecture
-                </h2>
-              </div>
 
               <p
                 style={{

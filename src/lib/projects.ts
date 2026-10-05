@@ -6,7 +6,7 @@ export async function getAllProjects(): Promise<Project[]> {
   try {
     const res = await fetch(`${BACKEND_URL}/api/projects`, {
       cache: 'no-store',
-      signal: AbortSignal.timeout(1500),
+      signal: AbortSignal.timeout(5000),
     });
     if (res.ok) {
       const json = await res.json();
@@ -29,7 +29,7 @@ export async function getProjectByIdOrSlug(idOrSlug: string): Promise<Project | 
   try {
     const res = await fetch(`${BACKEND_URL}/api/projects/${idOrSlug}`, {
       cache: 'no-store',
-      signal: AbortSignal.timeout(1500),
+      signal: AbortSignal.timeout(5000),
     });
     if (res.ok) {
       const json = await res.json();

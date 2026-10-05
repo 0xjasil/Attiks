@@ -1703,6 +1703,30 @@ img, video, iframe {
   }
 }
 
+/* ========================================================
+   MEDIA & SHOWCASE GRID (4-COLUMN RESPONSIVE)
+   ======================================================== */
+.instagram-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(4px, 1.2vw, 16px);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 992px) {
+  .instagram-photo-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .instagram-photo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 4px !important;
+  }
+}
+
 
 
 

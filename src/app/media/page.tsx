@@ -1,21 +1,20 @@
 import type { Metadata } from 'next';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import PageHeader from '@/components/PageHeader';
 import ProjectShowcaseGrid from '@/components/ProjectShowcaseGrid';
 import { getGalleryPostsAction } from '@/actions/gallery.actions';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Media & Architectural Showcase',
+  title: 'Media',
   description:
     'Visual media showcases, architectural highlights, design documentaries, and project documentation by Attiks Architecture.',
   alternates: {
     canonical: '/media',
   },
   openGraph: {
-    title: 'Media & Architectural Showcase | ATTIKS Architecture',
+    title: 'Media | ATTIKS Architecture',
     description:
       'Visual media showcases, architectural highlights, design documentaries, and project documentation by Attiks Architecture.',
     url: 'https://attiks.in/media',
@@ -24,7 +23,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Media & Architectural Showcase | ATTIKS Architecture',
+    title: 'Media | ATTIKS Architecture',
     description: 'Visual media showcases and architectural documentaries by Attiks Architecture.',
   },
 };
@@ -35,7 +34,7 @@ export default async function MediaPage() {
   const mediaSchema = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'Media & Architectural Showcase — ATTIKS Architecture',
+    name: 'Media — ATTIKS Architecture',
     description:
       'Visual media showcases, architectural highlights, design documentaries, and project documentation by Attiks Architecture.',
     url: 'https://attiks.in/media',
@@ -79,18 +78,30 @@ export default async function MediaPage() {
             boxSizing: 'border-box',
             width: '100%',
           }}
-          aria-label="Media and Showcase"
+          aria-label="Media Showcase"
         >
           <div style={{ maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
-            <PageHeader 
-              label="Media &amp; Showcase"
-              title={<>Visual media &amp;{' '}<br />architectural highlights</>}
-            />
-
-            {/* All Uploaded Media Showcase (Grid with in-place modal preview) */}
-            <div style={{ marginTop: 'clamp(28px, 3.5vw, 44px)' }}>
-              <ProjectShowcaseGrid initialPosts={galleryPosts} disableOuterPadding />
+            {/* Clean Minimal Title */}
+            <div style={{ marginBottom: 'clamp(28px, 4vw, 44px)' }}>
+              <h1
+                className="font-display"
+                style={{
+                  fontSize: 'clamp(2.5rem, 4.5vw, 3.8rem)',
+                  fontWeight: 300,
+                  fontFamily: 'var(--font-canela), serif',
+                  color: '#000000',
+                  lineHeight: 1.15,
+                  letterSpacing: '-0.025em',
+                  textTransform: 'none',
+                  margin: 0,
+                }}
+              >
+                Media
+              </h1>
             </div>
+
+            {/* 4-Column Media Showcase Grid */}
+            <ProjectShowcaseGrid initialPosts={galleryPosts} disableOuterPadding columns={4} />
           </div>
         </section>
       </main>
@@ -99,3 +110,4 @@ export default async function MediaPage() {
     </div>
   );
 }
+
