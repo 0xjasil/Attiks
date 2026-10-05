@@ -1,14 +1,8 @@
 'use client';
 
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import {
-  Heart,
-  MessageCircle,
-  Layers,
-  Video,
-} from 'lucide-react';
+import { Layers, Video } from 'lucide-react';
 import { GalleryPost, defaultGalleryPosts } from '@/data/gallery';
 
 interface InstagramMediaFeedProps {
@@ -18,21 +12,8 @@ interface InstagramMediaFeedProps {
 export default function InstagramMediaFeed({
   initialPosts = [],
 }: InstagramMediaFeedProps) {
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
-
   const posts = initialPosts && initialPosts.length > 0 ? initialPosts : defaultGalleryPosts;
   const filteredPosts = posts.filter((p) => p.active !== false);
-
-  // Deterministic like & comment counts based on ID / index for authentic feel
-  const getLikes = (post: GalleryPost, idx: number) => {
-    const hash = (post.id.charCodeAt(post.id.length - 1) || 5) * 37 + idx * 43;
-    return 240 + (hash % 620);
-  };
-
-  const getComments = (post: GalleryPost, idx: number) => {
-    const hash = (post.id.charCodeAt(0) || 3) * 17 + idx * 7;
-    return 12 + (hash % 38);
-  };
 
   const isVideoPost = (post: GalleryPost) => {
     return (
@@ -65,10 +46,7 @@ export default function InstagramMediaFeed({
           }}
         >
           {filteredPosts.map((post, idx) => {
-            const isHovered = hoveredId === post.id;
             const isVid = isVideoPost(post);
-            const likesCount = getLikes(post, idx);
-            const commentsCount = getComments(post, idx);
 
             return (
               <motion.div
@@ -76,8 +54,6 @@ export default function InstagramMediaFeed({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3, delay: Math.min(idx * 0.02, 0.2) }}
-                onMouseEnter={() => setHoveredId(post.id)}
-                onMouseLeave={() => setHoveredId(null)}
                 style={{
                   position: 'relative',
                   width: '100%',
@@ -114,53 +90,6 @@ export default function InstagramMediaFeed({
                   ) : idx % 3 === 0 ? (
                     <Layers size={15} />
                   ) : null}
-                </div>
-
-                {/* Instagram Centered Hover Overlay */}
-                <div
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    backgroundColor: 'rgba(0, 0, 0, 0.42)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '24px',
-                    zIndex: 5,
-                    opacity: isHovered ? 1 : 0,
-                    transition: 'opacity 0.2s ease',
-                    pointerEvents: 'none',
-                  }}
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '7px',
-                      color: '#ffffff',
-                      fontSize: 'clamp(14px, 1.1vw, 17px)',
-                      fontWeight: 600,
-                      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                    }}
-                  >
-                    <Heart size={18} fill="#ffffff" color="#ffffff" />
-                    <span>{likesCount}</span>
-                  </div>
-
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '7px',
-                      color: '#ffffff',
-                      fontSize: 'clamp(14px, 1.1vw, 17px)',
-                      fontWeight: 600,
-                      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                    }}
-                  >
-                    <MessageCircle size={18} fill="#ffffff" color="#ffffff" />
-                    <span>{commentsCount}</span>
-                  </div>
                 </div>
               </motion.div>
             );
