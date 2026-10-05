@@ -14,7 +14,7 @@ export default function AboutSection() {
       style={{
         position: 'relative',
         background: '#ffffff',
-        padding: 'clamp(44px, 6vh, 100px) clamp(20px, 5vw, 64px) clamp(28px, 4vh, 50px)',
+        padding: 'clamp(72px, 10vh, 140px) clamp(20px, 5vw, 64px) clamp(64px, 9vh, 120px)',
         width: '100%',
         overflow: 'hidden',
         boxSizing: 'border-box',
@@ -118,14 +118,14 @@ export default function AboutSection() {
         </motion.div>
       </div>
 
-      {/* Right: Watermark Triangle Motif (Increased size, exactly 50% on screen / 50% outside) */}
+      {/* Right: Watermark Triangle Motif (Positioned more into center) */}
       <div
         className="about-watermark-bg"
         style={{
           position: 'absolute',
-          right: 0,
+          right: 'clamp(-40px, 5vw, 60px)',
           top: '50%',
-          transform: 'translate(50%, -50%)',
+          transform: 'translate(10%, -50%)',
           width: 'clamp(520px, 58vw, 980px)',
           height: 'clamp(520px, 58vw, 980px)',
           opacity: 0.08,

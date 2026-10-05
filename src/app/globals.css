@@ -1730,7 +1730,7 @@ img, video, iframe {
   }
 
   .about-section-container {
-    padding: 28px 16px 16px !important;
+    padding: 56px 16px 40px !important;
   }
 
   .about-gallery-section {
@@ -1752,7 +1752,7 @@ img, video, iframe {
 
 @media (max-width: 768px) {
   .about-section-container {
-    padding: 36px 20px 20px !important;
+    padding: 64px 20px 48px !important;
   }
 
   .about-gallery-section {
