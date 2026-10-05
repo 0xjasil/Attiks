@@ -1,17 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import {
   Heart,
   MessageCircle,
-  X,
   Layers,
   Video,
-  ChevronLeft,
-  ChevronRight,
-  Share2,
 } from 'lucide-react';
 import { GalleryPost, defaultGalleryPosts } from '@/data/gallery';
 
@@ -23,8 +19,6 @@ export default function InstagramMediaFeed({
   initialPosts = [],
 }: InstagramMediaFeedProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const [selectedPost, setSelectedPost] = useState<GalleryPost | null>(null);
-  const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
   const posts = initialPosts && initialPosts.length > 0 ? initialPosts : defaultGalleryPosts;
   const filteredPosts = posts.filter((p) => p.active !== false);
@@ -47,28 +41,8 @@ export default function InstagramMediaFeed({
     );
   };
 
-  const openLightbox = (post: GalleryPost, index: number) => {
-    setSelectedPost(post);
-    setSelectedIndex(index);
-  };
-
-  const nextPost = () => {
-    if (filteredPosts.length === 0) return;
-    const nextIdx = (selectedIndex + 1) % filteredPosts.length;
-    setSelectedIndex(nextIdx);
-    setSelectedPost(filteredPosts[nextIdx]);
-  };
-
-  const prevPost = () => {
-    if (filteredPosts.length === 0) return;
-    const prevIdx = (selectedIndex - 1 + filteredPosts.length) % filteredPosts.length;
-    setSelectedIndex(prevIdx);
-    setSelectedPost(filteredPosts[prevIdx]);
-  };
-
   return (
-    <div style={{ width: '100%', background: '#000000', color: '#ffffff', minHeight: '80vh' }}>
-
+    <div style={{ width: '100%', background: '#000000', color: '#ffffff', minHeight: '60vh' }}>
       {/* ============================================================
           EXACT INSTAGRAM GRID FEED (4-COLUMN ON DESKTOP, TIGHT GAPS)
           ============================================================ */}
@@ -76,7 +50,7 @@ export default function InstagramMediaFeed({
         style={{
           maxWidth: '1240px',
           margin: '0 auto',
-          padding: '4px 0 60px',
+          padding: '0 0 60px',
           width: '100%',
           boxSizing: 'border-box',
         }}
@@ -102,7 +76,6 @@ export default function InstagramMediaFeed({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3, delay: Math.min(idx * 0.02, 0.2) }}
-                onClick={() => openLightbox(post, idx)}
                 onMouseEnter={() => setHoveredId(post.id)}
                 onMouseLeave={() => setHoveredId(null)}
                 style={{
@@ -111,7 +84,6 @@ export default function InstagramMediaFeed({
                   aspectRatio: '1 / 1',
                   overflow: 'hidden',
                   background: '#141414',
-                  cursor: 'pointer',
                 }}
               >
                 {/* Media Item */}
@@ -195,254 +167,6 @@ export default function InstagramMediaFeed({
           })}
         </div>
       </div>
-
-      {/* ============================================================
-          INSTAGRAM-STYLE LIGHTBOX MODAL
-          ============================================================ */}
-      <AnimatePresence>
-        {selectedPost && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            onClick={() => setSelectedPost(null)}
-            style={{
-              position: 'fixed',
-              inset: 0,
-              zIndex: 9999,
-              backgroundColor: 'rgba(0, 0, 0, 0.85)',
-              backdropFilter: 'blur(8px)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '16px',
-              boxSizing: 'border-box',
-            }}
-          >
-            {/* Close Button */}
-            <button
-              type="button"
-              onClick={() => setSelectedPost(null)}
-              style={{
-                position: 'absolute',
-                top: '20px',
-                right: '20px',
-                background: 'none',
-                border: 'none',
-                color: '#ffffff',
-                cursor: 'pointer',
-                zIndex: 10001,
-                padding: '8px',
-              }}
-              aria-label="Close Preview"
-            >
-              <X size={28} />
-            </button>
-
-            {/* Prev Button */}
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                prevPost();
-              }}
-              style={{
-                position: 'absolute',
-                left: '16px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                background: 'rgba(255, 255, 255, 0.15)',
-                border: 'none',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                color: '#ffffff',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                zIndex: 10001,
-              }}
-              aria-label="Previous Post"
-            >
-              <ChevronLeft size={22} />
-            </button>
-
-            {/* Next Button */}
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                nextPost();
-              }}
-              style={{
-                position: 'absolute',
-                right: '16px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                background: 'rgba(255, 255, 255, 0.15)',
-                border: 'none',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                color: '#ffffff',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                zIndex: 10001,
-              }}
-              aria-label="Next Post"
-            >
-              <ChevronRight size={22} />
-            </button>
-
-            {/* Modal Box */}
-            <motion.div
-              initial={{ scale: 0.96, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.96, opacity: 0 }}
-              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              onClick={(e) => e.stopPropagation()}
-              style={{
-                background: '#121212',
-                borderRadius: '8px',
-                overflow: 'hidden',
-                maxWidth: '960px',
-                width: '100%',
-                maxHeight: '90vh',
-                display: 'grid',
-                gridTemplateColumns: 'minmax(0, 1.25fr) minmax(0, 0.95fr)',
-                border: '1px solid rgba(255,255,255,0.12)',
-                boxShadow: '0 20px 60px rgba(0,0,0,0.9)',
-              }}
-            >
-              {/* Media Preview (Left) */}
-              <div
-                style={{
-                  position: 'relative',
-                  width: '100%',
-                  aspectRatio: '1 / 1',
-                  background: '#050505',
-                  minHeight: '360px',
-                }}
-              >
-                <Image
-                  src={selectedPost.image || '/architecture.webp'}
-                  alt={selectedPost.caption || 'Attiks architectural showcase'}
-                  fill
-                  style={{ objectFit: 'contain' }}
-                />
-              </div>
-
-              {/* Sidebar Info (Right) */}
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  padding: '24px',
-                  boxSizing: 'border-box',
-                  justifyContent: 'space-between',
-                  borderLeft: '1px solid rgba(255, 255, 255, 0.08)',
-                }}
-              >
-                <div>
-                  {/* Studio Header */}
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '12px',
-                      paddingBottom: '16px',
-                      borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: '38px',
-                        height: '38px',
-                        borderRadius: '50%',
-                        background: '#222',
-                        border: '1px solid rgba(255,255,255,0.2)',
-                        overflow: 'hidden',
-                        position: 'relative',
-                      }}
-                    >
-                      <Image
-                        src="/images/logo-light.png"
-                        alt="Attiks"
-                        fill
-                        style={{ objectFit: 'contain', padding: '6px' }}
-                      />
-                    </div>
-                    <div>
-                      <h4
-                        style={{
-                          margin: 0,
-                          fontSize: '0.92rem',
-                          fontWeight: 600,
-                          color: '#ffffff',
-                          letterSpacing: '-0.01em',
-                        }}
-                      >
-                        attiks.architecture
-                      </h4>
-                      <p style={{ margin: 0, fontSize: '0.75rem', color: '#999999' }}>
-                        {selectedPost.location || 'Kerala, India'}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Caption Body */}
-                  <div style={{ padding: '20px 0', maxHeight: '280px', overflowY: 'auto' }}>
-                    <p
-                      style={{
-                        fontSize: '0.95rem',
-                        lineHeight: '1.6',
-                        color: '#eeeeee',
-                        margin: '0 0 12px 0',
-                        fontWeight: 350,
-                      }}
-                    >
-                      <strong style={{ fontWeight: 600, color: '#ffffff', marginRight: '8px' }}>
-                        attiks.architecture
-                      </strong>
-                      {selectedPost.caption}
-                    </p>
-
-                    {selectedPost.description && (
-                      <p style={{ fontSize: '0.88rem', lineHeight: '1.6', color: '#aaaaaa', margin: 0 }}>
-                        {selectedPost.description}
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Footer Interactions */}
-                <div
-                  style={{
-                    paddingTop: '16px',
-                    borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '10px' }}>
-                    <Heart size={22} color="#ffffff" style={{ cursor: 'pointer' }} />
-                    <MessageCircle size={22} color="#ffffff" style={{ cursor: 'pointer' }} />
-                    <Share2 size={21} color="#ffffff" style={{ cursor: 'pointer' }} />
-                  </div>
-                  <p style={{ margin: '0 0 4px 0', fontSize: '0.85rem', fontWeight: 600, color: '#ffffff' }}>
-                    {getLikes(selectedPost, selectedIndex)} likes
-                  </p>
-                  <p style={{ margin: 0, fontSize: '0.72rem', color: '#777777', textTransform: 'uppercase' }}>
-                    {selectedPost.createdAt || 'RECENT ARCHITECTURAL SHOWCASE'}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }

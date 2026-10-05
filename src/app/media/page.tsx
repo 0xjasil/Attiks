@@ -71,10 +71,10 @@ export default async function MediaPage() {
       />
       <Navbar />
 
-      <main style={{ flex: 1, paddingTop: 'clamp(80px, 8vw, 110px)' }}>
+      <main style={{ flex: 1, paddingTop: 'clamp(120px, 11vw, 160px)' }}>
         <section
           style={{
-            padding: '0 clamp(8px, 2vw, 32px)',
+            padding: '0 clamp(16px, 3.5vw, 48px) clamp(60px, 8vw, 120px)',
             boxSizing: 'border-box',
             width: '100%',
           }}
