@@ -256,7 +256,7 @@ export default function Navbar() {
           style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '28px',
+            gap: '24px',
             textAlign: 'center',
           }}
         >
@@ -266,12 +266,12 @@ export default function Navbar() {
             onClick={() => setMenuOpen(false)}
             style={{
               textTransform: 'none',
-              fontSize: 'clamp(2.0rem, 6vw, 2.8rem)',
-              fontWeight: 400,
+              fontSize: 'clamp(1.25rem, 4.5vw, 1.65rem)',
+              fontWeight: 350,
               color: '#ffffff',
               textDecoration: 'none',
               fontFamily: 'var(--font-primary)',
-              letterSpacing: '0.01em',
+              letterSpacing: '0.02em',
             }}
           >
             Projects
@@ -282,12 +282,12 @@ export default function Navbar() {
             onClick={() => setMenuOpen(false)}
             style={{
               textTransform: 'none',
-              fontSize: 'clamp(2.0rem, 6vw, 2.8rem)',
-              fontWeight: 400,
+              fontSize: 'clamp(1.25rem, 4.5vw, 1.65rem)',
+              fontWeight: 350,
               color: '#ffffff',
               textDecoration: 'none',
               fontFamily: 'var(--font-primary)',
-              letterSpacing: '0.01em',
+              letterSpacing: '0.02em',
             }}
           >
             About
@@ -298,12 +298,12 @@ export default function Navbar() {
             onClick={() => setMenuOpen(false)}
             style={{
               textTransform: 'none',
-              fontSize: 'clamp(2.0rem, 6vw, 2.8rem)',
-              fontWeight: 400,
+              fontSize: 'clamp(1.25rem, 4.5vw, 1.65rem)',
+              fontWeight: 350,
               color: '#ffffff',
               textDecoration: 'none',
               fontFamily: 'var(--font-primary)',
-              letterSpacing: '0.01em',
+              letterSpacing: '0.02em',
             }}
           >
             Media
@@ -314,12 +314,12 @@ export default function Navbar() {
             onClick={() => setMenuOpen(false)}
             style={{
               textTransform: 'none',
-              fontSize: 'clamp(2.0rem, 6vw, 2.8rem)',
-              fontWeight: 400,
+              fontSize: 'clamp(1.25rem, 4.5vw, 1.65rem)',
+              fontWeight: 350,
               color: '#ffffff',
               textDecoration: 'none',
               fontFamily: 'var(--font-primary)',
-              letterSpacing: '0.01em',
+              letterSpacing: '0.02em',
             }}
           >
             Contact
