@@ -339,8 +339,8 @@ export default function GalleryAdminPage() {
   return (
     <div style={{ maxWidth: '1600px', margin: '0 auto', padding: '16px 20px', minHeight: '85vh' }}>
       {/* Hidden File Inputs */}
-      <input ref={fileInputRef} type="file" accept="image/webp" onChange={handleSingleFileUpload} style={{ display: 'none' }} />
-      <input ref={batchFileInputRef} type="file" accept="image/webp" multiple onChange={handleBatchFileUpload} style={{ display: 'none' }} />
+      <input ref={fileInputRef} type="file" accept="image/webp,image/gif" onChange={handleSingleFileUpload} style={{ display: 'none' }} />
+      <input ref={batchFileInputRef} type="file" accept="image/webp,image/gif" multiple onChange={handleBatchFileUpload} style={{ display: 'none' }} />
 
       {/* ============================================================
           TOP COMPACT HEADER BAR

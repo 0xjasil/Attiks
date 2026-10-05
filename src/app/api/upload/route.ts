@@ -21,9 +21,11 @@ export async function POST(request: NextRequest) {
     const uploadDir = path.join(process.cwd(), 'public', 'uploads');
     await mkdir(uploadDir, { recursive: true });
 
-    const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10MB
-    const MAX_PDF_SIZE = 35 * 1024 * 1024; // 35MB
-    const MAX_VIDEO_SIZE = 50 * 1024 * 1024; // 50MB
+    // Vercel Serverless Functions have a strict 4.5MB request limit.
+    // Set max sizes to 4MB to ensure they don't trigger the 413 error.
+    const MAX_IMAGE_SIZE = 4 * 1024 * 1024; // 4MB
+    const MAX_PDF_SIZE = 4 * 1024 * 1024; // 4MB
+    const MAX_VIDEO_SIZE = 4 * 1024 * 1024; // 4MB
     const uploadedUrls: string[] = [];
 
     for (const file of files) {

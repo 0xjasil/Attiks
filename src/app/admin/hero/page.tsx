@@ -890,7 +890,7 @@ export default function HeroAdminPage() {
               <input
                 ref={fileInputRef}
                 type="file"
-                accept="image/webp,video/mp4,video/webm"
+                accept="image/webp,image/gif,video/mp4,video/webm"
                 style={{ display: 'none' }}
                 onChange={handleFileUpload}
               />
