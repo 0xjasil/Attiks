@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import ProjectShowcaseGrid from '@/components/ProjectShowcaseGrid';
+import InstagramMediaFeed from '@/components/InstagramMediaFeed';
 import { getGalleryPostsAction } from '@/actions/gallery.actions';
 
 export const dynamic = 'force-dynamic';
@@ -60,7 +60,7 @@ export default async function MediaPage() {
   };
 
   return (
-    <div style={{ background: '#ffffff', minHeight: '100vh', color: '#111111', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ background: '#000000', minHeight: '100vh', color: '#ffffff', display: 'flex', flexDirection: 'column' }}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(mediaSchema) }}
@@ -71,38 +71,17 @@ export default async function MediaPage() {
       />
       <Navbar />
 
-      <main style={{ flex: 1 }}>
+      <main style={{ flex: 1, paddingTop: 'clamp(80px, 8vw, 110px)' }}>
         <section
           style={{
-            padding: 'clamp(84px, 8vw, 130px) clamp(20px, 5vw, 64px) clamp(36px, 5vw, 64px)',
+            padding: '0 clamp(8px, 2vw, 32px)',
             boxSizing: 'border-box',
             width: '100%',
           }}
-          aria-label="Media Showcase"
+          aria-label="Instagram Showcase Feed"
         >
-          <div style={{ maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
-            {/* Clean Minimal Title */}
-            <div style={{ marginBottom: 'clamp(28px, 4vw, 44px)' }}>
-              <h1
-                className="font-display"
-                style={{
-                  fontSize: 'clamp(2.5rem, 4.5vw, 3.8rem)',
-                  fontWeight: 300,
-                  fontFamily: 'var(--font-canela), serif',
-                  color: '#000000',
-                  lineHeight: 1.15,
-                  letterSpacing: '-0.025em',
-                  textTransform: 'none',
-                  margin: 0,
-                }}
-              >
-                Media
-              </h1>
-            </div>
-
-            {/* 4-Column Media Showcase Grid */}
-            <ProjectShowcaseGrid initialPosts={galleryPosts} disableOuterPadding columns={4} />
-          </div>
+          {/* Instagram Profile Style Media Feed */}
+          <InstagramMediaFeed initialPosts={galleryPosts} />
         </section>
       </main>
 
@@ -110,4 +89,5 @@ export default async function MediaPage() {
     </div>
   );
 }
+
 
