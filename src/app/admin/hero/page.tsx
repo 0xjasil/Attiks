@@ -178,29 +178,43 @@ export default function HeroAdminPage() {
 
     setUploading(true);
     try {
-      const form = new FormData();
-      form.append('file', file);
+      let mediaUrl = '';
+      try {
+        const form = new FormData();
+        form.append('file', file);
 
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        body: form,
-      });
+        const res = await fetch('/api/upload', {
+          method: 'POST',
+          body: form,
+        });
 
-      const json = await res.json();
-      if (json.success && json.data?.url) {
-        const url = json.data.url;
-        const cleanName = file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
-        setFormData((prev) => ({
-          ...prev,
-          mediaUrl: url,
-          mediaType: isVideo ? 'video' : 'image',
-          title: prev.title || cleanName,
-          altText: prev.altText || `${cleanName} architectural scene by Attiks`,
-        }));
-        showToast('Media uploaded successfully!');
-      } else {
-        showToast('Upload failed: ' + (json.error || 'Unknown error'));
+        const json = await res.json();
+        if (json.success && json.data?.url) {
+          mediaUrl = json.data.url;
+        }
+      } catch (uploadErr) {
+        console.warn('Server upload unavailable, converting file locally:', uploadErr);
       }
+
+      // If server upload failed (e.g. read-only filesystem on Vercel), convert directly to data URL
+      if (!mediaUrl) {
+        mediaUrl = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      }
+
+      const cleanName = file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+      setFormData((prev) => ({
+        ...prev,
+        mediaUrl: mediaUrl,
+        mediaType: isVideo ? 'video' : 'image',
+        title: prev.title || cleanName,
+        altText: prev.altText || `${cleanName} architectural scene by Attiks`,
+      }));
+      showToast('Media loaded successfully!');
     } catch (err: any) {
       showToast('Upload error: ' + err.message);
     } finally {

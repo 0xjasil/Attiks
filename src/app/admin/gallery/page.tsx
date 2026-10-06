@@ -135,29 +135,43 @@ export default function GalleryAdminPage() {
 
     setUploading(true);
     try {
-      const formData = new FormData();
-      formData.append('file', file);
+      let uploadedUrl = '';
+      try {
+        const formData = new FormData();
+        formData.append('file', file);
 
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
+        const res = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        });
 
-      const json = await res.json();
-      if (json.success && json.data?.url) {
-        setImageUrl(json.data.url);
-        const autoCaption = file.name
-          .replace(/\.[^/.]+$/, '')
-          .replace(/[-_]/g, ' ')
-          .replace(/\b\w/g, (l) => l.toUpperCase());
-        if (!caption) {
-          setCaption(autoCaption);
+        const json = await res.json();
+        if (json.success && json.data?.url) {
+          uploadedUrl = json.data.url;
         }
-        if (!altText) {
-          setAltText(`${autoCaption} architecture showcase detail by Attiks`);
-        }
-      } else {
-        alert('Upload failed: ' + (json.error || 'Unknown error'));
+      } catch (uploadErr) {
+        console.warn('Server upload unavailable, converting file locally:', uploadErr);
+      }
+
+      if (!uploadedUrl) {
+        uploadedUrl = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      }
+
+      setImageUrl(uploadedUrl);
+      const autoCaption = file.name
+        .replace(/\.[^/.]+$/, '')
+        .replace(/[-_]/g, ' ')
+        .replace(/\b\w/g, (l) => l.toUpperCase());
+      if (!caption) {
+        setCaption(autoCaption);
+      }
+      if (!altText) {
+        setAltText(`${autoCaption} architecture showcase detail by Attiks`);
       }
     } catch (err: any) {
       alert('Upload error: ' + err.message);
@@ -188,33 +202,51 @@ export default function GalleryAdminPage() {
 
     setBatchUploading(true);
     try {
-      const formData = new FormData();
-      Array.from(files).forEach((f) => formData.append('files', f));
+      let urls: string[] = [];
+      try {
+        const formData = new FormData();
+        Array.from(files).forEach((f) => formData.append('files', f));
 
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const json = await res.json();
-      if (json.success && Array.isArray(json.data?.urls)) {
-        const newQueue = json.data.urls.map((url: string, index: number) => {
-          const originalFile = files[index];
-          const autoName = originalFile
-            ? originalFile.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())
-            : `Showcase Photo ${index + 1}`;
-          return {
-            image: url,
-            caption: autoName,
-            altText: `${autoName} architectural showcase view by Attiks`,
-            location: location || 'Kerala, India',
-          };
+        const res = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
         });
-        setBatchQueue((prev) => [...prev, ...newQueue]);
-        setBatchModalOpen(true);
-      } else {
-        alert('Upload failed: ' + (json.error || 'Unknown error'));
+
+        const json = await res.json();
+        if (json.success && Array.isArray(json.data?.urls)) {
+          urls = json.data.urls;
+        }
+      } catch (uploadErr) {
+        console.warn('Server upload unavailable, converting batch locally:', uploadErr);
       }
+
+      if (urls.length === 0) {
+        for (let i = 0; i < files.length; i++) {
+          const f = files[i];
+          const dataUrl = await new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = reject;
+            reader.readAsDataURL(f);
+          });
+          urls.push(dataUrl);
+        }
+      }
+
+      const newQueue = urls.map((url: string, index: number) => {
+        const originalFile = files[index];
+        const autoName = originalFile
+          ? originalFile.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())
+          : `Showcase Photo ${index + 1}`;
+        return {
+          image: url,
+          caption: autoName,
+          altText: `${autoName} architectural showcase view by Attiks`,
+          location: location || 'Kerala, India',
+        };
+      });
+      setBatchQueue((prev) => [...prev, ...newQueue]);
+      setBatchModalOpen(true);
     } catch (err: any) {
       alert('Batch upload error: ' + err.message);
     } finally {

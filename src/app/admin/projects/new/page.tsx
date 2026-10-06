@@ -52,29 +52,45 @@ export default function NewProjectPage() {
     order: 0,
   });
 
-  // Upload helper using /api/upload
+  // Upload helper using /api/upload (with client-side fallback)
   async function uploadFiles(files: FileList | File[]): Promise<string[]> {
-    const formData = new FormData();
+    try {
+      const formData = new FormData();
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        if (file.size > 10 * 1024 * 1024) {
+          throw new Error(`"${file.name}" exceeds the 10MB limit.`);
+        }
+        formData.append('files', file);
+      }
+
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (res.ok) {
+        const json = await res.json();
+        if (json.success && Array.isArray(json.data?.urls) && json.data.urls.length > 0) {
+          return json.data.urls;
+        }
+      }
+    } catch {
+      // Server upload unavailable/read-only, fallback to client-side data URLs
+    }
+
+    const dataUrls: string[] = [];
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-      if (file.size > 10 * 1024 * 1024) {
-        throw new Error(`"${file.name}" exceeds the 10MB limit.`);
-      }
-      formData.append('files', file);
+      const dataUrl = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+      dataUrls.push(dataUrl);
     }
-
-    const res = await fetch('/api/upload', {
-      method: 'POST',
-      body: formData,
-    });
-
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.error || 'Failed to upload images');
-    }
-
-    const json = await res.json();
-    return json.data?.urls || [];
+    return dataUrls;
   }
 
   // Handle Cover Image Upload
