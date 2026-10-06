@@ -885,10 +885,26 @@ export default function GalleryAdminPage() {
                   >
                     <Upload size={24} style={{ color: '#94a3b8', margin: '0 auto 6px' }} />
                     <p style={{ fontSize: '0.82rem', fontWeight: 500, color: '#1e293b', margin: 0 }}>
-                      {uploading ? 'Uploading...' : 'Click to select photo'}
+                      {uploading ? 'Uploading...' : 'Click to select photo file'}
                     </p>
                   </div>
                 )}
+                <div style={{ marginTop: '8px' }}>
+                  <input
+                    type="text"
+                    value={imageUrl}
+                    onChange={(e) => setImageUrl(e.target.value)}
+                    placeholder="Or paste direct image URL (e.g. https://... or /image.webp)"
+                    style={{
+                      width: '100%',
+                      padding: '8px 10px',
+                      border: '1px solid #e2e8f0',
+                      borderRadius: '6px',
+                      fontSize: '0.84rem',
+                      boxSizing: 'border-box',
+                    }}
+                  />
+                </div>
               </div>
 
               {/* Caption */}

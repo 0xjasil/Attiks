@@ -92,8 +92,12 @@ export async function POST(request: NextRequest) {
     });
   } catch (error: any) {
     console.error('Upload error:', error);
+    let errorMessage = error.message || 'Failed to upload files';
+    if (error.code === 'EROFS' || (typeof errorMessage === 'string' && errorMessage.includes('EROFS'))) {
+      errorMessage = 'Local file storage is read-only on serverless deployment (Vercel). Please paste direct image/video URLs into the URL input instead.';
+    }
     return NextResponse.json(
-      { success: false, error: error.message || 'Failed to upload files' },
+      { success: false, error: errorMessage },
       { status: 500 }
     );
   }
