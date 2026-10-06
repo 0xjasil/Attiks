@@ -26,18 +26,24 @@ async function getAuthHeader(): Promise<Record<string, string>> {
   }
 }
 
+let inMemoryHeroData: HeroData | null = null;
+
 async function readHeroDataInternal(): Promise<HeroData> {
+  if (inMemoryHeroData) {
+    return inMemoryHeroData;
+  }
   try {
     const content = await readFile(DATA_FILE, 'utf-8');
     const parsed = JSON.parse(content);
     if (parsed && Array.isArray(parsed.slides)) {
-      return {
+      inMemoryHeroData = {
         slides: parsed.slides,
         settings: {
           ...defaultHeroSettings,
           ...(parsed.settings || {}),
         },
       };
+      return inMemoryHeroData;
     }
   } catch {
     // Return default hero data if JSON file not found or corrupted
@@ -49,8 +55,13 @@ async function readHeroDataInternal(): Promise<HeroData> {
 }
 
 async function writeHeroDataInternal(data: HeroData): Promise<void> {
-  await mkdir(DATA_DIR, { recursive: true });
-  await writeFile(DATA_FILE, JSON.stringify(data, null, 2), 'utf-8');
+  inMemoryHeroData = data;
+  try {
+    await mkdir(DATA_DIR, { recursive: true });
+    await writeFile(DATA_FILE, JSON.stringify(data, null, 2), 'utf-8');
+  } catch (err) {
+    console.warn('Filesystem is read-only on serverless environment (Vercel); using in-memory store.');
+  }
 }
 
 /**

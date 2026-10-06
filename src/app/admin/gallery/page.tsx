@@ -135,34 +135,15 @@ export default function GalleryAdminPage() {
 
     setUploading(true);
     try {
-      let uploadedUrl = '';
-      try {
-        const formData = new FormData();
-        formData.append('file', file);
+      // 1. Instantly read file locally
+      const localUrl = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
 
-        const res = await fetch('/api/upload', {
-          method: 'POST',
-          body: formData,
-        });
-
-        const json = await res.json();
-        if (json.success && json.data?.url) {
-          uploadedUrl = json.data.url;
-        }
-      } catch (uploadErr) {
-        console.warn('Server upload unavailable, converting file locally:', uploadErr);
-      }
-
-      if (!uploadedUrl) {
-        uploadedUrl = await new Promise<string>((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result as string);
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
-        });
-      }
-
-      setImageUrl(uploadedUrl);
+      setImageUrl(localUrl);
       const autoCaption = file.name
         .replace(/\.[^/.]+$/, '')
         .replace(/[-_]/g, ' ')
@@ -173,8 +154,26 @@ export default function GalleryAdminPage() {
       if (!altText) {
         setAltText(`${autoCaption} architecture showcase detail by Attiks`);
       }
+
+      // 2. Background attempt to upload to server storage if supported
+      try {
+        const formData = new FormData();
+        formData.append('file', file);
+        const res = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        });
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && json.data?.url && !json.data.url.startsWith('data:')) {
+            setImageUrl(json.data.url);
+          }
+        }
+      } catch {
+        // Serverless environment
+      }
     } catch (err: any) {
-      alert('Upload error: ' + err.message);
+      alert('File read error: ' + (err.message || 'Could not load file'));
     } finally {
       setUploading(false);
     }
@@ -202,38 +201,19 @@ export default function GalleryAdminPage() {
 
     setBatchUploading(true);
     try {
-      let urls: string[] = [];
-      try {
-        const formData = new FormData();
-        Array.from(files).forEach((f) => formData.append('files', f));
-
-        const res = await fetch('/api/upload', {
-          method: 'POST',
-          body: formData,
+      const localUrls: string[] = [];
+      for (let i = 0; i < files.length; i++) {
+        const f = files[i];
+        const dataUrl = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsDataURL(f);
         });
-
-        const json = await res.json();
-        if (json.success && Array.isArray(json.data?.urls)) {
-          urls = json.data.urls;
-        }
-      } catch (uploadErr) {
-        console.warn('Server upload unavailable, converting batch locally:', uploadErr);
+        localUrls.push(dataUrl);
       }
 
-      if (urls.length === 0) {
-        for (let i = 0; i < files.length; i++) {
-          const f = files[i];
-          const dataUrl = await new Promise<string>((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result as string);
-            reader.onerror = reject;
-            reader.readAsDataURL(f);
-          });
-          urls.push(dataUrl);
-        }
-      }
-
-      const newQueue = urls.map((url: string, index: number) => {
+      const newQueue = localUrls.map((url: string, index: number) => {
         const originalFile = files[index];
         const autoName = originalFile
           ? originalFile.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())
@@ -248,7 +228,7 @@ export default function GalleryAdminPage() {
       setBatchQueue((prev) => [...prev, ...newQueue]);
       setBatchModalOpen(true);
     } catch (err: any) {
-      alert('Batch upload error: ' + err.message);
+      alert('Batch load error: ' + (err.message || 'Failed to read files'));
     } finally {
       setBatchUploading(false);
     }

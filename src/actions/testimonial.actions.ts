@@ -20,12 +20,18 @@ async function getAuthHeader(): Promise<Record<string, string>> {
   }
 }
 
+let inMemoryTestimonials: Testimonial[] | null = null;
+
 async function readTestimonialsInternal(): Promise<Testimonial[]> {
+  if (inMemoryTestimonials) {
+    return inMemoryTestimonials;
+  }
   try {
     const content = await readFile(DATA_FILE, 'utf-8');
     const parsed = JSON.parse(content);
     if (Array.isArray(parsed) && parsed.length > 0) {
-      return parsed;
+      inMemoryTestimonials = parsed;
+      return inMemoryTestimonials;
     }
   } catch {
     // Return default testimonials if JSON file not found
@@ -34,11 +40,12 @@ async function readTestimonialsInternal(): Promise<Testimonial[]> {
 }
 
 async function writeTestimonialsInternal(testimonials: Testimonial[]): Promise<void> {
+  inMemoryTestimonials = testimonials;
   try {
     await mkdir(DATA_DIR, { recursive: true });
     await writeFile(DATA_FILE, JSON.stringify(testimonials, null, 2), 'utf-8');
   } catch (err) {
-    console.warn('Failed to update local testimonials file:', err);
+    console.warn('Failed to update local testimonials file (serverless environment):', err);
   }
 }
 

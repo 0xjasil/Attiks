@@ -20,12 +20,18 @@ async function getAuthHeader(): Promise<Record<string, string>> {
   }
 }
 
+let inMemoryCategories: CategoryItem[] | null = null;
+
 async function readCategoriesInternal(): Promise<CategoryItem[]> {
+  if (inMemoryCategories) {
+    return inMemoryCategories;
+  }
   try {
     const content = await readFile(DATA_FILE, 'utf-8');
     const parsed = JSON.parse(content);
     if (Array.isArray(parsed) && parsed.length > 0) {
-      return parsed;
+      inMemoryCategories = parsed;
+      return inMemoryCategories;
     }
   } catch {
     // Return default categories if file does not exist
@@ -34,8 +40,13 @@ async function readCategoriesInternal(): Promise<CategoryItem[]> {
 }
 
 async function writeCategoriesInternal(categories: CategoryItem[]): Promise<void> {
-  await mkdir(DATA_DIR, { recursive: true });
-  await writeFile(DATA_FILE, JSON.stringify(categories, null, 2), 'utf-8');
+  inMemoryCategories = categories;
+  try {
+    await mkdir(DATA_DIR, { recursive: true });
+    await writeFile(DATA_FILE, JSON.stringify(categories, null, 2), 'utf-8');
+  } catch (err) {
+    console.warn('Filesystem is read-only on serverless runtime (Vercel); using in-memory store.');
+  }
 }
 
 /**
