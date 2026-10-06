@@ -18,11 +18,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: 'No files provided' }, { status: 400 });
     }
 
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads');
-    await mkdir(uploadDir, { recursive: true });
-
-    // Vercel Serverless Functions have a strict 4.5MB request limit.
-    // Set max sizes to 4MB to ensure they don't trigger the 413 error.
     const MAX_IMAGE_SIZE = 4 * 1024 * 1024; // 4MB
     const MAX_PDF_SIZE = 4 * 1024 * 1024; // 4MB
     const MAX_VIDEO_SIZE = 4 * 1024 * 1024; // 4MB
@@ -38,14 +33,14 @@ export async function POST(request: NextRequest) {
         file.type === 'video/mp4' ||
         file.type === 'video/webm';
       const isImage =
-        /\.(webp|jpg|jpeg|png|gif|svg)$/i.test(fileNameLower) ||
+        /\.(webp|jpg|jpeg|png|gif|svg|avif)$/i.test(fileNameLower) ||
         file.type.startsWith('image/');
 
       if (!isPdf && !isVideo && !isImage) {
         return NextResponse.json(
           {
             success: false,
-            error: `File "${file.name}" is not supported. Only PDF documents (.pdf), images (.webp/.jpg/.png), or videos (.mp4/.webm) are permitted.`,
+            error: `File "${file.name}" is not supported. Only PDF documents (.pdf), images (.webp/.gif/.jpg/.png), or videos (.mp4/.webm) are permitted.`,
           },
           { status: 400 }
         );
@@ -76,10 +71,31 @@ export async function POST(request: NextRequest) {
       const prefix = isPdf ? 'portfolio_pdf' : isVideo ? 'video' : 'img';
       const defaultExt = isPdf ? 'upload.pdf' : isVideo ? 'upload.mp4' : 'upload.webp';
       const fileName = `${prefix}_${timestamp}_${cleanName || defaultExt}`;
-      const filePath = path.join(uploadDir, fileName);
 
-      await writeFile(filePath, buffer);
-      uploadedUrls.push(`/uploads/${fileName}`);
+      let mimeType = file.type;
+      if (!mimeType) {
+        if (fileNameLower.endsWith('.gif')) mimeType = 'image/gif';
+        else if (fileNameLower.endsWith('.webp')) mimeType = 'image/webp';
+        else if (fileNameLower.endsWith('.png')) mimeType = 'image/png';
+        else if (fileNameLower.endsWith('.jpg') || fileNameLower.endsWith('.jpeg')) mimeType = 'image/jpeg';
+        else if (fileNameLower.endsWith('.svg')) mimeType = 'image/svg+xml';
+        else if (fileNameLower.endsWith('.mp4')) mimeType = 'video/mp4';
+        else if (fileNameLower.endsWith('.webm')) mimeType = 'video/webm';
+        else if (fileNameLower.endsWith('.pdf')) mimeType = 'application/pdf';
+        else mimeType = isVideo ? 'video/mp4' : isPdf ? 'application/pdf' : 'image/webp';
+      }
+
+      try {
+        const uploadDir = path.join(process.cwd(), 'public', 'uploads');
+        await mkdir(uploadDir, { recursive: true });
+        const filePath = path.join(uploadDir, fileName);
+        await writeFile(filePath, buffer);
+        uploadedUrls.push(`/uploads/${fileName}`);
+      } catch (fsErr) {
+        // Fallback for Vercel/serverless environments where local filesystem is read-only (EROFS)
+        const base64 = buffer.toString('base64');
+        uploadedUrls.push(`data:${mimeType};base64,${base64}`);
+      }
     }
 
     return NextResponse.json({
