@@ -162,14 +162,16 @@ export default function HeroAdminPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const isVideo = /\.(mp4|webm)$/i.test(file.name) || file.type?.startsWith('video/');
-    if (!isVideo && !file.name.toLowerCase().endsWith('.webp') && file.type !== 'image/webp') {
-      showToast('Only .webp image files (or .mp4/.webm videos) below 2MB are supported.');
+    const isVideo = /\.(mp4|webm|mov|mkv)$/i.test(file.name) || file.type?.startsWith('video/');
+    const isImage = /\.(webp|gif|jpg|jpeg|png|svg|avif)$/i.test(file.name) || file.type?.startsWith('image/');
+
+    if (!isVideo && !isImage) {
+      showToast('Only image files (.webp, .gif, .jpg, .png) or videos (.mp4/.webm) below 4MB are supported.');
       if (fileInputRef.current) fileInputRef.current.value = '';
       return;
     }
-    if (!isVideo && file.size > 2 * 1024 * 1024) {
-      showToast('Image file size exceeds 2MB limit. Please upload an image under 2MB.');
+    if (file.size > 4 * 1024 * 1024) {
+      showToast('File size exceeds 4MB limit. Please upload a file under 4MB.');
       if (fileInputRef.current) fileInputRef.current.value = '';
       return;
     }
@@ -584,6 +586,7 @@ export default function HeroAdminPage() {
                       src={slide.mediaUrl}
                       alt={slide.title || 'Hero slide image'}
                       fill
+                      unoptimized={/\.gif$/i.test(slide.mediaUrl) || slide.mediaUrl.includes('.gif')}
                       sizes="(max-width: 768px) 100vw, 33vw"
                       style={{ objectFit: 'cover' }}
                     />
@@ -1030,6 +1033,7 @@ export default function HeroAdminPage() {
                       src={formData.mediaUrl}
                       alt="Preview"
                       fill
+                      unoptimized={/\.gif$/i.test(formData.mediaUrl) || formData.mediaUrl.includes('.gif')}
                       sizes="100vw"
                       style={{ objectFit: 'cover' }}
                     />

@@ -176,6 +176,7 @@ export default function Hero({
                   alt={slide.altText || slide.title || 'Architectural project scene by Attiks Architecture'}
                   fill
                   priority={idx === 0}
+                  unoptimized={/\.gif$/i.test(slide.mediaUrl) || slide.mediaUrl.includes('.gif')}
                   sizes="100vw"
                   style={{
                     objectFit: 'cover',

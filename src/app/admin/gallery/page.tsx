@@ -120,14 +120,15 @@ export default function GalleryAdminPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!file.name.toLowerCase().endsWith('.webp') && file.type !== 'image/webp') {
-      alert('Only .webp image files below 2MB are supported. Please upload a .webp image.');
+    const isImage = /\.(webp|gif|jpg|jpeg|png|svg|avif)$/i.test(file.name) || file.type?.startsWith('image/');
+    if (!isImage) {
+      alert('Only image files (.webp, .gif, .jpg, .png) below 4MB are supported.');
       if (fileInputRef.current) fileInputRef.current.value = '';
       return;
     }
 
-    if (file.size > 2 * 1024 * 1024) {
-      alert('File size exceeds the 2MB limit. Please upload an image under 2MB.');
+    if (file.size > 4 * 1024 * 1024) {
+      alert('File size exceeds the 4MB limit. Please upload an image under 4MB.');
       if (fileInputRef.current) fileInputRef.current.value = '';
       return;
     }
@@ -172,13 +173,14 @@ export default function GalleryAdminPage() {
 
     for (let i = 0; i < files.length; i++) {
       const f = files[i];
-      if (!f.name.toLowerCase().endsWith('.webp') && f.type !== 'image/webp') {
-        alert(`"${f.name}" is not a .webp file. Only .webp images below 2MB are permitted.`);
+      const isImage = /\.(webp|gif|jpg|jpeg|png|svg|avif)$/i.test(f.name) || f.type?.startsWith('image/');
+      if (!isImage) {
+        alert(`"${f.name}" is not a supported image file (.webp, .gif, .jpg, .png).`);
         if (batchFileInputRef.current) batchFileInputRef.current.value = '';
         return;
       }
-      if (f.size > 2 * 1024 * 1024) {
-        alert(`"${f.name}" exceeds the 2MB limit. Maximum allowed size is 2MB.`);
+      if (f.size > 4 * 1024 * 1024) {
+        alert(`"${f.name}" exceeds the 4MB limit. Maximum allowed size is 4MB.`);
         if (batchFileInputRef.current) batchFileInputRef.current.value = '';
         return;
       }

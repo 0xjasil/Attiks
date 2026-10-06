@@ -602,8 +602,8 @@ export default function NewProjectPage() {
                         overflow: 'hidden',
                         background: '#111',
                         border: '1px solid var(--admin-border)',
-                        group: 'image-item',
                       }}
+                      className="group"
                     >
                       <Image
                         src={imgUrl}
