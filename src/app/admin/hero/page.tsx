@@ -166,12 +166,12 @@ export default function HeroAdminPage() {
     const isImage = /\.(webp|gif|jpg|jpeg|png|svg|avif)$/i.test(file.name) || file.type?.startsWith('image/');
 
     if (!isVideo && !isImage) {
-      showToast('Only image files (.webp, .gif, .jpg, .png) or videos (.mp4/.webm) below 10MB are supported.');
+      showToast('Only image files (.webp, .gif, .jpg, .png) or videos (.mp4/.webm) below 25MB are supported.');
       if (fileInputRef.current) fileInputRef.current.value = '';
       return;
     }
-    if (file.size > 10 * 1024 * 1024) {
-      showToast('File size exceeds 10MB limit. For larger files, please paste a hosted URL directly.');
+    if (file.size > 25 * 1024 * 1024) {
+      showToast('File size exceeds 25MB limit. For larger files, please paste a hosted URL directly.');
       if (fileInputRef.current) fileInputRef.current.value = '';
       return;
     }

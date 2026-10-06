@@ -18,9 +18,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: 'No files provided' }, { status: 400 });
     }
 
-    const MAX_IMAGE_SIZE = 4 * 1024 * 1024; // 4MB
-    const MAX_PDF_SIZE = 4 * 1024 * 1024; // 4MB
-    const MAX_VIDEO_SIZE = 4 * 1024 * 1024; // 4MB
+    const MAX_IMAGE_SIZE = 25 * 1024 * 1024; // 25MB
+    const MAX_PDF_SIZE = 25 * 1024 * 1024; // 25MB
+    const MAX_VIDEO_SIZE = 25 * 1024 * 1024; // 25MB
     const uploadedUrls: string[] = [];
 
     for (const file of files) {

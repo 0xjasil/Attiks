@@ -122,13 +122,13 @@ export default function GalleryAdminPage() {
 
     const isImage = /\.(webp|gif|jpg|jpeg|png|svg|avif)$/i.test(file.name) || file.type?.startsWith('image/');
     if (!isImage) {
-      alert('Only image files (.webp, .gif, .jpg, .png) below 4MB are supported.');
+      alert('Only image files (.webp, .gif, .jpg, .png) below 25MB are supported.');
       if (fileInputRef.current) fileInputRef.current.value = '';
       return;
     }
 
-    if (file.size > 4 * 1024 * 1024) {
-      alert('File size exceeds the 4MB limit. Please upload an image under 4MB.');
+    if (file.size > 25 * 1024 * 1024) {
+      alert('File size exceeds the 25MB limit. Please upload an image under 25MB.');
       if (fileInputRef.current) fileInputRef.current.value = '';
       return;
     }
@@ -192,8 +192,8 @@ export default function GalleryAdminPage() {
         if (batchFileInputRef.current) batchFileInputRef.current.value = '';
         return;
       }
-      if (f.size > 4 * 1024 * 1024) {
-        alert(`"${f.name}" exceeds the 4MB limit. Maximum allowed size is 4MB.`);
+      if (f.size > 25 * 1024 * 1024) {
+        alert(`"${f.name}" exceeds the 25MB limit. Maximum allowed size is 25MB.`);
         if (batchFileInputRef.current) batchFileInputRef.current.value = '';
         return;
       }
