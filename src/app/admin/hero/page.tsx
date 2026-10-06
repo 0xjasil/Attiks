@@ -238,28 +238,52 @@ export default function HeroAdminPage() {
     setSaving(true);
     try {
       if (editingSlide) {
-        const res = await updateHeroSlideAction(editingSlide.id, formData);
-        if (res.success && res.data) {
+        let res: any = null;
+        try {
+          res = await updateHeroSlideAction(editingSlide.id, formData);
+        } catch (actionErr) {
+          console.warn('Server action threw, falling back to REST API:', actionErr);
+          const apiRes = await fetch(`/api/hero/${editingSlide.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData),
+          });
+          res = await apiRes.json().catch(() => null);
+        }
+
+        if (res?.success && res.data) {
           setSlides((prev) =>
             prev.map((s) => (s.id === editingSlide.id ? (res.data as HeroSlide) : s))
           );
           setSlideModalOpen(false);
           showToast('Slide updated successfully');
         } else {
-          showToast('Failed to update: ' + res.error);
+          showToast('Failed to update: ' + (res?.error || 'Unknown error'));
         }
       } else {
-        const res = await createHeroSlideAction(formData);
-        if (res.success && res.data) {
+        let res: any = null;
+        try {
+          res = await createHeroSlideAction(formData);
+        } catch (actionErr) {
+          console.warn('Server action threw, falling back to REST API:', actionErr);
+          const apiRes = await fetch('/api/hero', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData),
+          });
+          res = await apiRes.json().catch(() => null);
+        }
+
+        if (res?.success && res.data) {
           setSlides((prev) => [...prev, res.data as HeroSlide]);
           setSlideModalOpen(false);
           showToast('New slide created');
         } else {
-          showToast('Failed to create: ' + res.error);
+          showToast('Failed to create: ' + (res?.error || 'Unknown error'));
         }
       }
     } catch (err: any) {
-      showToast(err.message);
+      showToast(err.message || 'Error saving slide');
     } finally {
       setSaving(false);
     }

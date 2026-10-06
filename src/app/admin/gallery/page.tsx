@@ -250,38 +250,74 @@ export default function GalleryAdminPage() {
     setSaving(true);
     try {
       if (editingPost) {
-        const res = await updateGalleryPostAction(editingPost.id, {
-          image: imageUrl,
-          caption,
-          altText: altText.trim(),
-          description,
-          location,
-        });
-        if (res.success) {
+        let res: any = null;
+        try {
+          res = await updateGalleryPostAction(editingPost.id, {
+            image: imageUrl,
+            caption,
+            altText: altText.trim(),
+            description,
+            location,
+          });
+        } catch {
+          const apiRes = await fetch(`/api/gallery/${editingPost.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              image: imageUrl,
+              caption,
+              altText: altText.trim(),
+              description,
+              location,
+            }),
+          });
+          res = await apiRes.json().catch(() => null);
+        }
+
+        if (res?.success) {
           setSingleModalOpen(false);
           loadPosts();
         } else {
-          alert('Update failed: ' + res.error);
+          alert('Update failed: ' + (res?.error || 'Unknown error'));
         }
       } else {
-        const res = await createGalleryPostAction({
-          image: imageUrl,
-          caption: caption || 'Architectural Highlight',
-          altText: altText.trim(),
-          description,
-          location,
-          aspectRatio: 'square',
-          active: true,
-        });
-        if (res.success) {
+        let res: any = null;
+        try {
+          res = await createGalleryPostAction({
+            image: imageUrl,
+            caption: caption || 'Architectural Highlight',
+            altText: altText.trim(),
+            description,
+            location,
+            aspectRatio: 'square',
+            active: true,
+          });
+        } catch {
+          const apiRes = await fetch('/api/gallery', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              image: imageUrl,
+              caption: caption || 'Architectural Highlight',
+              altText: altText.trim(),
+              description,
+              location,
+              aspectRatio: 'square',
+              active: true,
+            }),
+          });
+          res = await apiRes.json().catch(() => null);
+        }
+
+        if (res?.success) {
           setSingleModalOpen(false);
           loadPosts();
         } else {
-          alert('Create failed: ' + res.error);
+          alert('Create failed: ' + (res?.error || 'Unknown error'));
         }
       }
     } catch (err: any) {
-      alert(err.message);
+      alert(err.message || 'Error saving post');
     } finally {
       setSaving(false);
     }
