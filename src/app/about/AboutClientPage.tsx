@@ -3,76 +3,19 @@
 import Navbar from '@/components/Navbar';
 import Image from 'next/image';
 import Footer from '@/components/Footer';
+import { AboutPageData, defaultAboutData } from '@/data/about';
 
-interface Partner {
-  name: string;
-  role: string;
-  image: string;
+interface AboutClientPageProps {
+  initialData?: AboutPageData;
 }
 
-const LEADERSHIP_MEMBERS: Partner[] = [
-  {
-    name: 'Ar. Mohamed Aslam P K',
-    role: 'Principal Architect',
-    image: '/images/about/partner_aslam.webp',
-  },
-  {
-    name: 'Ar. Mahir Aalam P',
-    role: 'Co - founder',
-    image: '/images/about/partner_mahir.webp',
-  },
-  {
-    name: 'Ar. Mohamed Naseem P K',
-    role: 'Co - founder',
-    image: '/images/about/partner_naseem.webp',
-  },
-  {
-    name: 'Ar. Nihad Mohamed Ali',
-    role: 'Co - founder, Senior partner - Dubai',
-    image: '/images/about/partner_nihad.webp',
-  },
-];
+export default function AboutClientPage({ initialData }: AboutClientPageProps) {
+  const data = initialData || defaultAboutData;
+  const hero = data.hero || defaultAboutData.hero;
+  const philosophy = data.philosophy || defaultAboutData.philosophy;
+  const foundation = data.foundation || defaultAboutData.foundation;
+  const team = data.team || defaultAboutData.team;
 
-const TEAM_MEMBERS = [
-  {
-    id: 'team-member-1',
-    name: 'Ar. Razeen Jawad',
-    role: 'Senior partner',
-    image: '/images/about/partner_razeen.webp',
-  },
-  {
-    id: 'team-member-2',
-    name: 'Ar. Jamsheer',
-    role: 'Senior partner',
-    image: '/images/about/partner_jamsheer.webp',
-  },
-  {
-    id: 'team-member-3',
-    name: 'Architect',
-    role: 'Design Associate',
-    image: '/images/about/team_placeholder.webp',
-  },
-  {
-    id: 'team-member-4',
-    name: 'Architect',
-    role: 'Design Associate',
-    image: '/images/about/team_placeholder.webp',
-  },
-  {
-    id: 'team-member-5',
-    name: 'Architect',
-    role: 'Design Associate',
-    image: '/images/about/team_placeholder.webp',
-  },
-  {
-    id: 'team-member-6',
-    name: 'Architect',
-    role: 'Design Associate',
-    image: '/images/about/team_placeholder.webp',
-  },
-];
-
-export default function AboutClientPage() {
   return (
     <div
       style={{
@@ -85,37 +28,35 @@ export default function AboutClientPage() {
       <Navbar />
 
       <main>
-        {/* 1. Hero Section: Balanced top clearance and optimal hero banner height */}
+        {/* 1. Hero Section: Full-width hero banner completely filled without left/right spacing */}
         <section
           style={{
             width: '100%',
-            padding: 'clamp(84px, 6vw, 100px) clamp(20px, 5vw, 64px) 0',
+            padding: 'clamp(84px, 6vw, 100px) 0 0',
             boxSizing: 'border-box',
             marginBottom: 'clamp(40px, 5vw, 64px)',
           }}
           aria-label="Studio Team Hero"
         >
-          <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
-            <div
-              style={{
-                position: 'relative',
-                width: '100%',
-                aspectRatio: '16 / 9',
-                minHeight: '400px',
-                backgroundColor: '#151515',
-                overflow: 'hidden',
-              }}
-            >
-              <Image
-                src="/images/about/small_SBCL2379265.webp"
-                alt="Attiks Architecture studio team gathered at the practice atelier"
-                fill
-                sizes="(max-width: 1440px) 100vw, 1440px"
-                style={{ objectFit: 'cover' }}
-                quality={95}
-                priority
-              />
-            </div>
+          <div
+            style={{
+              position: 'relative',
+              width: '100%',
+              aspectRatio: '16 / 9',
+              minHeight: '400px',
+              backgroundColor: '#151515',
+              overflow: 'hidden',
+            }}
+          >
+            <Image
+              src={hero.bannerImage || defaultAboutData.hero.bannerImage}
+              alt={hero.bannerAlt || defaultAboutData.hero.bannerAlt}
+              fill
+              sizes="100vw"
+              style={{ objectFit: 'cover' }}
+              quality={95}
+              priority
+            />
           </div>
         </section>
 
@@ -147,7 +88,6 @@ export default function AboutClientPage() {
                 gap: 'clamp(18px, 2.2vw, 24px)',
               }}
             >
-
               <p
                 style={{
                   fontSize: 'clamp(16px, 1.15vw, 19px)',
@@ -157,24 +97,28 @@ export default function AboutClientPage() {
                   letterSpacing: '-0.01em',
                   margin: 0,
                   fontFamily: 'var(--font-primary)',
+                  whiteSpace: 'pre-line',
                 }}
               >
-                <strong style={{ fontWeight: 600, color: '#000000' }}>Attiks Architecture</strong> approaches architecture as a contextual and evolving discipline, shaped by the relationship between people, place, and time. The practice seeks to develop spaces that are responsive to their physical, cultural, and environmental contexts, while establishing a clear and enduring architectural identity.
+                {philosophy.paragraph1}
               </p>
 
-              <p
-                style={{
-                  fontSize: 'clamp(14.5px, 1vw, 16.5px)',
-                  lineHeight: 1.6,
-                  color: '#555555',
-                  fontWeight: 350,
-                  letterSpacing: '-0.005em',
-                  margin: 0,
-                  fontFamily: 'var(--font-primary)',
-                }}
-              >
-                This philosophy forms the foundation of Attiks Architecture, established in 2014 with a vision to advance innovative and sustainable architectural practices. The practice evolved from M/s P.K. Aslam Architects, founded by Ar. P.K. Aslam in 1997, which developed into a well-established and reputed architectural practice over the years. In response to an evolving architectural landscape, the firm came together with a new generation of young and dynamic architects, laying the foundation for Attiks Architecture.
-              </p>
+              {philosophy.paragraph2 && (
+                <p
+                  style={{
+                    fontSize: 'clamp(14.5px, 1vw, 16.5px)',
+                    lineHeight: 1.6,
+                    color: '#555555',
+                    fontWeight: 350,
+                    letterSpacing: '-0.005em',
+                    margin: 0,
+                    fontFamily: 'var(--font-primary)',
+                    whiteSpace: 'pre-line',
+                  }}
+                >
+                  {philosophy.paragraph2}
+                </p>
+              )}
             </div>
 
             {/* Right Column: Partners Group Image */}
@@ -189,8 +133,8 @@ export default function AboutClientPage() {
               }}
             >
               <Image
-                src="/images/about/partners_group.webp"
-                alt="Attiks Architecture leadership partners discussion in Calicut"
+                src={philosophy.image || defaultAboutData.philosophy.image}
+                alt={philosophy.imageAlt || defaultAboutData.philosophy.imageAlt}
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 quality={95}
@@ -209,7 +153,7 @@ export default function AboutClientPage() {
           </div>
         </section>
 
-        {/* 3. People of Attiks (4 Directors - 4-Column Grid) */}
+        {/* 3. The Foundation (Directors) */}
         <section
           style={{
             width: '100%',
@@ -217,7 +161,7 @@ export default function AboutClientPage() {
             boxSizing: 'border-box',
             marginBottom: 'clamp(48px, 6vw, 80px)',
           }}
-          aria-label="People of Attiks"
+          aria-label={foundation.sectionTitle || 'The Foundation'}
         >
           <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
             <div style={{ marginBottom: 'clamp(24px, 3.2vw, 40px)' }}>
@@ -233,11 +177,11 @@ export default function AboutClientPage() {
                   letterSpacing: '-0.02em',
                 }}
               >
-                People of Attiks
+                {foundation.sectionTitle || 'The Foundation'}
               </h2>
             </div>
 
-            {/* 4-Column Grid for 4 Directors */}
+            {/* 4-Column Grid for Directors */}
             <div
               className="leadership-grid"
               style={{
@@ -245,9 +189,9 @@ export default function AboutClientPage() {
                 gap: 'clamp(24px, 3vw, 44px) clamp(16px, 2.2vw, 32px)',
               }}
             >
-              {LEADERSHIP_MEMBERS.map((partner) => (
+              {(foundation.directors || []).map((partner, idx) => (
                 <div
-                  key={partner.name}
+                  key={partner.id || partner.name || `dir-${idx}`}
                   style={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -259,13 +203,13 @@ export default function AboutClientPage() {
                     style={{
                       position: 'relative',
                       width: '100%',
-                      aspectRatio: '1 / 1',
+                      aspectRatio: '4 / 4.8',
                       backgroundColor: '#f5f5f5',
                       overflow: 'hidden',
                     }}
                   >
                     <Image
-                      src={partner.image}
+                      src={partner.image || '/images/about/team_placeholder.webp'}
                       alt={`${partner.name} - ${partner.role} at Attiks Architecture`}
                       fill
                       sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
@@ -321,7 +265,7 @@ export default function AboutClientPage() {
           </div>
         </section>
 
-        {/* 4. The Team Section (6 Team Members) */}
+        {/* 4. The Team Section (People of Attiks) */}
         <section
           style={{
             width: '100%',
@@ -329,7 +273,7 @@ export default function AboutClientPage() {
             boxSizing: 'border-box',
             marginBottom: 'clamp(60px, 8vw, 100px)',
           }}
-          aria-label="The Team"
+          aria-label={team.sectionTitle || 'The Team'}
         >
           <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
             <div style={{ marginBottom: 'clamp(24px, 3.2vw, 40px)' }}>
@@ -345,11 +289,11 @@ export default function AboutClientPage() {
                   letterSpacing: '-0.02em',
                 }}
               >
-                The Team
+                {team.sectionTitle || 'People of Attiks'}
               </h2>
             </div>
 
-            {/* 6 Team Members Grid */}
+            {/* Team Members Grid (1 Row of 4) */}
             <div
               className="team-grid"
               style={{
@@ -357,9 +301,9 @@ export default function AboutClientPage() {
                 gap: 'clamp(14px, 1.8vw, 24px) clamp(12px, 1.5vw, 18px)',
               }}
             >
-              {TEAM_MEMBERS.map((member, index) => (
+              {(team.members || []).map((member, index) => (
                 <div
-                  key={member.id}
+                  key={member.id || `member-${index}`}
                   style={{
                     position: 'relative',
                     width: '100%',
@@ -367,12 +311,17 @@ export default function AboutClientPage() {
                     backgroundColor: '#e6e6e6',
                     overflow: 'hidden',
                   }}
+                  title={member.name ? `${member.name} (${member.role})` : undefined}
                 >
                   <Image
-                    src={member.image}
-                    alt={`Attiks Architecture design team member 0${index + 1}`}
+                    src={member.image || '/images/about/team_placeholder.webp'}
+                    alt={
+                      member.name
+                        ? `${member.name} - ${member.role} at Attiks Architecture`
+                        : `Attiks Architecture design team member 0${index + 1}`
+                    }
                     fill
-                    sizes="(max-width: 640px) 33vw, (max-width: 1024px) 33vw, 16vw"
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
                     quality={95}
                     style={{
                       objectFit: 'cover',
@@ -402,7 +351,7 @@ export default function AboutClientPage() {
           grid-template-columns: repeat(4, minmax(0, 1fr));
         }
         .team-grid {
-          grid-template-columns: repeat(6, minmax(0, 1fr));
+          grid-template-columns: repeat(4, minmax(0, 1fr));
         }
 
         @media (max-width: 1024px) {
@@ -410,7 +359,7 @@ export default function AboutClientPage() {
             grid-template-columns: repeat(2, minmax(0, 1fr));
           }
           .team-grid {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
+            grid-template-columns: repeat(2, minmax(0, 1fr));
           }
         }
 
@@ -420,7 +369,7 @@ export default function AboutClientPage() {
             gap: 24px 14px !important;
           }
           .team-grid {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 12px 10px !important;
           }
         }

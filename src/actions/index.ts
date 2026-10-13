@@ -7,3 +7,4 @@ export * from './hero.actions';
 export * from './gallery.actions';
 export * from './category.actions';
 export * from './career.actions';
+export * from './about.actions';

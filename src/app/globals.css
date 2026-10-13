@@ -704,9 +704,11 @@ p {
 }
 
 .footer-bottom {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 1.5rem var(--section-padding);
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 1.5rem clamp(20px, 5vw, 64px);
+  box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;

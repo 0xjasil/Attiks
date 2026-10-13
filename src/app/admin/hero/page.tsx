@@ -71,7 +71,7 @@ export default function HeroAdminPage() {
     altText: '',
     title: '',
     subtitle: '',
-    ctaText: 'view projects',
+    ctaText: 'explore projects',
     ctaLink: '/projects',
     active: true,
   });

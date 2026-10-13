@@ -39,19 +39,24 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AboutPage() {
+import { getAboutDataAction } from '@/actions/about.actions';
+
+export default async function AboutPage() {
+  const aboutData = await getAboutDataAction();
+
   const aboutSchema = {
     '@context': 'https://schema.org',
     '@type': 'AboutPage',
     name: 'About ATTIKS Architecture Studio',
     description:
+      aboutData?.philosophy?.paragraph1 ||
       'Discover Attiks Architecture practice based in Kerala. Explore our design philosophy, principal architects, sustainable materiality, and contextual architectural heritage.',
     url: 'https://attiks.in/about',
     mainEntity: {
       '@type': 'ArchitecturalStudio',
       name: 'ATTIKS Architecture',
       url: 'https://attiks.in',
-      image: 'https://attiks.in/team_photo.webp',
+      image: aboutData?.hero?.bannerImage || 'https://attiks.in/team_photo.webp',
       description:
         'A Kerala-based architecture practice shaping contextual, enduring spaces informed by climate, material, and spatial experience.',
       address: {
@@ -94,7 +99,7 @@ export default function AboutPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <AboutClientPage />
+      <AboutClientPage initialData={aboutData} />
     </>
   );
 }

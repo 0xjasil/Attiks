@@ -118,28 +118,27 @@ export default function AboutSection() {
         </motion.div>
       </div>
 
-      {/* Right: Watermark Triangle Motif (Shifted to the right as in reference image) */}
+      {/* Right: Watermark Logo Motif (Center-cut perfectly at right edge, vector-sharp and refined size) */}
       <div
         className="about-watermark-bg"
         style={{
           position: 'absolute',
           right: 0,
           top: '50%',
-          transform: 'translate(35%, -50%)',
-          width: 'clamp(520px, 58vw, 980px)',
-          height: 'clamp(520px, 58vw, 980px)',
+          transform: 'translate(50%, -50%)',
+          width: 'clamp(380px, 38vw, 660px)',
+          aspectRatio: '382 / 198',
           opacity: 0.08,
           zIndex: 1,
           pointerEvents: 'none',
-          overflow: 'hidden',
         }}
         aria-hidden="true"
       >
         <Image
-          src="/images/Trblack.png"
+          src="/images/logogb.svg"
           alt=""
           fill
-          sizes="(max-width: 768px) 520px, 980px"
+          unoptimized
           style={{
             objectFit: 'contain',
             objectPosition: 'center',

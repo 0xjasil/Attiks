@@ -6,6 +6,8 @@ import { logoutAction } from '@/actions/auth.actions';
 
 const titles: Record<string, string> = {
   '/admin/dashboard':    'Dashboard',
+  '/admin/about':        'About Studio Page',
+  '/admin/hero':         'Hero Section',
   '/admin/projects/new': 'New Project',
   '/admin/projects':     'Projects Portfolio',
   '/admin/leads':        'Client Enquiries',
