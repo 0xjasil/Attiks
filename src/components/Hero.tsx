@@ -30,7 +30,7 @@ export default function Hero({
           posterUrl: v.poster,
           order: i + 1,
           active: true,
-          ctaText: settings.defaultCtaText || 'view projects',
+          ctaText: settings.defaultCtaText || 'explore projects',
           ctaLink: settings.defaultCtaLink || '/projects',
         }))
       : defaultHeroSlides;
@@ -90,7 +90,7 @@ export default function Hero({
     }
   }, [slideList.length]);
 
-  const ctaText = activeSlide.ctaText || settings.defaultCtaText || 'view projects';
+  const ctaText = activeSlide.ctaText || settings.defaultCtaText || 'explore projects';
   const ctaLink = activeSlide.ctaLink || settings.defaultCtaLink || '/projects';
 
   return (

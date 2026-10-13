@@ -50,7 +50,7 @@ export default function HeroAdminPage() {
     autoPlayInterval: 6500,
     showPagination: true,
     showCta: true,
-    defaultCtaText: 'view projects',
+    defaultCtaText: 'explore projects',
     defaultCtaLink: '/projects',
   });
   const [loading, setLoading] = useState(true);
@@ -133,7 +133,7 @@ export default function HeroAdminPage() {
       altText: '',
       title: '',
       subtitle: '',
-      ctaText: settings.defaultCtaText || 'view projects',
+      ctaText: settings.defaultCtaText || 'explore projects',
       ctaLink: settings.defaultCtaLink || '/projects',
       active: true,
     });
@@ -150,7 +150,7 @@ export default function HeroAdminPage() {
       altText: slide.altText || slide.title || '',
       title: slide.title || '',
       subtitle: slide.subtitle || '',
-      ctaText: slide.ctaText || settings.defaultCtaText || 'view projects',
+      ctaText: slide.ctaText || settings.defaultCtaText || 'explore projects',
       ctaLink: slide.ctaLink || settings.defaultCtaLink || '/projects',
       active: slide.active !== false,
     });
@@ -1136,7 +1136,7 @@ export default function HeroAdminPage() {
                   <input
                     type="text"
                     className="admin-input"
-                    placeholder="e.g. view projects"
+                    placeholder="e.g. explore projects"
                     value={formData.ctaText}
                     onChange={(e) => setFormData({ ...formData, ctaText: e.target.value })}
                     style={{ width: '100%', boxSizing: 'border-box' }}
@@ -1510,7 +1510,7 @@ export default function HeroAdminPage() {
                         textShadow: '0 2px 12px rgba(0, 0, 0, 0.7)',
                       }}
                     >
-                      <span>{activeSlides[previewIndex]?.ctaText || settings.defaultCtaText || 'view projects'}</span>
+                      <span>{activeSlides[previewIndex]?.ctaText || settings.defaultCtaText || 'explore projects'}</span>
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.35">
                         <line x1="4" y1="12" x2="20" y2="12" />
                         <polyline points="14 6 20 12 14 18" />

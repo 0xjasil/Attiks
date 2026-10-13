@@ -184,7 +184,7 @@ export async function createHeroSlideAction(data: Partial<HeroSlide>) {
       altText: data.altText || data.title || 'Architectural project scene by Attiks Architecture',
       title: data.title || '',
       subtitle: data.subtitle || '',
-      ctaText: data.ctaText || heroData.settings.defaultCtaText || 'view projects',
+      ctaText: data.ctaText || heroData.settings.defaultCtaText || 'explore projects',
       ctaLink: data.ctaLink || heroData.settings.defaultCtaLink || '/projects',
       order: heroData.slides.length + 1,
       active: data.active !== undefined ? data.active : true,
