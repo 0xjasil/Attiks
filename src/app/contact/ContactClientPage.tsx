@@ -126,9 +126,11 @@ export default function ContactClientPage() {
                     key={item.email}
                     href={`mailto:${item.email}`}
                     style={{
-                      display: 'inline-block',
-                      fontSize: 'clamp(17px, 1.25vw, 20px)',
-                      lineHeight: 1.28,
+                      display: 'inline-flex',
+                      alignItems: 'baseline',
+                      flexWrap: 'wrap',
+                      fontSize: 'clamp(17px, 1.2vw, 20px)',
+                      lineHeight: 1.35,
                       color: '#111111',
                       textDecoration: 'none',
                       fontFamily: 'var(--font-primary)',
@@ -137,14 +139,24 @@ export default function ContactClientPage() {
                       transition: 'opacity 0.2s ease',
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.opacity = '0.6';
+                      e.currentTarget.style.opacity = '0.55';
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.opacity = '1';
                     }}
                   >
-                    <span>{item.label} : </span>
-                    <span>{item.email}</span>
+                    <span style={{ color: '#222222' }}>{item.label}</span>
+                    <span
+                      style={{
+                        display: 'inline-block',
+                        margin: '0 8px',
+                        color: '#666666',
+                      }}
+                      aria-hidden="true"
+                    >
+                      :
+                    </span>
+                    <span style={{ color: '#000000' }}>{item.email}</span>
                   </a>
                 ))}
               </div>
