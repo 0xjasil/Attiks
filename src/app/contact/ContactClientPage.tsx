@@ -4,12 +4,35 @@ import { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, AlertCircle, ArrowRight } from 'lucide-react';
+import { 
+  Check, 
+  AlertCircle, 
+  ArrowRight, 
+  Briefcase, 
+  MessageSquare, 
+  Handshake, 
+  ArrowUpRight 
+} from 'lucide-react';
 
-const CONTACT_EMAILS = [
-  { label: 'career at Attiks', email: 'hr@attiks.in' },
-  { label: 'for enquiries', email: 'hello@attiks.in' },
-  { label: 'for vendor enquiries', email: 'info@attiks.in' },
+const CONTACT_CHANNELS = [
+  {
+    id: 'careers',
+    label: 'Careers',
+    email: 'hr@attiks.in',
+    icon: Briefcase,
+  },
+  {
+    id: 'general',
+    label: 'General Enquiries',
+    email: 'hello@attiks.in',
+    icon: MessageSquare,
+  },
+  {
+    id: 'vendor',
+    label: 'Vendor Enquiries',
+    email: 'info@attiks.in',
+    icon: Handshake,
+  },
 ];
 
 export default function ContactClientPage() {
@@ -98,67 +121,44 @@ export default function ContactClientPage() {
         <section style={{ padding: '160px var(--section-padding) 120px' }}>
           <div style={{ maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
             
-            <div style={{ marginBottom: '48px' }}>
+            {/* Minimalist Contact Channels Section */}
+            <div className="contact-channels-section">
               <h1 className="sr-only">Contact Attiks Architecture</h1>
-              <p
-                style={{
-                  fontFamily: 'var(--font-primary)',
-                  fontSize: 'clamp(14px, 0.95vw, 16px)',
-                  fontWeight: 400,
-                  color: '#777777',
-                  marginBottom: '14px',
-                  letterSpacing: '0.12em',
-                  textTransform: 'uppercase',
-                }}
-              >
+              <p className="contact-channels-tag">
                 Contact Us
               </p>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '6px',
-                  alignItems: 'flex-start',
-                }}
-              >
-                {CONTACT_EMAILS.map((item) => (
-                  <a
-                    key={item.email}
-                    href={`mailto:${item.email}`}
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'baseline',
-                      flexWrap: 'wrap',
-                      fontSize: 'clamp(17px, 1.2vw, 20px)',
-                      lineHeight: 1.35,
-                      color: '#111111',
-                      textDecoration: 'none',
-                      fontFamily: 'var(--font-primary)',
-                      fontWeight: 400,
-                      letterSpacing: '-0.01em',
-                      transition: 'opacity 0.2s ease',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.opacity = '0.55';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.opacity = '1';
-                    }}
-                  >
-                    <span style={{ color: '#222222' }}>{item.label}</span>
-                    <span
-                      style={{
-                        display: 'inline-block',
-                        margin: '0 8px',
-                        color: '#666666',
-                      }}
-                      aria-hidden="true"
+
+              <div className="contact-channels-grid">
+                {CONTACT_CHANNELS.map((item) => {
+                  const IconComponent = item.icon;
+
+                  return (
+                    <a
+                      key={item.id}
+                      href={`mailto:${item.email}`}
+                      className="contact-channel-card"
+                      aria-label={`${item.label}: ${item.email}`}
                     >
-                      :
-                    </span>
-                    <span style={{ color: '#000000' }}>{item.email}</span>
-                  </a>
-                ))}
+                      <div className="contact-card-top">
+                        <div className="contact-card-label-group">
+                          <div className="contact-card-icon-wrap" aria-hidden="true">
+                            <IconComponent size={16} strokeWidth={1.5} />
+                          </div>
+                          <span className="contact-card-label">{item.label}</span>
+                        </div>
+                        <span className="contact-card-arrow" aria-hidden="true">
+                          <ArrowUpRight size={17} strokeWidth={1.75} />
+                        </span>
+                      </div>
+
+                      <div className="contact-card-body">
+                        <span className="contact-card-email-text">
+                          {item.email}
+                        </span>
+                      </div>
+                    </a>
+                  );
+                })}
               </div>
             </div>
 
