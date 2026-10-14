@@ -39,7 +39,7 @@ export default function AboutSection() {
           viewport={{ once: true }}
           style={{
             fontSize: 'clamp(19px, 1.4vw, 23px)',
-            lineHeight: 1.28,
+            lineHeight: 1.55,
             fontWeight: 400,
             color: '#222222',
             letterSpacing: '-0.01em',

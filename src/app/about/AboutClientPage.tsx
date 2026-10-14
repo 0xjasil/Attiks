@@ -293,52 +293,97 @@ export default function AboutClientPage({ initialData }: AboutClientPageProps) {
               </h2>
             </div>
 
-            {/* Team Members Grid (1 Row of 4) */}
+            {/* Team Members Grid (4 Columns matching The Foundation) */}
             <div
               className="team-grid"
               style={{
                 display: 'grid',
-                gap: 'clamp(14px, 1.8vw, 24px) clamp(12px, 1.5vw, 18px)',
+                gap: 'clamp(24px, 3vw, 44px) clamp(16px, 2.2vw, 32px)',
               }}
             >
-              {(team.members || []).map((member, index) => (
-                <div
-                  key={member.id || `member-${index}`}
-                  style={{
-                    position: 'relative',
-                    width: '100%',
-                    aspectRatio: '1 / 1',
-                    backgroundColor: '#e6e6e6',
-                    overflow: 'hidden',
-                  }}
-                  title={member.name ? `${member.name} (${member.role})` : undefined}
-                >
-                  <Image
-                    src={member.image || '/images/about/team_placeholder.webp'}
-                    alt={
-                      member.name
-                        ? `${member.name} - ${member.role} at Attiks Architecture`
-                        : `Attiks Architecture design team member 0${index + 1}`
-                    }
-                    fill
-                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
-                    quality={95}
+              {(team.members || []).map((member, index) => {
+                const displayName =
+                  member.name && member.name !== 'Architect'
+                    ? member.name
+                    : member.role || `Studio Associate 0${index + 1}`;
+                const displayRole =
+                  member.name && member.name !== 'Architect'
+                    ? member.role
+                    : 'Architecture & Design';
+
+                return (
+                  <div
+                    key={member.id || `member-${index}`}
                     style={{
-                      objectFit: 'cover',
-                      filter: 'grayscale(100%)',
-                      transition: 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '14px',
                     }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'scale(1.03)';
-                      e.currentTarget.style.filter = 'grayscale(0%)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'scale(1)';
-                      e.currentTarget.style.filter = 'grayscale(100%)';
-                    }}
-                  />
-                </div>
-              ))}
+                  >
+                    {/* Portrait Container with 4 / 4.8 aspect ratio matching The Foundation */}
+                    <div
+                      style={{
+                        position: 'relative',
+                        width: '100%',
+                        aspectRatio: '4 / 4.8',
+                        backgroundColor: '#f5f5f5',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <Image
+                        src={member.image || '/images/about/team_placeholder.webp'}
+                        alt={`${displayName} - ${displayRole} at Attiks Architecture`}
+                        fill
+                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
+                        quality={95}
+                        style={{
+                          objectFit: 'cover',
+                          filter: 'grayscale(100%)',
+                          transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease',
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'scale(1.03)';
+                          e.currentTarget.style.filter = 'grayscale(0%)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'scale(1)';
+                          e.currentTarget.style.filter = 'grayscale(100%)';
+                        }}
+                      />
+                    </div>
+
+                    {/* Member Details */}
+                    <div>
+                      <h3
+                        style={{
+                          fontSize: 'clamp(16px, 1.1vw, 18px)',
+                          fontWeight: 600,
+                          color: '#000000',
+                          margin: 0,
+                          letterSpacing: '-0.01em',
+                          lineHeight: 1.3,
+                          fontFamily: 'var(--font-primary)',
+                        }}
+                      >
+                        {displayName}
+                      </h3>
+                      <p
+                        style={{
+                          fontSize: 'clamp(13px, 0.85vw, 14.5px)',
+                          color: '#555555',
+                          margin: '4px 0 0 0',
+                          fontWeight: 400,
+                          letterSpacing: '-0.005em',
+                          lineHeight: 1.35,
+                          fontFamily: 'var(--font-primary)',
+                        }}
+                      >
+                        {displayRole}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>

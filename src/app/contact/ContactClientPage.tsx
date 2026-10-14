@@ -4,8 +4,13 @@ import { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { motion, AnimatePresence } from 'framer-motion';
-import PageHeader from '@/components/PageHeader';
 import { Check, AlertCircle, ArrowRight } from 'lucide-react';
+
+const CONTACT_EMAILS = [
+  { label: 'career at Attiks', email: 'hr@attiks.in' },
+  { label: 'for enquiries', email: 'hello@attiks.in' },
+  { label: 'for vendor enquiries', email: 'info@attiks.in' },
+];
 
 export default function ContactClientPage() {
   const [formData, setFormData] = useState({
@@ -93,14 +98,56 @@ export default function ContactClientPage() {
         <section style={{ padding: '160px var(--section-padding) 120px' }}>
           <div style={{ maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
             
-            <div style={{ marginBottom: '80px' }}>
-              <PageHeader 
-                label="Contact Us"
-                title={<>Let&apos;s shape your{' '}<br />vision together</>}
-              />
-              <p style={{ fontSize: 'clamp(18px, 1.3vw, 21px)', color: '#333333', maxWidth: '580px', marginTop: '2rem', lineHeight: '1.75', fontWeight: 350 }}>
-                Whether you are looking to commission an architectural landmark or design a private sanctuary, our practice provides personalized, expert guidance at every stage.
+            <div style={{ marginBottom: '48px' }}>
+              <h1 className="sr-only">Contact Attiks Architecture</h1>
+              <p
+                style={{
+                  fontFamily: 'var(--font-primary)',
+                  fontSize: 'clamp(14px, 0.95vw, 16px)',
+                  fontWeight: 400,
+                  color: '#777777',
+                  marginBottom: '14px',
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                Contact Us
               </p>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '6px',
+                  alignItems: 'flex-start',
+                }}
+              >
+                {CONTACT_EMAILS.map((item) => (
+                  <a
+                    key={item.email}
+                    href={`mailto:${item.email}`}
+                    style={{
+                      display: 'inline-block',
+                      fontSize: 'clamp(17px, 1.25vw, 20px)',
+                      lineHeight: 1.28,
+                      color: '#111111',
+                      textDecoration: 'none',
+                      fontFamily: 'var(--font-primary)',
+                      fontWeight: 400,
+                      letterSpacing: '-0.01em',
+                      transition: 'opacity 0.2s ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.opacity = '0.6';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.opacity = '1';
+                    }}
+                  >
+                    <span>{item.label} : </span>
+                    <span>{item.email}</span>
+                  </a>
+                ))}
+              </div>
             </div>
 
             <div className="grid-responsive-2" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '80px', alignItems: 'stretch' }}>
@@ -402,7 +449,21 @@ export default function ContactClientPage() {
                   #1/523, Krishna Building<br />
                   NH 66, Azhinhilam PO<br />
                   Calicut - 673632<br />
-                  <span style={{ color: '#000000', fontWeight: 400, display: 'block', marginTop: '10px' }}>+91 0483 2941308</span>
+                  <a
+                    href="tel:+9104832941308"
+                    style={{
+                      color: '#000000',
+                      fontWeight: 500,
+                      display: 'inline-block',
+                      marginTop: '10px',
+                      textDecoration: 'none',
+                      transition: 'opacity 0.2s ease',
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.6'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.opacity = '1'; }}
+                  >
+                    +91 0483 2941308
+                  </a>
                 </address>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -411,7 +472,21 @@ export default function ContactClientPage() {
                   Aspect Tower 906<br />
                   Business Bay, Dubai<br />
                   UAE<br />
-                  <span style={{ color: '#000000', fontWeight: 400, display: 'block', marginTop: '10px' }}>hello@attiks.ae</span>
+                  <a
+                    href="mailto:hello@attiks.ae"
+                    style={{
+                      color: '#000000',
+                      fontWeight: 500,
+                      display: 'inline-block',
+                      marginTop: '10px',
+                      textDecoration: 'none',
+                      transition: 'opacity 0.2s ease',
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.6'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.opacity = '1'; }}
+                  >
+                    hello@attiks.ae
+                  </a>
                 </address>
               </div>
             </div>
