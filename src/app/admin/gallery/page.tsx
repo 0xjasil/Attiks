@@ -120,14 +120,19 @@ export default function GalleryAdminPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!file.name.toLowerCase().endsWith('.webp') && file.type !== 'image/webp') {
-      alert('Only .webp image files below 2MB are supported. Please upload a .webp image.');
+    const isImage =
+      /\.(webp|jpg|jpeg|png|gif|svg)$/i.test(file.name) ||
+      file.type.startsWith('image/');
+
+    if (!isImage) {
+      alert(`"${file.name}" is not a supported image file. Supported formats: WEBP, JPG, PNG.`);
       if (fileInputRef.current) fileInputRef.current.value = '';
       return;
     }
 
     if (file.size > 2 * 1024 * 1024) {
-      alert('File size exceeds the 2MB limit. Please upload an image under 2MB.');
+      const sizeMb = (file.size / (1024 * 1024)).toFixed(2);
+      alert(`Maximum capacity exceeded: "${file.name}" is ${sizeMb}MB. Maximum capacity is 2MB per image. Please upload an image below 2MB.`);
       if (fileInputRef.current) fileInputRef.current.value = '';
       return;
     }
@@ -170,15 +175,22 @@ export default function GalleryAdminPage() {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
-    for (let i = 0; i < files.length; i++) {
-      const f = files[i];
-      if (!f.name.toLowerCase().endsWith('.webp') && f.type !== 'image/webp') {
-        alert(`"${f.name}" is not a .webp file. Only .webp images below 2MB are permitted.`);
+    const fileList = Array.from(files);
+    for (let i = 0; i < fileList.length; i++) {
+      const f = fileList[i];
+      const isImage =
+        /\.(webp|jpg|jpeg|png|gif|svg)$/i.test(f.name) ||
+        f.type.startsWith('image/');
+
+      if (!isImage) {
+        alert(`"${f.name}" is not a supported image file. Supported formats: WEBP, JPG, PNG.`);
         if (batchFileInputRef.current) batchFileInputRef.current.value = '';
         return;
       }
+
       if (f.size > 2 * 1024 * 1024) {
-        alert(`"${f.name}" exceeds the 2MB limit. Maximum allowed size is 2MB.`);
+        const sizeMb = (f.size / (1024 * 1024)).toFixed(2);
+        alert(`Maximum capacity exceeded: "${f.name}" is ${sizeMb}MB. Maximum capacity is 2MB per image. Please upload images below 2MB.`);
         if (batchFileInputRef.current) batchFileInputRef.current.value = '';
         return;
       }
@@ -186,33 +198,38 @@ export default function GalleryAdminPage() {
 
     setBatchUploading(true);
     try {
-      const formData = new FormData();
-      Array.from(files).forEach((f) => formData.append('files', f));
+      const uploadedUrls: string[] = [];
+      for (const f of fileList) {
+        const formData = new FormData();
+        formData.append('file', f);
 
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const json = await res.json();
-      if (json.success && Array.isArray(json.data?.urls)) {
-        const newQueue = json.data.urls.map((url: string, index: number) => {
-          const originalFile = files[index];
-          const autoName = originalFile
-            ? originalFile.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())
-            : `Showcase Photo ${index + 1}`;
-          return {
-            image: url,
-            caption: autoName,
-            altText: `${autoName} architectural showcase view by Attiks`,
-            location: location || 'Kerala, India',
-          };
+        const res = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
         });
-        setBatchQueue((prev) => [...prev, ...newQueue]);
-        setBatchModalOpen(true);
-      } else {
-        alert('Upload failed: ' + (json.error || 'Unknown error'));
+
+        const json = await res.json();
+        if (json.success && (json.data?.url || (Array.isArray(json.data?.urls) && json.data.urls[0]))) {
+          uploadedUrls.push(json.data?.url || json.data.urls[0]);
+        } else {
+          throw new Error(json.error || `Failed to upload "${f.name}"`);
+        }
       }
+
+      const newQueue = uploadedUrls.map((url: string, index: number) => {
+        const originalFile = fileList[index];
+        const autoName = originalFile
+          ? originalFile.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())
+          : `Showcase Photo ${index + 1}`;
+        return {
+          image: url,
+          caption: autoName,
+          altText: `${autoName} architectural showcase view by Attiks`,
+          location: location || 'Kerala, India',
+        };
+      });
+      setBatchQueue((prev) => [...prev, ...newQueue]);
+      setBatchModalOpen(true);
     } catch (err: any) {
       alert('Batch upload error: ' + err.message);
     } finally {

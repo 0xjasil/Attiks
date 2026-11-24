@@ -53,10 +53,11 @@ export async function POST(request: NextRequest) {
       const allowedSize = isPdf ? MAX_PDF_SIZE : isVideo ? MAX_VIDEO_SIZE : MAX_IMAGE_SIZE;
       if (file.size > allowedSize) {
         const sizeMb = Math.round(allowedSize / (1024 * 1024));
+        const actualMb = (file.size / (1024 * 1024)).toFixed(2);
         return NextResponse.json(
           {
             success: false,
-            error: `File "${file.name}" exceeds the ${sizeMb}MB size limit for this file type.`,
+            error: `Maximum capacity exceeded: "${file.name}" is ${actualMb}MB. Maximum capacity allowed is ${sizeMb}MB. Please upload an image below 2MB.`,
           },
           { status: 400 }
         );

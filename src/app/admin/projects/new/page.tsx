@@ -59,11 +59,11 @@ export default function NewProjectPage() {
 
   // Upload helper using /api/upload
   async function uploadFiles(files: FileList | File[]): Promise<string[]> {
-    const formData = new FormData();
     const MAX_IMAGE_SIZE = 2 * 1024 * 1024; // 2MB
+    const fileArray = Array.from(files);
 
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
+    // 1. Validate every file
+    for (const file of fileArray) {
       const isImage =
         /\.(webp|jpg|jpeg|png|gif|svg)$/i.test(file.name) ||
         file.type.startsWith('image/');
@@ -74,24 +74,36 @@ export default function NewProjectPage() {
 
       if (file.size > MAX_IMAGE_SIZE) {
         const sizeMb = (file.size / (1024 * 1024)).toFixed(2);
-        throw new Error(`"${file.name}" (${sizeMb}MB) exceeds the 2MB limit. Please upload images below 2MB.`);
+        throw new Error(`Maximum capacity exceeded: "${file.name}" is ${sizeMb}MB. Maximum capacity is 2MB per image. Please upload images below 2MB.`);
+      }
+    }
+
+    // 2. Upload files individually to keep each payload below Vercel's capacity limit
+    const uploadedUrls: string[] = [];
+    for (let i = 0; i < fileArray.length; i++) {
+      const file = fileArray[i];
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `Failed to upload "${file.name}" (Maximum capacity 2MB)`);
       }
 
-      formData.append('files', file);
+      const json = await res.json();
+      if (json.data?.url) {
+        uploadedUrls.push(json.data.url);
+      } else if (Array.isArray(json.data?.urls) && json.data.urls.length > 0) {
+        uploadedUrls.push(json.data.urls[0]);
+      }
     }
 
-    const res = await fetch('/api/upload', {
-      method: 'POST',
-      body: formData,
-    });
-
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.error || 'Failed to upload images');
-    }
-
-    const json = await res.json();
-    return json.data?.urls || [];
+    return uploadedUrls;
   }
 
   // Handle Cover Image Upload

@@ -163,13 +163,16 @@ export default function HeroAdminPage() {
     if (!file) return;
 
     const isVideo = /\.(mp4|webm)$/i.test(file.name) || file.type?.startsWith('video/');
-    if (!isVideo && !file.name.toLowerCase().endsWith('.webp') && file.type !== 'image/webp') {
-      showToast('Only .webp image files (or .mp4/.webm videos) below 2MB are supported.');
+    const isImage = /\.(webp|jpg|jpeg|png|gif|svg)$/i.test(file.name) || file.type?.startsWith('image/');
+
+    if (!isVideo && !isImage) {
+      showToast('Unsupported file format. Please upload an image (WEBP, JPG, PNG) or video (MP4, WEBM).');
       if (fileInputRef.current) fileInputRef.current.value = '';
       return;
     }
     if (!isVideo && file.size > 2 * 1024 * 1024) {
-      showToast('Image file size exceeds 2MB limit. Please upload an image under 2MB.');
+      const sizeMb = (file.size / (1024 * 1024)).toFixed(2);
+      showToast(`Maximum capacity exceeded: "${file.name}" is ${sizeMb}MB. Maximum capacity is 2MB for images.`);
       if (fileInputRef.current) fileInputRef.current.value = '';
       return;
     }
