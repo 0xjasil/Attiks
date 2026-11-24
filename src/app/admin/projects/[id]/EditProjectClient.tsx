@@ -133,14 +133,23 @@ export default function EditProjectClient({ id }: { id: string }) {
 
   async function uploadFiles(files: FileList | File[]): Promise<string[]> {
     const formData = new FormData();
+    const MAX_IMAGE_SIZE = 2 * 1024 * 1024; // 2MB
+
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-      if (!file.name.toLowerCase().endsWith('.webp') && file.type !== 'image/webp') {
-        throw new Error(`"${file.name}" is not a WebP image. Only .webp files below 2MB are supported.`);
+      const isImage =
+        /\.(webp|jpg|jpeg|png|gif|svg)$/i.test(file.name) ||
+        file.type.startsWith('image/');
+
+      if (!isImage) {
+        throw new Error(`"${file.name}" is not a supported image file. Supported formats: WEBP, JPG, PNG.`);
       }
-      if (file.size > 2 * 1024 * 1024) {
-        throw new Error(`"${file.name}" exceeds the 2MB limit. Maximum allowed size is 2MB.`);
+
+      if (file.size > MAX_IMAGE_SIZE) {
+        const sizeMb = (file.size / (1024 * 1024)).toFixed(2);
+        throw new Error(`"${file.name}" (${sizeMb}MB) exceeds the 2MB limit. Please upload images below 2MB.`);
       }
+
       formData.append('files', file);
     }
 
@@ -314,14 +323,14 @@ export default function EditProjectClient({ id }: { id: string }) {
         type="file"
         ref={mainFileInputRef}
         onChange={(e) => handleMainImageUpload(e.target.files)}
-        accept="image/*"
+        accept="image/webp,image/jpeg,image/png,image/*"
         style={{ display: 'none' }}
       />
       <input
         type="file"
         ref={galleryFileInputRef}
         onChange={(e) => handleGalleryUpload(e.target.files)}
-        accept="image/*"
+        accept="image/webp,image/jpeg,image/png,image/*"
         multiple
         style={{ display: 'none' }}
       />
@@ -370,23 +379,6 @@ export default function EditProjectClient({ id }: { id: string }) {
       )}
 
       <form onSubmit={handleSubmit}>
-        {/* Hidden File Inputs */}
-        <input
-          ref={mainFileInputRef}
-          type="file"
-          accept="image/webp"
-          style={{ display: 'none' }}
-          onChange={(e) => handleMainImageUpload(e.target.files)}
-        />
-        <input
-          ref={galleryFileInputRef}
-          type="file"
-          accept="image/webp"
-          multiple
-          style={{ display: 'none' }}
-          onChange={(e) => handleGalleryUpload(e.target.files)}
-        />
-
         {/* SECTION 1: MAIN DETAILS */}
         <div className="admin-table-wrap" style={{ padding: '1.75rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: '1.25rem' }}>
