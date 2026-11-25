@@ -144,9 +144,9 @@ export default function GalleryAdminPage() {
         }
       }
 
-      if (readyFile.size > 2 * 1024 * 1024) {
+      if (readyFile.size > 25 * 1024 * 1024) {
         const sizeMb = (readyFile.size / (1024 * 1024)).toFixed(2);
-        alert(`Maximum capacity exceeded: "${file.name}" is ${sizeMb}MB. Maximum capacity is 2MB per image. Please upload an image below 2MB.`);
+        alert(`File "${file.name}" (${sizeMb}MB) exceeds the 25MB limit. Please upload an image below 25MB.`);
         if (fileInputRef.current) fileInputRef.current.value = '';
         return;
       }
@@ -173,7 +173,7 @@ export default function GalleryAdminPage() {
           setAltText(`${autoCaption} architecture showcase detail by Attiks`);
         }
       } else {
-        alert('Upload failed: ' + (json.error || 'Please ensure image is below 2MB'));
+        alert('Upload failed: ' + (json.error || 'Please ensure image is below 25MB'));
       }
     } catch (err: any) {
       alert('Upload error: ' + (err.message || 'Failed to upload image'));
@@ -212,9 +212,9 @@ export default function GalleryAdminPage() {
           }
         }
 
-        if (ready.size > 2 * 1024 * 1024) {
+        if (ready.size > 25 * 1024 * 1024) {
           const sizeMb = (ready.size / (1024 * 1024)).toFixed(2);
-          alert(`Maximum capacity exceeded: "${f.name}" is ${sizeMb}MB. Maximum capacity is 2MB per image. Please upload images below 2MB.`);
+          alert(`File "${f.name}" (${sizeMb}MB) exceeds the 25MB limit. Please upload images below 25MB.`);
           if (batchFileInputRef.current) batchFileInputRef.current.value = '';
           return;
         }

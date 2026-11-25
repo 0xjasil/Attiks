@@ -112,9 +112,9 @@ export default function AboutAdminPage() {
         }
       }
 
-      if (readyFile.size > 2 * 1024 * 1024) {
+      if (readyFile.size > 25 * 1024 * 1024) {
         const sizeMb = (readyFile.size / (1024 * 1024)).toFixed(2);
-        showToast(`Maximum capacity exceeded: "${file.name}" is ${sizeMb}MB. Maximum capacity is 2MB per image.`);
+        showToast(`File "${file.name}" (${sizeMb}MB) exceeds the 25MB limit. Please upload an image below 25MB.`);
         return;
       }
 
@@ -134,7 +134,7 @@ export default function AboutAdminPage() {
         }
       } else {
         const errJson = await res.json().catch(() => ({}));
-        showToast('Upload error: ' + (errJson.error || 'Please ensure image is below 2MB'));
+        showToast('Upload error: ' + (errJson.error || 'Please ensure image is below 25MB'));
         return;
       }
     } catch (uploadErr: any) {
