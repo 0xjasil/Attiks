@@ -30,6 +30,7 @@ import {
   defaultAboutData,
 } from '@/data/about';
 import { getAboutDataAction, updateAboutDataAction } from '@/actions/about.actions';
+import { compressImage } from '@/lib/imageCompressor';
 
 export default function AboutAdminPage() {
   const [data, setData] = useState<AboutPageData>(defaultAboutData);
@@ -94,9 +95,31 @@ export default function AboutAdminPage() {
     file: File,
     onSuccess: (url: string) => void
   ) => {
+    const isImage = /\.(webp|jpg|jpeg|png|gif|svg)$/i.test(file.name) || file.type.startsWith('image/');
+    if (!isImage) {
+      showToast('Please upload a valid image file (WEBP, JPG, PNG).');
+      return;
+    }
+
     try {
+      let readyFile = file;
+      if (!file.type.includes('svg')) {
+        try {
+          readyFile = await compressImage(file, { maxWidth: 1920, maxHeight: 1920, quality: 0.82 });
+        } catch (cErr) {
+          console.warn('Image compression fallback:', cErr);
+          readyFile = file;
+        }
+      }
+
+      if (readyFile.size > 2 * 1024 * 1024) {
+        const sizeMb = (readyFile.size / (1024 * 1024)).toFixed(2);
+        showToast(`Maximum capacity exceeded: "${file.name}" is ${sizeMb}MB. Maximum capacity is 2MB per image.`);
+        return;
+      }
+
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append('file', readyFile);
       const res = await fetch('/api/upload', {
         method: 'POST',
         body: formData,
@@ -109,9 +132,14 @@ export default function AboutAdminPage() {
           showToast('Image uploaded successfully');
           return;
         }
+      } else {
+        const errJson = await res.json().catch(() => ({}));
+        showToast('Upload error: ' + (errJson.error || 'Please ensure image is below 2MB'));
+        return;
       }
-    } catch {
-      // Fallback
+    } catch (uploadErr: any) {
+      showToast('Upload error: ' + (uploadErr.message || 'Failed to upload image'));
+      return;
     }
 
     const reader = new FileReader();

@@ -35,6 +35,7 @@ import {
   reorderHeroSlidesAction,
   updateHeroSettingsAction,
 } from '@/actions/hero.actions';
+import { compressImage } from '@/lib/imageCompressor';
 import ConfirmDialog from '@/components/admin/ConfirmDialog';
 
 const DEFAULT_PRESET_VIDEOS = [
@@ -170,17 +171,34 @@ export default function HeroAdminPage() {
       if (fileInputRef.current) fileInputRef.current.value = '';
       return;
     }
-    if (!isVideo && file.size > 2 * 1024 * 1024) {
-      const sizeMb = (file.size / (1024 * 1024)).toFixed(2);
-      showToast(`Maximum capacity exceeded: "${file.name}" is ${sizeMb}MB. Maximum capacity is 2MB for images.`);
-      if (fileInputRef.current) fileInputRef.current.value = '';
-      return;
-    }
 
     setUploading(true);
     try {
+      let readyFile = file;
+      if (isImage && !file.type.includes('svg')) {
+        try {
+          readyFile = await compressImage(file, { maxWidth: 1920, maxHeight: 1920, quality: 0.82 });
+        } catch (cErr) {
+          console.warn('Image compression fallback:', cErr);
+          readyFile = file;
+        }
+      }
+
+      if (!isVideo && readyFile.size > 25 * 1024 * 1024) {
+        const sizeMb = (readyFile.size / (1024 * 1024)).toFixed(2);
+        showToast(`File "${file.name}" (${sizeMb}MB) exceeds the 25MB limit for images.`);
+        if (fileInputRef.current) fileInputRef.current.value = '';
+        return;
+      }
+
+      if (isVideo && readyFile.size > 50 * 1024 * 1024) {
+        showToast(`Video "${file.name}" exceeds the 50MB capacity limit.`);
+        if (fileInputRef.current) fileInputRef.current.value = '';
+        return;
+      }
+
       const form = new FormData();
-      form.append('file', file);
+      form.append('file', readyFile);
 
       const res = await fetch('/api/upload', {
         method: 'POST',
@@ -200,10 +218,10 @@ export default function HeroAdminPage() {
         }));
         showToast('Media uploaded successfully!');
       } else {
-        showToast('Upload failed: ' + (json.error || 'Unknown error'));
+        showToast('Upload failed: ' + (json.error || 'Please ensure image is below 25MB'));
       }
     } catch (err: any) {
-      showToast('Upload error: ' + err.message);
+      showToast('Upload error: ' + (err.message || 'Failed to upload media'));
     } finally {
       setUploading(false);
     }

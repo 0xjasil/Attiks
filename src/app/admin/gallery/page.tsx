@@ -28,6 +28,7 @@ import {
   updateGalleryPostAction,
   deleteGalleryPostAction,
 } from '@/actions/gallery.actions';
+import { compressImage } from '@/lib/imageCompressor';
 
 export default function GalleryAdminPage() {
   const [posts, setPosts] = useState<GalleryPost[]>([]);
@@ -130,17 +131,28 @@ export default function GalleryAdminPage() {
       return;
     }
 
-    if (file.size > 2 * 1024 * 1024) {
-      const sizeMb = (file.size / (1024 * 1024)).toFixed(2);
-      alert(`Maximum capacity exceeded: "${file.name}" is ${sizeMb}MB. Maximum capacity is 2MB per image. Please upload an image below 2MB.`);
-      if (fileInputRef.current) fileInputRef.current.value = '';
-      return;
-    }
-
     setUploading(true);
     try {
+      // Auto-compress image before uploading
+      let readyFile = file;
+      if (!file.type.includes('svg')) {
+        try {
+          readyFile = await compressImage(file, { maxWidth: 1920, maxHeight: 1920, quality: 0.82 });
+        } catch (cErr) {
+          console.warn('Image compression fallback:', cErr);
+          readyFile = file;
+        }
+      }
+
+      if (readyFile.size > 2 * 1024 * 1024) {
+        const sizeMb = (readyFile.size / (1024 * 1024)).toFixed(2);
+        alert(`Maximum capacity exceeded: "${file.name}" is ${sizeMb}MB. Maximum capacity is 2MB per image. Please upload an image below 2MB.`);
+        if (fileInputRef.current) fileInputRef.current.value = '';
+        return;
+      }
+
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append('file', readyFile);
 
       const res = await fetch('/api/upload', {
         method: 'POST',
@@ -161,10 +173,10 @@ export default function GalleryAdminPage() {
           setAltText(`${autoCaption} architecture showcase detail by Attiks`);
         }
       } else {
-        alert('Upload failed: ' + (json.error || 'Unknown error'));
+        alert('Upload failed: ' + (json.error || 'Please ensure image is below 2MB'));
       }
     } catch (err: any) {
-      alert('Upload error: ' + err.message);
+      alert('Upload error: ' + (err.message || 'Failed to upload image'));
     } finally {
       setUploading(false);
     }
@@ -176,32 +188,44 @@ export default function GalleryAdminPage() {
     if (!files || files.length === 0) return;
 
     const fileList = Array.from(files);
-    for (let i = 0; i < fileList.length; i++) {
-      const f = fileList[i];
-      const isImage =
-        /\.(webp|jpg|jpeg|png|gif|svg)$/i.test(f.name) ||
-        f.type.startsWith('image/');
-
-      if (!isImage) {
-        alert(`"${f.name}" is not a supported image file. Supported formats: WEBP, JPG, PNG.`);
-        if (batchFileInputRef.current) batchFileInputRef.current.value = '';
-        return;
-      }
-
-      if (f.size > 2 * 1024 * 1024) {
-        const sizeMb = (f.size / (1024 * 1024)).toFixed(2);
-        alert(`Maximum capacity exceeded: "${f.name}" is ${sizeMb}MB. Maximum capacity is 2MB per image. Please upload images below 2MB.`);
-        if (batchFileInputRef.current) batchFileInputRef.current.value = '';
-        return;
-      }
-    }
-
     setBatchUploading(true);
     try {
+      const processedFiles: File[] = [];
+      for (let i = 0; i < fileList.length; i++) {
+        const f = fileList[i];
+        const isImage =
+          /\.(webp|jpg|jpeg|png|gif|svg)$/i.test(f.name) ||
+          f.type.startsWith('image/');
+
+        if (!isImage) {
+          alert(`"${f.name}" is not a supported image file. Supported formats: WEBP, JPG, PNG.`);
+          if (batchFileInputRef.current) batchFileInputRef.current.value = '';
+          return;
+        }
+
+        let ready = f;
+        if (!f.type.includes('svg')) {
+          try {
+            ready = await compressImage(f, { maxWidth: 1920, maxHeight: 1920, quality: 0.82 });
+          } catch {
+            ready = f;
+          }
+        }
+
+        if (ready.size > 2 * 1024 * 1024) {
+          const sizeMb = (ready.size / (1024 * 1024)).toFixed(2);
+          alert(`Maximum capacity exceeded: "${f.name}" is ${sizeMb}MB. Maximum capacity is 2MB per image. Please upload images below 2MB.`);
+          if (batchFileInputRef.current) batchFileInputRef.current.value = '';
+          return;
+        }
+
+        processedFiles.push(ready);
+      }
+
       const uploadedUrls: string[] = [];
-      for (const f of fileList) {
+      for (const readyFile of processedFiles) {
         const formData = new FormData();
-        formData.append('file', f);
+        formData.append('file', readyFile);
 
         const res = await fetch('/api/upload', {
           method: 'POST',
@@ -212,7 +236,7 @@ export default function GalleryAdminPage() {
         if (json.success && (json.data?.url || (Array.isArray(json.data?.urls) && json.data.urls[0]))) {
           uploadedUrls.push(json.data?.url || json.data.urls[0]);
         } else {
-          throw new Error(json.error || `Failed to upload "${f.name}"`);
+          throw new Error(json.error || `Failed to upload "${readyFile.name}"`);
         }
       }
 

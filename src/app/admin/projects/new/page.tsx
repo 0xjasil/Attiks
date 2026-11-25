@@ -18,6 +18,8 @@ import {
   Layers,
   AlertCircle,
 } from 'lucide-react';
+import { compressImage } from '@/lib/imageCompressor';
+import { safeSaveProjectsToLocalStorage } from '@/lib/localStorageSafe';
 
 export default function NewProjectPage() {
   const router = useRouter();
@@ -59,10 +61,11 @@ export default function NewProjectPage() {
 
   // Upload helper using /api/upload
   async function uploadFiles(files: FileList | File[]): Promise<string[]> {
-    const MAX_IMAGE_SIZE = 2 * 1024 * 1024; // 2MB
+    const MAX_IMAGE_SIZE = 25 * 1024 * 1024; // 25MB
     const fileArray = Array.from(files);
 
-    // 1. Validate every file
+    // 1. Validate and auto-compress images
+    const processedFiles: File[] = [];
     for (const file of fileArray) {
       const isImage =
         /\.(webp|jpg|jpeg|png|gif|svg)$/i.test(file.name) ||
@@ -72,16 +75,29 @@ export default function NewProjectPage() {
         throw new Error(`"${file.name}" is not a supported image file. Supported formats: WEBP, JPG, PNG.`);
       }
 
-      if (file.size > MAX_IMAGE_SIZE) {
-        const sizeMb = (file.size / (1024 * 1024)).toFixed(2);
-        throw new Error(`Maximum capacity exceeded: "${file.name}" is ${sizeMb}MB. Maximum capacity is 2MB per image. Please upload images below 2MB.`);
+      // Automatically downscale and compress images client-side before upload
+      let readyFile = file;
+      if (!file.type.includes('svg')) {
+        try {
+          readyFile = await compressImage(file, { maxWidth: 1920, maxHeight: 1920, quality: 0.82 });
+        } catch (e) {
+          console.warn('Image compression fallback:', e);
+          readyFile = file;
+        }
       }
+
+      if (readyFile.size > MAX_IMAGE_SIZE) {
+        const sizeMb = (readyFile.size / (1024 * 1024)).toFixed(2);
+        throw new Error(`File "${file.name}" (${sizeMb}MB) exceeds the 25MB limit. Please upload images below 25MB.`);
+      }
+
+      processedFiles.push(readyFile);
     }
 
     // 2. Upload files individually to keep each payload below Vercel's capacity limit
     const uploadedUrls: string[] = [];
-    for (let i = 0; i < fileArray.length; i++) {
-      const file = fileArray[i];
+    for (let i = 0; i < processedFiles.length; i++) {
+      const file = processedFiles[i];
       const formData = new FormData();
       formData.append('file', file);
 
@@ -92,7 +108,7 @@ export default function NewProjectPage() {
 
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        throw new Error(err.error || `Failed to upload "${file.name}" (Maximum capacity 2MB)`);
+        throw new Error(err.error || `Failed to upload "${file.name}". Please ensure image is below 25MB.`);
       }
 
       const json = await res.json();
@@ -269,14 +285,14 @@ export default function NewProjectPage() {
       const created = await res.json();
       const newProject = created.data || { id: slug, ...payload };
 
-      // Also save to localStorage for client fallback consistency
+      // Also save to localStorage safely without exceeding browser storage quota
       const saved = localStorage.getItem('attiks_admin_projects');
       const existing = saved ? JSON.parse(saved) : [];
       const updated = [
         newProject,
         ...existing.filter((p: any) => p.id !== newProject.id && p.slug !== newProject.slug),
       ];
-      localStorage.setItem('attiks_admin_projects', JSON.stringify(updated));
+      safeSaveProjectsToLocalStorage(updated);
 
       router.push('/admin/projects');
     } catch (err: any) {
