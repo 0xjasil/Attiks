@@ -14,6 +14,9 @@ import {
   Layers,
   ExternalLink,
   LogOut,
+  Briefcase,
+  UserCheck,
+  Users,
 } from 'lucide-react';
 
 interface NavItem {
@@ -25,10 +28,13 @@ interface NavItem {
 
 const mainNavItems: NavItem[] = [
   { title: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
+  { title: 'About Studio', path: '/admin/about', icon: Users },
   { title: 'Hero Section', path: '/admin/hero', icon: Sparkles },
   { title: 'Projects', path: '/admin/projects', icon: FolderOpen },
   { title: 'Categories & Portfolios', path: '/admin/categories', icon: Layers },
   { title: 'Inquiries', path: '/admin/leads', icon: Inbox },
+  { title: 'Careers', path: '/admin/careers', icon: Briefcase },
+  { title: 'Applications', path: '/admin/applications', icon: UserCheck },
   { title: 'Media & Gallery', path: '/admin/gallery', icon: ImageIcon },
   { title: 'Testimonials', path: '/admin/testimonials', icon: Quote },
 ];
@@ -78,7 +84,7 @@ export default function AdminSidebar({ isOpen, onClose }: Props) {
         <div className="admin-sidebar-logo">
           <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', textDecoration: 'none' }}>
             <Image
-              src="/images/Trblack.png"
+              src="/images/logogb.png"
               alt="Attiks Logo"
               width={100}
               height={30}

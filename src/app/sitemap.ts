@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
 import { getAllProjects } from '@/lib/projects';
 import { getAllMedia } from '@/lib/media';
+import { getJobPostingsAction } from '@/actions/career.actions';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://attiks.in';
@@ -31,6 +32,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: currentDate,
       changeFrequency: 'weekly',
       priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/careers`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly',
+      priority: 0.8,
     },
     {
       url: `${baseUrl}/contact`,
@@ -72,5 +79,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // If fetching fails, continue with static routes
   }
 
-  return [...staticRoutes, ...projectRoutes, ...mediaRoutes];
+  // Dynamic careers routes
+  let careerRoutes: MetadataRoute.Sitemap = [];
+  try {
+    const jobs = await getJobPostingsAction();
+    careerRoutes = (jobs || [])
+      .filter((j) => j && j.slug && j.status === 'published')
+      .map((j) => ({
+        url: `${baseUrl}/careers/${j.slug}`,
+        lastModified: currentDate,
+        changeFrequency: 'weekly' as const,
+        priority: 0.7,
+      }));
+  } catch {
+    // continue
+  }
+
+  return [...staticRoutes, ...projectRoutes, ...mediaRoutes, ...careerRoutes];
 }

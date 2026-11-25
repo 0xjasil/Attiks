@@ -6,6 +6,11 @@ const nextConfig: NextConfig = {
   },
   compress: true,
   reactStrictMode: true,
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '10mb',
+    },
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
@@ -21,6 +26,15 @@ const nextConfig: NextConfig = {
         hostname: '**',
       },
     ],
+  },
+  async rewrites() {
+    const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
+    return [
+      {
+        source: '/uploads/:path*',
+        destination: `${backendUrl}/uploads/:path*`,
+      },
+    ];
   },
 };
 

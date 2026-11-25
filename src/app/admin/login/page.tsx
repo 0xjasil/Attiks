@@ -76,7 +76,7 @@ function AdminLoginForm() {
         {/* Studio Logo */}
         <div style={{ textAlign: 'center', marginBottom: '22px' }}>
           <Image
-            src="/images/Trblack.png"
+            src="/images/logogb.png"
             alt="Attiks Logo"
             width={120}
             height={34}

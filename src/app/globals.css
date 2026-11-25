@@ -608,21 +608,22 @@ p {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2.5rem;
+  gap: 1.6rem;
 }
 
 .mobile-menu-link {
-  font-size: clamp(2rem, 5vw, 2.8rem);
-  font-weight: 400;
+  font-size: clamp(1.25rem, 4.5vw, 1.65rem);
+  font-weight: 350;
   text-transform: none;
   letter-spacing: 0.02em;
   color: #ffffff;
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: opacity 0.25s ease, color 0.25s ease;
 }
 
 .mobile-menu-link:hover {
-  color: #cccccc;
+  color: #ffffff;
+  opacity: 0.65;
 }
 
 .hamburger-btn {
@@ -703,9 +704,11 @@ p {
 }
 
 .footer-bottom {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 1.5rem var(--section-padding);
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 1.5rem clamp(20px, 5vw, 64px);
+  box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
@@ -1188,25 +1191,41 @@ p {
   background: #dc2626;
 }
 .admin-btn-icon {
-  padding: 0.45rem;
-  background: transparent;
-  border: 1px solid transparent;
-  color: var(--admin-text-muted);
-  border-radius: var(--admin-radius);
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  padding: 0;
+  background: var(--admin-surface-2);
+  border: 1px solid var(--admin-border);
+  color: #27272a;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease-in-out;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-family: inherit;
+  flex-shrink: 0;
 }
 .admin-btn-icon:hover {
-  color: var(--admin-text);
-  background: var(--admin-surface-2);
-  border-color: var(--admin-border);
+  color: #000000;
+  background: #ffffff;
+  border-color: #a1a1aa;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+.admin-btn-icon.danger {
+  color: #dc2626;
+  background: #fef2f2;
+  border-color: #fecaca;
 }
 .admin-btn-icon.danger:hover {
-  color: var(--admin-danger);
+  color: #ffffff;
+  background: #dc2626;
+  border-color: #dc2626;
+  box-shadow: 0 2px 5px rgba(220, 38, 38, 0.25);
+  transform: translateY(-1px);
 }
 
 .admin-overlay {
@@ -1651,6 +1670,9 @@ img, video, iframe {
   }
 
   .hero-container-section {
+    height: 84vh !important;
+    height: 84dvh !important;
+    min-height: 480px !important;
     padding: 0 20px 32px !important;
   }
 
@@ -1668,6 +1690,13 @@ img, video, iframe {
 }
 
 @media (max-width: 480px) {
+  .hero-container-section {
+    height: 78vh !important;
+    height: 78dvh !important;
+    min-height: 420px !important;
+    padding: 0 16px 26px !important;
+  }
+
   .hero-pagination-pill {
     right: 8px !important;
     padding: 5px 3px !important;
@@ -1701,8 +1730,237 @@ img, video, iframe {
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  .about-section-container {
+    padding: 56px 16px 40px !important;
+  }
+
+  .about-gallery-section {
+    padding: 8px 16px 20px !important;
+  }
+
+  .project-showcase-section {
+    padding: 4px 16px 16px !important;
+  }
+
+  .testimonials-section-container {
+    padding: 20px 16px 24px !important;
+  }
+
+  .footer-inner-wrap {
+    padding: 32px 16px 20px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-section-container {
+    padding: 64px 20px 48px !important;
+  }
+
+  .about-gallery-section {
+    padding: 8px 20px 24px !important;
+  }
+
+  .project-showcase-section {
+    padding: 6px 20px 20px !important;
+  }
+
+  .testimonials-section-container {
+    padding: 24px 20px 28px !important;
+  }
+
+  .footer-inner-wrap {
+    padding: 40px 20px 24px !important;
+  }
 }
 
 
+/* ========================================================
+   MEDIA & SHOWCASE GRID (4-COLUMN RESPONSIVE)
+   ======================================================== */
+.instagram-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(4px, 1.2vw, 16px);
+  width: 100%;
+  box-sizing: border-box;
+}
 
+@media (max-width: 992px) {
+  .instagram-photo-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .instagram-photo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 4px !important;
+  }
+}
+
+/* ========================================================
+   INSTAGRAM PROFILE FEED GRID
+   ======================================================== */
+.instagram-feed-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 4px;
+  width: 100%;
+}
+
+@media (max-width: 992px) {
+  .instagram-feed-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 3px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .instagram-feed-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 2.5px !important;
+  }
+}
+
+
+/* ========================================================
+   MINIMALIST CONTACT EMAIL CHANNELS SECTION
+   ======================================================== */
+.contact-channels-section {
+  margin-bottom: clamp(48px, 4.5vw, 64px);
+}
+
+.contact-channels-tag {
+  font-family: var(--font-primary, sans-serif);
+  font-size: clamp(13px, 0.9vw, 15px);
+  font-weight: 500;
+  color: #777777;
+  margin-bottom: 18px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.contact-channels-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+.contact-channel-card {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  padding: 24px 26px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 124px;
+  box-sizing: border-box;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s ease,
+              box-shadow 0.25s ease;
+}
+
+.contact-channel-card:hover {
+  border-color: #111111;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.08);
+}
+
+.contact-channel-card:focus-visible {
+  outline: 2px solid #111111;
+  outline-offset: 3px;
+}
+
+.contact-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.contact-card-label-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.contact-card-icon-wrap {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #111111;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.contact-channel-card:hover .contact-card-icon-wrap {
+  background: #111111;
+  color: #ffffff;
+}
+
+.contact-card-label {
+  font-family: var(--font-primary, sans-serif);
+  font-size: 13.5px;
+  font-weight: 450;
+  color: #666666;
+  text-transform: none;
+  letter-spacing: -0.01em;
+}
+
+.contact-card-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #111111;
+  text-decoration: none;
+  opacity: 0;
+  transform: translate(-4px, 4px);
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.contact-channel-card:hover .contact-card-arrow {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+.contact-card-body {
+  margin-top: auto;
+}
+
+.contact-card-email-text {
+  font-family: var(--font-primary, sans-serif);
+  font-size: 18px;
+  font-weight: 500;
+  color: #111111;
+  line-height: 1.3;
+  display: inline-block;
+  transition: color 0.2s ease;
+  word-break: break-all;
+}
+
+.contact-channel-card:hover .contact-card-email-text {
+  color: #000000;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+@media (max-width: 900px) {
+  .contact-channels-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .contact-channel-card {
+    padding: 20px 22px;
+  }
+}
 

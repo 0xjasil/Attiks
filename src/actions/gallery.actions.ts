@@ -20,12 +20,18 @@ async function getAuthHeader(): Promise<Record<string, string>> {
   }
 }
 
+let inMemoryPosts: GalleryPost[] | null = null;
+
 async function readPostsInternal(): Promise<GalleryPost[]> {
+  if (inMemoryPosts) {
+    return inMemoryPosts;
+  }
   try {
     const content = await readFile(DATA_FILE, 'utf-8');
     const parsed = JSON.parse(content);
     if (Array.isArray(parsed) && parsed.length > 0) {
-      return parsed;
+      inMemoryPosts = parsed;
+      return inMemoryPosts;
     }
   } catch {
     // Return default posts if JSON file not yet created
@@ -34,11 +40,12 @@ async function readPostsInternal(): Promise<GalleryPost[]> {
 }
 
 async function writePostsInternal(posts: GalleryPost[]): Promise<void> {
+  inMemoryPosts = posts;
   try {
     await mkdir(DATA_DIR, { recursive: true });
     await writeFile(DATA_FILE, JSON.stringify(posts, null, 2), 'utf-8');
   } catch (err) {
-    console.warn('Failed to update local gallery backup file:', err);
+    console.warn('Failed to update local gallery backup file (serverless environment):', err);
   }
 }
 

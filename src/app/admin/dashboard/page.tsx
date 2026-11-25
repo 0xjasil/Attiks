@@ -14,6 +14,8 @@ import {
   Building,
   Calendar,
   CheckCircle2,
+  Briefcase,
+  UserCheck,
 } from 'lucide-react';
 import StatCard from '@/components/admin/StatCard';
 
@@ -48,10 +50,23 @@ interface TestimonialItem {
   active?: boolean;
 }
 
+interface JobItem {
+  id: string;
+  title: string;
+  status?: string;
+}
+
+interface ApplicationItem {
+  id: string;
+  status?: string;
+}
+
 export default function AdminDashboardPage() {
   const [projects, setProjects] = useState<ProjectItem[]>([]);
   const [leads, setLeads] = useState<LeadItem[]>([]);
   const [testimonials, setTestimonials] = useState<TestimonialItem[]>([]);
+  const [jobs, setJobs] = useState<JobItem[]>([]);
+  const [applications, setApplications] = useState<ApplicationItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -59,11 +74,13 @@ export default function AdminDashboardPage() {
       try {
         setLoading(true);
 
-        // Fetch live projects, leads, and testimonials concurrently from database APIs
-        const [projRes, leadRes, testiRes] = await Promise.all([
+        // Fetch live projects, leads, testimonials, careers, applications concurrently
+        const [projRes, leadRes, testiRes, jobRes, appRes] = await Promise.all([
           fetch('/api/projects').catch(() => null),
           fetch('/api/leads').catch(() => null),
           fetch('/api/testimonials').catch(() => null),
+          fetch('/api/careers?admin=true').catch(() => null),
+          fetch('/api/applications').catch(() => null),
         ]);
 
         if (projRes && projRes.ok) {
@@ -88,6 +105,18 @@ export default function AdminDashboardPage() {
             ? testiJson.data
             : testiJson.data?.items || [];
           setTestimonials(tList);
+        }
+
+        if (jobRes && jobRes.ok) {
+          const jobJson = await jobRes.json();
+          const jList = Array.isArray(jobJson.data) ? jobJson.data : [];
+          setJobs(jList);
+        }
+
+        if (appRes && appRes.ok) {
+          const appJson = await appRes.json();
+          const aList = Array.isArray(appJson.data) ? appJson.data : [];
+          setApplications(aList);
         }
       } catch (err) {
         console.error('Failed to fetch dashboard data:', err);
@@ -172,16 +201,16 @@ export default function AdminDashboardPage() {
           sub={`${newLeads} new inquiry${newLeads === 1 ? '' : 'ies'} unread`}
         />
         <StatCard
-          label="Client Testimonials"
-          value={testimonials.length}
-          icon={Quote}
-          sub="Live homepage client quotes"
+          label="Open Positions"
+          value={jobs.filter((j) => (j.status || 'published') === 'published').length}
+          icon={Briefcase}
+          sub={`${jobs.length} total roles (${jobs.filter((j) => j.status === 'draft').length} draft)`}
         />
         <StatCard
-          label="Database System"
-          value="Online"
-          icon={Database}
-          sub="PostgreSQL & Prisma Live"
+          label="Job Applications"
+          value={applications.length}
+          icon={UserCheck}
+          sub={`${applications.filter((a) => (a.status || 'NEW').toUpperCase() === 'NEW').length} new candidate${applications.filter((a) => (a.status || 'NEW').toUpperCase() === 'NEW').length === 1 ? '' : 's'}`}
         />
       </div>
 

@@ -10,10 +10,11 @@ export default function AboutSection() {
   return (
     <section
       id="about-us"
+      className="about-section-container"
       style={{
         position: 'relative',
         background: '#ffffff',
-        padding: 'clamp(110px, 11vh, 160px) clamp(20px, 5vw, 64px) clamp(60px, 6vh, 90px)',
+        padding: 'clamp(72px, 10vh, 140px) clamp(20px, 5vw, 64px) clamp(64px, 9vh, 120px)',
         width: '100%',
         overflow: 'hidden',
         boxSizing: 'border-box',
@@ -38,7 +39,7 @@ export default function AboutSection() {
           viewport={{ once: true }}
           style={{
             fontSize: 'clamp(19px, 1.4vw, 23px)',
-            lineHeight: 1.28,
+            lineHeight: 1.55,
             fontWeight: 400,
             color: '#222222',
             letterSpacing: '-0.01em',
@@ -77,12 +78,18 @@ export default function AboutSection() {
           )}
         </AnimatePresence>
 
-        {/* Minimal "know more" Toggle */}
+        {/* Minimal "know more" Toggle & "We're hiring" Teaser */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true }}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '24px',
+            flexWrap: 'wrap',
+          }}
         >
           <button
             type="button"
@@ -94,7 +101,7 @@ export default function AboutSection() {
               padding: 0,
               color: '#000000',
               cursor: 'pointer',
-              fontSize: 'clamp(18px, 1.2vw, 20px)',
+              fontSize: 'clamp(15px, 1.1vw, 17px)',
               fontWeight: 600,
               letterSpacing: '-0.01em',
               textTransform: 'lowercase',
@@ -111,7 +118,7 @@ export default function AboutSection() {
         </motion.div>
       </div>
 
-      {/* Right: Watermark Triangle Motif (Increased size, exactly 50% on screen / 50% outside) */}
+      {/* Right: Watermark Logo Motif (Center-cut perfectly at right edge, vector-sharp and refined size) */}
       <div
         className="about-watermark-bg"
         style={{
@@ -119,20 +126,19 @@ export default function AboutSection() {
           right: 0,
           top: '50%',
           transform: 'translate(50%, -50%)',
-          width: 'clamp(520px, 58vw, 980px)',
-          height: 'clamp(520px, 58vw, 980px)',
+          width: 'clamp(380px, 38vw, 660px)',
+          aspectRatio: '382 / 198',
           opacity: 0.08,
           zIndex: 1,
           pointerEvents: 'none',
-          overflow: 'hidden',
         }}
         aria-hidden="true"
       >
         <Image
-          src="/images/Trblack.png"
+          src="/images/logogb.svg"
           alt=""
           fill
-          sizes="(max-width: 768px) 520px, 980px"
+          unoptimized
           style={{
             objectFit: 'contain',
             objectPosition: 'center',

@@ -9,10 +9,12 @@ export default function ProjectShowcaseGrid({
   initialPosts = [],
   limit,
   disableOuterPadding = false,
+  columns = 4,
 }: {
   initialPosts?: GalleryPost[];
   limit?: number;
   disableOuterPadding?: boolean;
+  columns?: number;
 }) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
@@ -24,10 +26,11 @@ export default function ProjectShowcaseGrid({
 
   return (
     <section
+      className="project-showcase-section"
       style={{
         position: 'relative',
         background: '#ffffff',
-        padding: disableOuterPadding ? '0' : '10px clamp(20px, 5vw, 64px) clamp(32px, 4vw, 48px)',
+        padding: disableOuterPadding ? '0' : '6px clamp(20px, 5vw, 64px) clamp(20px, 3vw, 36px)',
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
@@ -42,13 +45,13 @@ export default function ProjectShowcaseGrid({
           margin: 0,
         }}
       >
-        {/* Exact 3-Column Square Showcase Grid */}
+        {/* 4-Column Square Showcase Grid */}
         <div
           className="instagram-photo-grid"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: 'clamp(3px, 1.2vw, 20px)',
+            gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+            gap: 'clamp(4px, 1.2vw, 16px)',
             width: '100%',
             boxSizing: 'border-box',
           }}
@@ -82,7 +85,7 @@ export default function ProjectShowcaseGrid({
                   src={post.image}
                   alt={post.altText || post.caption || 'Attiks Architectural Showcase photo'}
                   fill
-                  sizes="(max-width: 768px) 33vw, 33vw"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   style={{
                     objectFit: 'cover',
                     transform: isHovered ? 'scale(1.05)' : 'scale(1)',
@@ -125,7 +128,7 @@ export default function ProjectShowcaseGrid({
                     <h3
                       style={{
                         color: '#ffffff',
-                        fontSize: 'clamp(11px, 1.2vw, 1.3rem)',
+                        fontSize: 'clamp(13px, 1.1vw, 15px)',
                         fontWeight: 500,
                         margin: 0,
                         letterSpacing: '-0.01em',

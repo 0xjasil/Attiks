@@ -1,21 +1,20 @@
 import type { Metadata } from 'next';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import PageHeader from '@/components/PageHeader';
-import ProjectShowcaseGrid from '@/components/ProjectShowcaseGrid';
+import InstagramMediaFeed from '@/components/InstagramMediaFeed';
 import { getGalleryPostsAction } from '@/actions/gallery.actions';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Media & Architectural Showcase',
+  title: 'Media',
   description:
     'Visual media showcases, architectural highlights, design documentaries, and project documentation by Attiks Architecture.',
   alternates: {
     canonical: '/media',
   },
   openGraph: {
-    title: 'Media & Architectural Showcase | ATTIKS Architecture',
+    title: 'Media | ATTIKS Architecture',
     description:
       'Visual media showcases, architectural highlights, design documentaries, and project documentation by Attiks Architecture.',
     url: 'https://attiks.in/media',
@@ -24,7 +23,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Media & Architectural Showcase | ATTIKS Architecture',
+    title: 'Media | ATTIKS Architecture',
     description: 'Visual media showcases and architectural documentaries by Attiks Architecture.',
   },
 };
@@ -35,7 +34,7 @@ export default async function MediaPage() {
   const mediaSchema = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'Media & Architectural Showcase — ATTIKS Architecture',
+    name: 'Media — ATTIKS Architecture',
     description:
       'Visual media showcases, architectural highlights, design documentaries, and project documentation by Attiks Architecture.',
     url: 'https://attiks.in/media',
@@ -72,26 +71,17 @@ export default async function MediaPage() {
       />
       <Navbar />
 
-      <main style={{ flex: 1 }}>
+      <main style={{ flex: 1, paddingTop: 'clamp(120px, 11vw, 160px)' }}>
         <section
           style={{
-            padding: 'clamp(120px, 11vw, 160px) clamp(20px, 5vw, 64px) 80px',
+            padding: '0 clamp(16px, 3.5vw, 48px) clamp(60px, 8vw, 120px)',
             boxSizing: 'border-box',
             width: '100%',
           }}
-          aria-label="Media and Showcase"
+          aria-label="Instagram Showcase Feed"
         >
-          <div style={{ maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
-            <PageHeader 
-              label="Media &amp; Showcase"
-              title={<>Visual media &amp;{' '}<br />architectural highlights</>}
-            />
-
-            {/* All Uploaded Media Showcase (Grid with in-place modal preview) */}
-            <div style={{ marginTop: 'clamp(28px, 3.5vw, 44px)' }}>
-              <ProjectShowcaseGrid initialPosts={galleryPosts} disableOuterPadding />
-            </div>
-          </div>
+          {/* Instagram Profile Style Media Feed */}
+          <InstagramMediaFeed initialPosts={galleryPosts} />
         </section>
       </main>
 
@@ -99,3 +89,5 @@ export default async function MediaPage() {
     </div>
   );
 }
+
+

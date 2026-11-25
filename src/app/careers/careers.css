@@ -1,0 +1,882 @@
+/* ========================================================
+   ATTIKS CAREERS DESIGN SYSTEM & LAYOUT
+   Harmonized with main site container widths, typography, & spacings
+   ======================================================== */
+
+.bf-careers {
+  --color-1: #ffffff;
+  --color-2: #777777;
+  --color-3: #111111;
+  --color-muted: #555555;
+  --color-subtle: #777777;
+  --color-border: #e8e8e8;
+  --color-border-subtle: #f0f0f0;
+  --color-card-bg: #fafafa;
+  --color-surface-dark: #0a0a0a;
+
+  --font-display: var(--font-primary, "Neue Haas Grotesk", -apple-system, sans-serif);
+  --font-heading: var(--font-canela, "Canela", Georgia, serif);
+  --font-body: var(--font-primary, "Neue Haas Grotesk", -apple-system, sans-serif);
+
+  /* Spacing Tokens */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 48px;
+  --space-6: 72px;
+  --space-7: 104px;
+  --space-8: 144px;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 999px;
+
+  --motion-fast: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Site-wide Container Constraints: Matches 1400px across all pages */
+  --page-max: 1400px;
+  --page-pad: clamp(20px, 5vw, 64px);
+
+  background: var(--color-1);
+  color: var(--color-3);
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: clamp(15.5px, 1.05vw, 17.5px);
+  line-height: 1.65;
+  min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.bf-careers a,
+.bf-careers button,
+.bf-careers input,
+.bf-careers select,
+.bf-careers textarea {
+  font-family: inherit;
+}
+
+.bf-careers *:focus-visible {
+  outline: 2px solid #111111;
+  outline-offset: 3px;
+}
+
+/* ========================================================
+   CONTAINER WRAPPER
+   Identical to .max-w-[1400px] + 5vw padding on other pages
+   ======================================================== */
+.bf-wrap {
+  width: 100%;
+  max-width: var(--page-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--page-pad);
+  padding-right: var(--page-pad);
+  box-sizing: border-box;
+}
+
+/* ========================================================
+   TYPOGRAPHY
+   Aligned with Canela display + Neue Haas Grotesk site scale
+   ======================================================== */
+
+.bf-kicker {
+  font-family: var(--font-body);
+  font-size: clamp(13px, 0.9vw, 15px);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #777777;
+  margin: 0 0 clamp(12px, 1.5vw, 18px);
+}
+
+.bf-display {
+  font-family: var(--font-heading);
+  font-weight: 300;
+  font-size: clamp(2.4rem, 4.4vw, 3.8rem);
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: var(--color-3);
+  margin: 0;
+  text-transform: none;
+}
+
+.bf-display-sub {
+  font-family: var(--font-heading);
+  font-weight: 300;
+  font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--color-muted);
+  margin: clamp(6px, 1vw, 12px) 0 0;
+}
+
+.bf-label {
+  font-family: var(--font-heading);
+  font-weight: 300;
+  font-size: clamp(1.85rem, 3.2vw, 2.75rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--color-3);
+  margin: 0;
+}
+
+.bf-label-sans {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.15rem, 1.4vw, 1.4rem);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--color-3);
+  margin: 0;
+}
+
+.bf-copy {
+  font-family: var(--font-body);
+  font-size: clamp(15.5px, 1.05vw, 17.5px);
+  line-height: 1.65;
+  color: var(--color-muted);
+  font-weight: 350;
+  letter-spacing: -0.005em;
+  margin: 0;
+  max-width: 680px;
+}
+
+.bf-copy strong {
+  color: var(--color-3);
+  font-weight: 600;
+}
+
+/* ========================================================
+   BUTTONS
+   Site-standard sleek architectural pill buttons
+   ======================================================== */
+
+.bf-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 11px 24px;
+  border-radius: 999px;
+  border: 1px solid #0a0a0a;
+  background: #0a0a0a;
+  color: #ffffff;
+  font-size: clamp(13.5px, 0.95vw, 15px);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+}
+
+.bf-btn:hover {
+  background: #27272a;
+  border-color: #27272a;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.14);
+}
+
+.bf-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.bf-btn:disabled,
+.bf-btn[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.bf-btn--ghost {
+  background: transparent;
+  color: #0a0a0a;
+  border: 1.5px solid #0a0a0a;
+  box-shadow: none;
+}
+
+.bf-btn--ghost:hover {
+  background: #0a0a0a;
+  border-color: #0a0a0a;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.bf-btn--white {
+  background: #ffffff;
+  color: #0a0a0a;
+  border: 1px solid #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+.bf-btn--white:hover {
+  background: #f4f4f5;
+  border-color: #f4f4f5;
+  color: #000000;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+}
+
+/* ========================================================
+   HERO SECTION
+   Clearance for fixed navbar + grand architectural introduction
+   ======================================================== */
+
+.bf-hero {
+  padding: clamp(140px, 11vw, 170px) 0 0;
+  margin-bottom: clamp(48px, 6vw, 80px);
+  background: #ffffff;
+  width: 100%;
+}
+
+.bf-hero__inner {
+  max-width: 900px;
+}
+
+.bf-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: clamp(28px, 3.5vw, 40px);
+}
+
+/* ========================================================
+   SECTIONS & SECTION HEADS
+   Spacings harmonized with About and Media pages
+   ======================================================== */
+
+.bf-section {
+  padding: 0 0 clamp(48px, 6vw, 80px) 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.bf-section--tight {
+  padding: 0 0 clamp(32px, 4vw, 56px) 0;
+}
+
+.bf-section--cta {
+  padding: 0 0 clamp(60px, 8vw, 100px) 0;
+}
+
+.bf-section__head {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: clamp(28px, 3.5vw, 42px);
+  max-width: 860px;
+}
+
+/* ========================================================
+   DISCIPLINE / DEPARTMENT FILTER CHIPS
+   ======================================================== */
+
+.bf-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 12px;
+  margin-bottom: clamp(28px, 3.5vw, 40px);
+}
+
+.bf-chip {
+  min-height: 40px;
+  padding: 8px 18px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background: #ffffff;
+  color: var(--color-subtle);
+  font-size: clamp(13.5px, 0.95vw, 15px);
+  font-weight: 400;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  transition: var(--motion-fast);
+}
+
+.bf-chip:hover {
+  border-color: var(--color-3);
+  color: var(--color-3);
+}
+
+.bf-chip.is-active {
+  background: var(--color-3);
+  border-color: var(--color-3);
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.bf-chip:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ========================================================
+   JOB LISTINGS
+   Architectural list with refined hover states & micro-interactions
+   ======================================================== */
+
+.bf-jobs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.bf-job {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  padding: clamp(22px, 2.5vw, 32px);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: #ffffff;
+  color: var(--color-3);
+  text-decoration: none;
+  transition: var(--motion-smooth);
+  box-sizing: border-box;
+}
+
+.bf-job:hover,
+.bf-job:focus-visible {
+  border-color: var(--color-3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+.bf-job__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 1.5vw, 1.45rem);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--color-3);
+  margin: 0;
+  transition: color 0.2s ease;
+}
+
+.bf-job:hover .bf-job__title {
+  color: #111111;
+}
+
+.bf-job__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 24px;
+  font-size: clamp(13.5px, 0.95vw, 15px);
+  color: var(--color-muted);
+  font-weight: 400;
+}
+
+.bf-job__meta span {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+
+.bf-job__meta span:not(:last-child)::after {
+  content: "•";
+  margin-left: 20px;
+  color: #cccccc;
+}
+
+.bf-job .bf-btn {
+  background: #0a0a0a;
+  color: #ffffff;
+  border: 1px solid #0a0a0a;
+  padding: 10px 22px;
+  min-height: 42px;
+  font-size: clamp(13px, 0.9vw, 14.5px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  justify-self: start;
+}
+
+.bf-job:hover .bf-btn {
+  background: #27272a;
+  border-color: #27272a;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
+}
+
+@media (min-width: 900px) {
+  .bf-job {
+    grid-template-columns: 1.5fr 1.2fr auto;
+    align-items: center;
+  }
+  .bf-job .bf-btn {
+    justify-self: end;
+  }
+}
+
+.bf-empty {
+  padding: clamp(48px, 6vw, 72px) clamp(20px, 3vw, 36px);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  background: var(--color-card-bg);
+}
+
+/* ========================================================
+   CULTURE & STUDIO GALLERY
+   ======================================================== */
+
+.bf-gallery {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(16px, 2vw, 24px);
+}
+
+@media (min-width: 768px) {
+  .bf-gallery {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.bf-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  min-height: clamp(320px, 36vw, 420px);
+  background: #151515;
+}
+
+.bf-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bf-card:hover img {
+  transform: scale(1.05);
+}
+
+.bf-card__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(24px, 3vw, 36px);
+  background: linear-gradient(180deg, transparent 35%, rgba(0, 0, 0, 0.85) 100%);
+  color: #ffffff;
+}
+
+.bf-card__kicker {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: clamp(12px, 0.85vw, 14px);
+  font-weight: 450;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.bf-card .bf-label {
+  color: #ffffff;
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
+}
+
+.bf-card .bf-copy {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: clamp(14px, 0.95vw, 15.5px);
+}
+
+/* ========================================================
+   SPLIT SECTION ("Create your own job")
+   ======================================================== */
+
+.bf-split-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: clamp(36px, 5vw, 64px);
+  background: var(--color-card-bg);
+}
+
+.bf-split {
+  display: grid;
+  gap: clamp(28px, 4vw, 48px);
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .bf-split {
+    grid-template-columns: 1.15fr 0.85fr;
+  }
+}
+
+/* ========================================================
+   FAQS & ACCORDIONS
+   ======================================================== */
+
+.bf-faq {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bf-acc {
+  border-radius: var(--radius-sm);
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  transition: var(--motion-fast);
+}
+
+.bf-acc[open] {
+  border-color: var(--color-3);
+}
+
+.bf-acc__btn {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  color: var(--color-3);
+  border: 0;
+  padding: clamp(18px, 2.2vw, 24px) clamp(20px, 2.5vw, 28px);
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 1.3vw, 1.25rem);
+  font-weight: 450;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  transition: var(--motion-fast);
+  list-style: none;
+}
+
+.bf-acc__btn::-webkit-details-marker {
+  display: none;
+}
+
+.bf-acc__btn:hover {
+  background: #fcfcfc;
+  color: #111111;
+}
+
+.bf-acc__body {
+  padding: 0 clamp(20px, 2.5vw, 28px) clamp(18px, 2.2vw, 24px);
+  font-size: clamp(15px, 1vw, 16.5px);
+  line-height: 1.65;
+  color: var(--color-muted);
+}
+
+/* ========================================================
+   BOTTOM CTA SECTION
+   Architectural dark container aligned with standard wrapper
+   ======================================================== */
+
+.bf-cta {
+  border-radius: var(--radius-md);
+  background: var(--color-surface-dark);
+  color: #ffffff;
+  padding: clamp(48px, 6vw, 84px) clamp(24px, 4vw, 64px);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.bf-cta .bf-display {
+  color: #ffffff;
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.bf-cta .bf-copy {
+  color: rgba(255, 255, 255, 0.75);
+  margin: clamp(16px, 2vw, 24px) auto clamp(28px, 3.5vw, 40px);
+}
+
+/* ========================================================
+   JOB DETAIL PAGE
+   ======================================================== */
+
+.bf-detail {
+  padding: clamp(140px, 12vw, 180px) 0 clamp(60px, 7vw, 100px);
+  width: 100%;
+}
+
+.bf-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-subtle);
+  text-decoration: none;
+  font-size: clamp(14px, 0.95vw, 15.5px);
+  font-weight: 450;
+  margin-bottom: clamp(24px, 3vw, 36px);
+  transition: var(--motion-fast);
+}
+
+.bf-back:hover {
+  color: var(--color-3);
+  transform: translateX(-2px);
+}
+
+.bf-detail-grid {
+  display: grid;
+  gap: clamp(36px, 5vw, 64px);
+}
+
+@media (min-width: 960px) {
+  .bf-detail-grid {
+    grid-template-columns: minmax(0, 1fr) 360px;
+    align-items: start;
+  }
+}
+
+.bf-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: clamp(16px, 2vw, 24px);
+}
+
+.bf-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background: var(--color-card-bg);
+  font-size: clamp(13px, 0.9vw, 14.5px);
+  color: var(--color-3);
+}
+
+.bf-block {
+  margin-top: clamp(36px, 4.5vw, 56px);
+}
+
+.bf-block .bf-label {
+  font-size: clamp(1.4rem, 2vw, 1.85rem);
+}
+
+.bf-list {
+  list-style: none;
+  padding: 0;
+  margin: clamp(16px, 2vw, 22px) 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bf-list li {
+  padding-left: 16px;
+  border-left: 2px solid #111111;
+  font-size: clamp(15px, 1vw, 16.5px);
+  color: var(--color-muted);
+  line-height: 1.6;
+}
+
+.bf-perk-grid {
+  display: grid;
+  gap: 12px;
+  margin-top: clamp(16px, 2vw, 22px);
+}
+
+@media (min-width: 640px) {
+  .bf-perk-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.bf-perk {
+  padding: 16px 20px;
+  border-radius: var(--radius-sm);
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  color: var(--color-3);
+  font-size: clamp(14px, 0.95vw, 15.5px);
+  line-height: 1.5;
+}
+
+.bf-aside {
+  position: sticky;
+  top: clamp(100px, 9vw, 120px);
+  padding: clamp(28px, 3.5vw, 36px);
+  border-radius: var(--radius-sm);
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+}
+
+.bf-aside .bf-label {
+  font-size: clamp(1.35rem, 1.8vw, 1.65rem);
+  margin-top: 4px;
+}
+
+.bf-aside .bf-copy {
+  margin: 14px 0 24px;
+  font-size: clamp(14px, 0.95vw, 15px);
+}
+
+.bf-aside .bf-btn {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+/* ========================================================
+   APPLICATION MODAL
+   ======================================================== */
+
+.bf-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 3vw, 24px);
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
+  overflow-y: auto;
+}
+
+.bf-modal {
+  position: relative;
+  width: 100%;
+  max-width: 680px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #ffffff;
+  color: var(--color-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: clamp(24px, 4vw, 40px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+.bf-modal__close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background: #ffffff;
+  color: var(--color-3);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: var(--motion-fast);
+}
+
+.bf-modal__close:hover {
+  background: var(--color-3);
+  border-color: var(--color-3);
+  color: #ffffff;
+}
+
+.bf-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bf-field span,
+.bf-field label {
+  font-size: clamp(13.5px, 0.9vw, 14.5px);
+  font-weight: 450;
+  color: var(--color-3);
+}
+
+.bf-req {
+  color: #111111;
+}
+
+.bf-input,
+.bf-modal input,
+.bf-modal select,
+.bf-modal textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: #ffffff;
+  color: var(--color-3);
+  font-size: clamp(14px, 0.95vw, 15px);
+  outline: none;
+  transition: var(--motion-fast);
+  box-sizing: border-box;
+}
+
+.bf-modal textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.bf-modal input:focus,
+.bf-modal select:focus,
+.bf-modal textarea:focus {
+  border-color: var(--color-3);
+  box-shadow: 0 0 0 1px var(--color-3);
+}
+
+.bf-grid-2 {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+@media (min-width: 640px) {
+  .bf-grid-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.bf-error {
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid #e11d48;
+  background: #fff1f2;
+  color: #be123c;
+  margin-bottom: 20px;
+  font-size: clamp(13.5px, 0.9vw, 14.5px);
+}
+
+.bf-upload {
+  width: 100%;
+  text-align: left;
+  padding: 16px;
+  border-radius: var(--radius-sm);
+  border: 1px dashed var(--color-border);
+  background: var(--color-card-bg);
+  color: var(--color-3);
+  cursor: pointer;
+  transition: var(--motion-fast);
+}
+
+.bf-upload:hover {
+  border-color: var(--color-3);
+  background: #ffffff;
+}
+
+.bf-success {
+  text-align: center;
+  padding: clamp(32px, 4vw, 48px) 16px;
+}
+
+.bf-success__mark {
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 16px;
+  border-radius: var(--radius-full);
+  background: #0a0a0a;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+}

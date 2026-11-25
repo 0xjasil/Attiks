@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Plus, X, Check, ArrowRight } from 'lucide-react';
-import { testimonials as fallbackTestimonials, Testimonial } from '@/data/projects';
+import { defaultTestimonials as fallbackTestimonials, Testimonial } from '@/data/testimonials';
 
 interface TestimonialItem {
   id: string;
@@ -188,12 +188,13 @@ export default function Testimonials({ initialTestimonials }: TestimonialsProps)
 
   return (
     <section
+      className="testimonials-section-container"
       style={{
         position: 'relative',
         backgroundColor: '#F5F5F5',
         width: '100%',
         maxWidth: '100%',
-        padding: 'clamp(32px, 4vw, 48px) clamp(20px, 5vw, 64px) clamp(44px, 5.5vw, 64px)',
+        padding: 'clamp(24px, 3.5vw, 40px) clamp(20px, 5vw, 64px) clamp(28px, 4vw, 48px)',
         boxSizing: 'border-box',
         overflow: 'hidden',
       }}
@@ -297,46 +298,6 @@ export default function Testimonials({ initialTestimonials }: TestimonialsProps)
           </div>
         </div>
 
-        {/* Minimal Bottom Action: Consistent with "know more" and "view all projects" */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            marginTop: 'clamp(16px, 1.8vw, 24px)',
-            width: '100%',
-          }}
-        >
-          <button
-            type="button"
-            onClick={() => setModalOpen(true)}
-            style={{
-              background: 'none',
-              border: 'none',
-              padding: 0,
-              color: '#000000',
-              cursor: 'pointer',
-              fontSize: 'clamp(15px, 1.05vw, 17px)',
-              fontWeight: 400,
-              letterSpacing: '-0.01em',
-              textTransform: 'lowercase',
-              fontFamily: 'var(--font-primary), sans-serif',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              transition: 'opacity 0.2s ease',
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.opacity = '0.6';
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.opacity = '1';
-            }}
-          >
-            <Plus size={13} />
-            <span>share your experience</span>
-          </button>
-        </div>
       </div>
 
       {/* Add Testimonial Modal */}

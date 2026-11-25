@@ -188,7 +188,7 @@ export default function ProjectsAdminPage() {
                 <th>Location</th>
                 <th>Year</th>
                 <th>Status</th>
-                <th style={{ width: 120 }}>Actions</th>
+                <th style={{ width: 140 }}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -251,7 +251,7 @@ export default function ProjectsAdminPage() {
                       </button>
                     </td>
                     <td>
-                      <div style={{ display: 'flex', gap: '0.25rem' }}>
+                      <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                         <a
                           href={`/projects/${project.slug || project.id}`}
                           target="_blank"
@@ -259,21 +259,21 @@ export default function ProjectsAdminPage() {
                           className="admin-btn-icon"
                           title="View Live Project Preview"
                         >
-                          <ExternalLink size={14} />
+                          <ExternalLink size={17} />
                         </a>
                         <Link
                           href={`/admin/projects/${project.id}`}
                           className="admin-btn-icon"
                           title="Edit Project"
                         >
-                          <Edit2 size={14} />
+                          <Edit2 size={17} />
                         </Link>
                         <button
                           className="admin-btn-icon danger"
                           onClick={() => setDeleteTarget(project)}
                           title="Delete Project"
                         >
-                          <Trash2 size={14} />
+                          <Trash2 size={17} />
                         </button>
                       </div>
                     </td>
